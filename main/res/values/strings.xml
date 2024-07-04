@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Proyecto</string>
+
+        <string-array name="ocupacion_array">
+            <item>Seleccione su ocupación</item>
+            <item>Doctor</item>
+            <item>Ingeniero</item>
+            <item>Profesor</item>
+            <item>Abogado</item>
+            <item>Artista</item>
+        </string-array>
+
+
+
+</resources>

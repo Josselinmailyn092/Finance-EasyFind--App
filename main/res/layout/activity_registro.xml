@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Registro">
+
+    <TextView
+        android:id="@+id/fondolila2"
+        android:layout_width="404dp"
+        android:layout_height="754dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/rounded"
+        android:rotationX="0"
+        tools:ignore="MissingConstraints" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="309dp"
+            android:layout_height="162dp"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@drawable/imagen2" />
+
+        <TextView
+            android:id="@+id/IngresoDatos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="sans-serif"
+            android:text="Por favor introduce tus datos:"
+            android:textColor="#363636"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/usuario"
+            android:layout_width="266dp"
+            android:layout_height="43dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/rounded_white"
+            android:paddingStart="30dp"
+            android:paddingTop="8dp"
+            android:hint="Usuario"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/nombre"
+            android:layout_width="266dp"
+            android:layout_height="43dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/rounded_white"
+            android:paddingStart="30dp"
+            android:paddingTop="8dp"
+            android:hint="Nombres"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/apellido"
+            android:layout_width="266dp"
+            android:layout_height="43dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/rounded_white"
+            android:paddingStart="30dp"
+            android:paddingTop="8dp"
+            android:hint="Apellidos"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/celular"
+            android:layout_width="266dp"
+            android:layout_height="43dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/rounded_white"
+            android:paddingStart="30dp"
+            android:paddingTop="8dp"
+            android:hint="Celular"
+            android:inputType="number"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/contraseña2"
+            android:layout_width="266dp"
+            android:layout_height="43dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/rounded_white"
+            android:paddingStart="30dp"
+            android:paddingTop="8dp"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/confirmar_contraseña"
+            android:layout_width="266dp"
+            android:layout_height="43dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/rounded_white"
+            android:paddingStart="30dp"
+            android:paddingTop="8dp"
+            android:hint="Confirmar contraseña"
+            android:inputType="textPassword"
+            android:textSize="17sp" />
+
+        <Spinner
+            android:id="@+id/ocupacion"
+            style="@style/SpinnerStyle"
+            android:layout_width="266dp"
+            android:layout_height="43dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_spinner"
+            android:spinnerMode="dropdown" />
+
+        <Button
+            android:id="@+id/registrarse"
+            android:layout_width="266dp"
+            android:layout_height="43dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/rounded_verde"
+            android:gravity="center"
+            android:text="Registrarse"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
