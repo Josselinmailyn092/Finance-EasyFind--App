@@ -9,6 +9,18 @@
             <item>Abogado</item>
             <item>Artista</item>
         </string-array>
+        <string name="close">Cerrar</string>
+    <string name="user_name">Usuario</string>
+    <string name="user_role">Gestión de Finanzas Personales</string>
+    <string name="categorias">Categorías</string>
+    <string name="informes">Informes</string>
+    <string name="detalles_perfil">Detalles de perfil</string>
+    <string name="privacidad">Privacidad</string>
+    <string name="centro_soporte">Centro de soporte</string>
+    <string name="terminos_condiciones">Términos y condiciones</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
+    <string name="profile_image">Imagen de perfil</string>
+
 
 
 
