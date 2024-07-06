@@ -1,4 +1,4 @@
-package com.example.configuration_bar;
+package com.example.proyecto;
 
 import android.view.View;
 import android.widget.Button;
