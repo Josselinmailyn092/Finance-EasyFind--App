@@ -1,0 +1,49 @@
+package com.example.configuration_bar;
+
+import android.view.View;
+import android.widget.Button;
+import android.content.Context;
+import android.content.Intent;
+
+public class ClipsBar implements View.OnClickListener {
+    private Context context;
+
+    public ClipsBar(Context context) {
+        this.context = context;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+        switch (v.getId()) {
+            case R.id.buttonInicio:
+                intent = new Intent(context, InicioActivity.class); //Cambiar el nombre de las actividades a las adecuadas
+                break;
+            case R.id.buttonSaldo:
+                intent = new Intent(context, SaldoActivity.class);
+                break;
+            case R.id.buttonInforme:
+                intent = new Intent(context, InformeActivity.class);
+                break;
+            case R.id.buttonConfiguracion:
+                intent = new Intent(context, ConfiguracionActivity.class);
+                break;
+            default:
+                return;
+        }
+        context.startActivity(intent);
+    }
+
+    public static void setupToolbar(View root, Context context) {
+        ClipsBar handler = new ClipsBar(context);
+        Button buttonInicio = root.findViewById(R.id.buttonInicio);
+        Button buttonSaldo = root.findViewById(R.id.buttonSaldo);
+        Button buttonInforme = root.findViewById(R.id.buttonInforme);
+        Button buttonConfiguracion = root.findViewById(R.id.buttonConfiguracion);
+
+        buttonInicio.setOnClickListener(handler);
+        buttonSaldo.setOnClickListener(handler);
+        buttonInforme.setOnClickListener(handler);
+        buttonConfiguracion.setOnClickListener(handler);
+    }
+}
