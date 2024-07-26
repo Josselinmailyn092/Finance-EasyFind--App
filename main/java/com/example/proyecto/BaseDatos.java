@@ -1,4 +1,4 @@
-package com.example.proyecto;
+package com.example.sistemadeespera;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -55,10 +55,39 @@ public class BaseDatos extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Crear las tablas al iniciar la base de datos si no existen
-        db.execSQL(CREATE_TABLE_USUARIO);
-        db.execSQL(CREATE_TABLE_CATEGORIA);
-        db.execSQL(CREATE_TABLE_INGRESOS);
-        db.execSQL(CREATE_TABLE_GASTOS);
+        db.execSQL("CREATE TABLE " + TABLA_USUARIO + " (" +
+                KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                Usuario + " TEXT UNIQUE, " +
+                Nombre + " TEXT, " +
+                Apellido + " TEXT, " +
+                Celular + " TEXT, " +
+                Contraseña + " TEXT, " +
+                Ocupacion + " TEXT, " +
+                Saldo_Total + " REAL)");
+
+        db.execSQL("CREATE TABLE " + TABLA_CATEGORIA + " (" +
+                KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                NombreCategoria + " TEXT, " +
+                ID_Usuario + " INTEGER, " +
+                "FOREIGN KEY(" + ID_Usuario + ") REFERENCES " + TABLA_USUARIO + "(" + KEY_ID + "))");
+
+        db.execSQL("CREATE TABLE " + TABLA_INGRESOS + " (" +
+                KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                ID_Usuario_Ingreso + " INTEGER, " +
+                Monto + " REAL, " +
+                Fecha + " TEXT, " +
+                Descripcion + " TEXT, " +
+                "FOREIGN KEY(" + ID_Usuario_Ingreso + ") REFERENCES " + TABLA_USUARIO + "(" + KEY_ID + "))");
+
+        db.execSQL("CREATE TABLE " + TABLA_GASTOS + " (" +
+                KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                ID_Categoria + " INTEGER, " +
+                ID_Usuario_Gasto + " INTEGER, " +
+                MontoGastos + " REAL, " +
+                FechaGastos + " TEXT, " +
+                DescripcionGastos + " TEXT, " +
+                "FOREIGN KEY(" + ID_Categoria + ") REFERENCES " + TABLA_CATEGORIA + "(" + KEY_ID + "), " +
+                "FOREIGN KEY(" + ID_Usuario_Gasto + ") REFERENCES " + TABLA_USUARIO + "(" + KEY_ID + "))");
     }
 
     @Override
@@ -72,7 +101,7 @@ public class BaseDatos extends SQLiteOpenHelper {
     }
 
     // Método para insertar un nuevo usuario
-    public void insertUsuario(String usuario, String nombre, String apellido, String celular, String contrasena, String ocupacion, double saldoTotal) {
+    public long insertUsuario(String usuario, String nombre, String apellido, String celular, String contrasena, String ocupacion, double saldoTotal) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Usuario, usuario);
@@ -82,8 +111,9 @@ public class BaseDatos extends SQLiteOpenHelper {
         values.put(Contraseña, contrasena);
         values.put(Ocupacion, ocupacion);
         values.put(Saldo_Total, saldoTotal);
-        db.insert(TABLA_USUARIO, null, values);
+        long id= db.insert(TABLA_USUARIO, null, values);
         db.close();
+        return id;
     }
 
     // Método para actualizar un usuario
@@ -249,51 +279,5 @@ public class BaseDatos extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.query(TABLA_GASTOS, null, KEY_ID + "=?", new String[]{String.valueOf(idGasto)}, null, null, null);
     }
-
-}
-
-
-    /*//Se crean  nuevos usuarios y se insertan en la tabla
-    public long addUsuario(String usuario, String nombre, String apellido, String celular, String contraseña, String ocupacion) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(Usuario, usuario);
-        values.put(Nombre, nombre);
-        values.put(Apellido, apellido);
-        values.put(Celular, celular);
-        values.put(Contraseña, contraseña);
-        values.put(Ocupación, ocupacion);
-
-        long id = sqLiteDatabase.insert(Tabla, null, values);
-        sqLiteDatabase.close();
-        return id;
-    }
-    //Se obtiene datos de usuario acorde a la consulta y devuelve resultado
-    public Cursor getUsuario(String usuario) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(Tabla, null, Usuario + "=?", new String[]{usuario}, null, null, null);
-    }
-
-
-    // Realiza actualizacion de un registro ya existente
-    public int updateUsuario(String usuario, String nombre, String apellido, String celular, String contraseña, String ocupacion) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(Nombre, nombre);
-        values.put(Apellido, apellido);
-        values.put(Celular, celular);
-        values.put(Contraseña, contraseña);
-        values.put(Ocupación, ocupacion);
-
-        return db.update(Tabla, values, Usuario + "=?", new String[]{usuario});
-    }
-    //Elimina un usuario ya exitente
-    public int deleteUsuario(String usuario) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(Tabla, Usuario + "=?", new String[]{usuario});
-    }
-
-
-
 
 }

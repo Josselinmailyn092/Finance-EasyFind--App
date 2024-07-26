@@ -1,10 +1,11 @@
-package com.example.proyecto;
+package com.example.sistemadeespera;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ConfiguracionActivity extends AppCompatActivity {
@@ -24,7 +25,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
         });
 
         // Configuración de los botones del toolbar
-        ClipsBar.setupToolbar(findViewById(R.id.toolbar4), this);
+        ClipsBar.setupToolbar(findViewById(R.id.toolbar4), ConfiguracionActivity.this);
 
         // Configuración de los botones de menú
         Button btnCategorias = findViewById(R.id.btn_categorias);
@@ -45,7 +46,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
         btnInformes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ConfiguracionActivity.this, InformesActivity.class));
+                startActivity(new Intent(ConfiguracionActivity.this, InformeActivity.class));
             }
         });
 
@@ -81,7 +82,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Lógica para cerrar sesión, como limpiar datos del usuario
-                startActivity(new Intent(ConfiguracionActivity.this, LoginActivity.class));
+                startActivity(new Intent(ConfiguracionActivity.this, MainActivity.class));
                 finish();
             }
         });

@@ -24,9 +24,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Registro"
-
-            android:exported="true" />
+        <activity android:name=".ConfiguracionActivity"></activity>
+    <activity android:name=".SaldoActivity"></activity>
+    <activity android:name=".InicioActivity"></activity>
+    <activity android:name=".Registro"></activity>
+    <activity android:name=".InformeActivity"></activity>
     </application>
 
 </manifest>

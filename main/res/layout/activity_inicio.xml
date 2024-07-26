@@ -1,0 +1,504 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/pantalla"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="39dp">
+
+        <!-- Sección de Usuario -->
+        <LinearLayout
+            android:id="@+id/section_user"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/background_section"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp">
+
+            <ImageView
+                android:id="@+id/imagenUsuario"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/bordes_images"
+                android:contentDescription="@string/user_image"
+                android:src="@drawable/ic_user" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nombreUsuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Anderson Velásquez"
+                    android:textColor="#238722"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gestión de Finanzas Personales"
+                    android:textColor="#000000"
+                    android:layout_marginLeft="10dp"
+                    android:textStyle="light"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Barra de categorías de gastos -->
+        <LinearLayout
+            android:id="@+id/section_categories"
+            android:layout_width="match_parent"
+            android:layout_height="235dp"
+            android:background="@drawable/background_section"
+            android:orientation="vertical"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.35"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/section_user"
+            tools:layout_editor_absoluteX="5dp"
+            tools:layout_editor_absoluteY="97dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Categorías de Gastos"
+                    android:layout_weight="1"
+                    android:textSize="20sp"
+                    android:textColor="#000000"
+                    android:gravity="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                <Button
+                    android:id="@+id/addCategoria"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:drawableLeft="@drawable/ic_add"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="Añadir"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    android:textAppearance="?attr/textAppearanceButton" />
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+                    <Button
+                        android:id="@+id/categoria1"
+                        android:layout_width="4dp"
+                        android:layout_height="80dp"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="Alimentación"
+                        android:textSize="13sp"
+                        android:textColor="#54754e"
+                        android:gravity="center"
+                        android:background="@drawable/bordes_categorias"
+                        android:layout_margin="4dp"/>
+                    <Button
+                        android:id="@+id/categoria2"
+                        android:layout_width="4dp"
+                        android:layout_height="80dp"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="Alimentación"
+                        android:textSize="13sp"
+                        android:textColor="#54754e"
+                        android:gravity="center"
+                        android:background="@drawable/bordes_categorias"
+                        android:layout_margin="4dp"/>
+                    <Button
+                        android:id="@+id/categoria3"
+                        android:layout_width="4dp"
+                        android:layout_height="80dp"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="Alimentación"
+                        android:textSize="13sp"
+                        android:textColor="#54754e"
+                        android:gravity="center"
+                        android:background="@drawable/bordes_categorias"
+                        android:layout_margin="4dp"/>
+                    <Button
+                        android:id="@+id/categoria4"
+                        android:layout_width="4dp"
+                        android:layout_height="80dp"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="Alimentación"
+                        android:textSize="13sp"
+                        android:textColor="#54754e"
+                        android:gravity="center"
+                        android:background="@drawable/bordes_categorias"
+                        android:layout_margin="4dp"/>
+                </GridLayout>
+            </ScrollView>
+        </LinearLayout>
+
+        <!-- Barra de gastos recientes -->
+        <LinearLayout
+            android:id="@+id/section_recent_expenses"
+            android:layout_width="match_parent"
+            android:layout_height="290dp"
+            android:background="@drawable/background_section"
+            android:orientation="vertical"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.45"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/section_categories"
+            tools:layout_editor_absoluteX="5dp"
+            tools:layout_editor_absoluteY="337dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Gastos Recientes"
+                android:textSize="20sp"
+                android:textColor="#000000"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center">
+                <ImageView
+                    android:id="@+id/imagenGasto1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="12dp"
+                    android:background="@drawable/bordes_gastos"
+                    android:contentDescription="@string/user_image"
+                    android:src="@drawable/ic_user"/>
+                <TextView
+                    android:id="@+id/contenidoGasto1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Alimentación - 25$ - 14/07/2021"
+                    android:textSize="17sp"
+                    android:textColor="#000000"
+                    android:layout_marginLeft="20dp"
+                    android:textStyle="light"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="#e8e8e8"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center">
+                <ImageView
+                    android:id="@+id/imagenGasto2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="12dp"
+                    android:background="@drawable/bordes_gastos"
+                    android:contentDescription="@string/user_image"
+                    android:src="@drawable/ic_user"/>
+                <TextView
+                    android:id="@+id/contenidoGasto2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Alimentación - 25$ - 14/07/2021"
+                    android:textSize="17sp"
+                    android:textColor="#000000"
+                    android:layout_marginLeft="20dp"
+                    android:textStyle="light"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="#e8e8e8"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center">
+                <ImageView
+                    android:id="@+id/imagenGasto3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="12dp"
+                    android:background="@drawable/bordes_gastos"
+                    android:contentDescription="@string/user_image"
+                    android:src="@drawable/ic_user"/>
+                <TextView
+                    android:id="@+id/contenidoGasto3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Alimentación - 25$ - 14/07/2021"
+                    android:textSize="17sp"
+                    android:textColor="#000000"
+                    android:layout_marginLeft="20dp"
+                    android:textStyle="light"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="#e8e8e8"/>
+
+            <Button
+                android:id="@+id/boton_generar_informe"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp"
+                android:text="Generar Informe"
+                android:textSize="17sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/bordes_generar_informe"
+                />
+            <Button
+                android:id="@+id/boton_anadir_dinero"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp"
+                android:text="Añadir dinero"
+                android:textSize="17sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="#296B3A"
+                android:background="@drawable/bordes_anadir_dinero"
+                />
+            <Button
+                android:id="@+id/boton_registrar_gasto"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp"
+                android:text="Registrar gasto"
+                android:textSize="17sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/bordes_registrar_gasto"
+                />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Añadir Dinero" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Registrar Gasto" />
+        </LinearLayout>
+
+        <!-- Barra de navegación inferior -->
+        <LinearLayout
+            android:id="@+id/section_financial_metrics"
+            android:layout_width="match_parent"
+            android:layout_height="164dp"
+            android:background="@drawable/background_section"
+            android:orientation="vertical"
+            android:padding="8dp"
+            app:layout_constraintBottom_toTopOf="@id/include"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/section_recent_expenses"
+            tools:layout_editor_absoluteX="14dp"
+            tools:layout_editor_absoluteY="580dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="272dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Métricas financieras"
+                        android:textSize="20sp"
+                        android:textColor="#000000"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Resumen mensual"
+                        android:textSize="14sp"
+                        android:textColor="#767876"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    </LinearLayout>
+
+                <Button
+                    android:id="@+id/verDetalles"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:drawableLeft="@drawable/ic_detalles"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="Ver detalles"
+                    android:textAppearance="?attr/textAppearanceButton"
+                    android:textColor="#000000"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    >
+                    <LinearLayout
+                        android:layout_width="130dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/bordesdejunio">
+                        <TextView
+                            android:id="@+id/tipoRegistro1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ingresos"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:textSize="20sp"/>
+                        <TextView
+                            android:id="@+id/monto1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$500"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:id="@+id/porcentaje1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="+15%"
+                            android:textSize="17sp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="130dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/bordesdejunio">
+                        <TextView
+                            android:id="@+id/tipoRegistro2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ingresos"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:textSize="20sp"/>
+                        <TextView
+                            android:id="@+id/monto2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$500"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:id="@+id/porcentaje2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="+15%"
+                            android:textSize="17sp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="130dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/bordesdejunio">
+                        <TextView
+                            android:id="@+id/tipoRegistro3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ingresos"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:textSize="20sp"/>
+                        <TextView
+                            android:id="@+id/monto3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$500"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:id="@+id/porcentaje3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="+15%"
+                            android:textSize="17sp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/bar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

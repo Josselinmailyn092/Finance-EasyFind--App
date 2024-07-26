@@ -1,11 +1,10 @@
-package com.example.proyecto;
+package com.example.sistemadeespera;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class Registro extends AppCompatActivity {
@@ -67,7 +67,7 @@ public class Registro extends AppCompatActivity {
                 } else if (ocupacionText.equals("Seleccione su ocupación")) {
                     Toast.makeText(Registro.this, "Seleccione una ocupación válida", Toast.LENGTH_SHORT).show();
                 } else {
-                    long id = db.addUsuario(usuarioText, nombreText, apellidoText, celularText, contraseñaText, ocupacionText);
+                    long id= db.insertUsuario(usuarioText, nombreText, apellidoText, celularText, contraseñaText, ocupacionText, 0.0);
                     if (id > 0) {
                         showToast("Registro completado exitosamente");
                         Intent intent = new Intent(Registro.this, MainActivity.class);
@@ -84,7 +84,7 @@ public class Registro extends AppCompatActivity {
     }
     private void showToast(String message) {
         LayoutInflater inflater = getLayoutInflater();
-        View layout = inflater.inflate(R.layout.toast_layout, findViewById(R.id.custom_toast_container));
+        View layout = inflater.inflate(R.layout.toast_layout, (ViewGroup) findViewById(R.id.custom_toast_container));
 
         TextView textView = layout.findViewById(R.id.textViewToast);
         textView.setText(message);
