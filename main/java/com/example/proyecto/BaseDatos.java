@@ -9,17 +9,17 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class BaseDatos extends SQLiteOpenHelper {
 
     // Definir nombre de base de datos y versión
-    private static final String nombreBD = "easyfind.db";
-    private static final int versionDB = 1;
+    private static final String DATABASE_NAME = "easyfind.db";
+    private static final int DATABASE_VERSION = 1;
 
     // Nombre de las tablas
-    private static final String tablaUsuario = "usuario";
-    private static final String tablaCategorias = "categoria";
-    private static final String tablaIngresos = "ingresos";
-    private static final String tablaGastos = "gastos";
+    private static final String TABLA_USUARIO = "usuario";
+    private static final String TABLA_CATEGORIA = "categoria";
+    private static final String TABLA_INGRESOS = "ingresos";
+    private static final String TABLA_GASTOS = "gastos";
 
     // Atributo común
-    private static final String keyID = "id";
+    private static final String KEY_ID = "id";
 
     // Atributos para usuario
     private static final String Usuario = "usuario";
@@ -28,71 +28,33 @@ public class BaseDatos extends SQLiteOpenHelper {
     private static final String Celular = "celular";
     private static final String Contraseña = "contrasena";
     private static final String Ocupacion = "ocupacion";
-    private static final String SaldoTotal = "saldo_total";
+    private static final String Saldo_Total = "saldo_total";
 
     // Atributos para categoría
     private static final String NombreCategoria = "nombre";
-    private static final String IDUsuario = "id_cliente";
+    private static final String ID_Usuario = "id_cliente";
 
     // Atributos para ingresos
-    private static final String IDUsuarioIngreso = "id_cliente";
+    private static final String ID_Usuario_Ingreso = "id_cliente";
     private static final String Monto = "monto";
     private static final String Fecha = "fecha";
     private static final String Descripcion = "descripcion";
 
     // Atributos para gastos
-    private static final String IDCategoria = "id_categoria";
-    private static final String IDUsuarioGasto = "id_cliente";
+    private static final String ID_Categoria = "id_categoria";
+    private static final String ID_Usuario_Gasto = "id_cliente";
     private static final String MontoGastos = "monto_gastos";
     private static final String FechaGastos = "fecha_gastos";
     private static final String DescripcionGastos = "descripcion_gastos";
 
-
-    // Sentencias SQL para crear las tablas
-    private static final String createTableUsuario = "CREATE TABLE " + tablaUsuario + " ("
-            + keyID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + Usuario + " TEXT, "
-            + Nombre + " TEXT, "
-            + Apellido + " TEXT, "
-            + Celular + " TEXT, "
-            + Contraseña + " TEXT, "
-            + Ocupacion + " TEXT, "
-            + SaldoTotal + " REAL)";
-
-    private static final String createTableCategoria = "CREATE TABLE " + tablaCategorias + " ("
-            + keyID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + NombreCategoria + " TEXT, "
-            + IDUsuario + " INTEGER)";
-
-    private static final String createTableIngresos = "CREATE TABLE " + tablaIngresos + " ("
-            + keyID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + IDUsuarioIngreso + " INTEGER, "
-            + Monto + " REAL, "
-            + Fecha + " TEXT, "
-            + Descripcion + " TEXT)";
-
-    private static final String createTableGastos = "CREATE TABLE " + tablaGastos + " ("
-            + keyID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + IDCategoria + " INTEGER, "
-            + IDUsuarioGasto + " INTEGER, "
-            + MontoGastos + " REAL, "
-            + FechaGastos + " TEXT, "
-            + DescripcionGastos + " TEXT)";
-
     // Constructor
     public BaseDatos(Context context) {
-        super(context, nombreBD, null, versionDB);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Crear las tablas al iniciar la base de datos si no existen
-<<<<<<< HEAD
-        db.execSQL(createTableUsuario);
-        db.execSQL(createTableCategoria);
-        db.execSQL(createTableIngresos);
-        db.execSQL(createTableGastos);
-=======
         db.execSQL("CREATE TABLE " + TABLA_USUARIO + " (" +
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 Usuario + " TEXT UNIQUE, " +
@@ -126,15 +88,15 @@ public class BaseDatos extends SQLiteOpenHelper {
                 DescripcionGastos + " TEXT, " +
                 "FOREIGN KEY(" + ID_Categoria + ") REFERENCES " + TABLA_CATEGORIA + "(" + KEY_ID + "), " +
                 "FOREIGN KEY(" + ID_Usuario_Gasto + ") REFERENCES " + TABLA_USUARIO + "(" + KEY_ID + "))");
->>>>>>> cloned-repo/main
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Eliminar tablas existentes y crear nuevas versiones de las tablas
-        db.execSQL("DROP TABLE IF EXISTS " + tablaUsuario);
-        db.execSQL("DROP TABLE IF EXISTS " + tablaCategorias);
-        db.execSQL("DROP TABLE IF EXISTS " + tablaGastos);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLA_USUARIO);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLA_CATEGORIA);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLA_INGRESOS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLA_GASTOS);
         onCreate(db);
     }
 
@@ -148,13 +110,8 @@ public class BaseDatos extends SQLiteOpenHelper {
         values.put(Celular, celular);
         values.put(Contraseña, contrasena);
         values.put(Ocupacion, ocupacion);
-<<<<<<< HEAD
-        values.put(SaldoTotal, saldoTotal);
-        db.insert(tablaUsuario, null, values);
-=======
         values.put(Saldo_Total, saldoTotal);
         long id= db.insert(TABLA_USUARIO, null, values);
->>>>>>> cloned-repo/main
         db.close();
         return id;
     }
@@ -168,28 +125,28 @@ public class BaseDatos extends SQLiteOpenHelper {
         values.put(Celular, celular);
         values.put(Contraseña, contrasena);
         values.put(Ocupacion, ocupacion);
-        values.put(SaldoTotal, saldoTotal);
+        values.put(Saldo_Total, saldoTotal);
         // Actualizar fila
-        return db.update(tablaUsuario, values, Usuario + " = ?", new String[]{usuario});
+        return db.update(TABLA_USUARIO, values, Usuario + " = ?", new String[]{usuario});
     }
 
     // Método para eliminar un usuario
     public void deleteUsuario(String usuario) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(tablaUsuario, Usuario + " = ?", new String[]{usuario});
+        db.delete(TABLA_USUARIO, Usuario + " = ?", new String[]{usuario});
         db.close();
     }
 
     // Método para obtener todos los usuarios
     public Cursor getAllUsuarios() {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(tablaUsuario, null, null, null, null, null, null);
+        return db.query(TABLA_USUARIO, null, null, null, null, null, null);
     }
 
     // Método para obtener un usuario por nombre de usuario
     public Cursor getUsuario(String usuario) {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(tablaUsuario, null, Usuario + "=?", new String[]{usuario}, null, null, null);
+        return db.query(TABLA_USUARIO, null, Usuario + "=?", new String[]{usuario}, null, null, null);
     }
 
     // Método para insertar una nueva categoría
@@ -198,9 +155,9 @@ public class BaseDatos extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(NombreCategoria, nombre);
         if (idUsuario != null) {
-            values.put(IDUsuario, idUsuario);
+            values.put(ID_Usuario, idUsuario);
         }
-        db.insert(tablaCategorias, null, values);
+        db.insert(TABLA_CATEGORIA, null, values);
         db.close();
     }
 
@@ -210,40 +167,40 @@ public class BaseDatos extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(NombreCategoria, nombre);
         if (idUsuario != null) {
-            values.put(IDUsuario, idUsuario);
+            values.put(ID_Usuario, idUsuario);
         }
         // Actualizar fila
-        return db.update(tablaCategorias, values, keyID + " = ?", new String[]{String.valueOf(idCategoria)});
+        return db.update(TABLA_CATEGORIA, values, KEY_ID + " = ?", new String[]{String.valueOf(idCategoria)});
     }
 
     // Método para eliminar una categoría
     public void deleteCategoria(int idCategoria) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(tablaCategorias, keyID + " = ?", new String[]{String.valueOf(idCategoria)});
+        db.delete(TABLA_CATEGORIA, KEY_ID + " = ?", new String[]{String.valueOf(idCategoria)});
         db.close();
     }
 
     // Método para obtener todas las categorías
     public Cursor getAllCategorias() {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(tablaCategorias, null, null, null, null, null, null);
+        return db.query(TABLA_CATEGORIA, null, null, null, null, null, null);
     }
 
     // Método para obtener una categoría por ID
     public Cursor getCategoria(int idCategoria) {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(tablaCategorias, null, keyID + "=?", new String[]{String.valueOf(idCategoria)}, null, null, null);
+        return db.query(TABLA_CATEGORIA, null, KEY_ID + "=?", new String[]{String.valueOf(idCategoria)}, null, null, null);
     }
 
     // Método para insertar un nuevo ingreso
     public void insertIngreso(int idCliente, double monto, String fecha, String descripcion) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(IDUsuarioIngreso, idCliente);
+        values.put(ID_Usuario_Ingreso, idCliente);
         values.put(Monto, monto);
         values.put(Fecha, fecha);
         values.put(Descripcion, descripcion);
-        db.insert(tablaIngresos, null, values);
+        db.insert(TABLA_INGRESOS, null, values);
         db.close();
     }
 
@@ -251,43 +208,43 @@ public class BaseDatos extends SQLiteOpenHelper {
     public int updateIngreso(int idIngreso, int idCliente, double monto, String fecha, String descripcion) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(IDUsuarioIngreso, idCliente);
+        values.put(ID_Usuario_Ingreso, idCliente);
         values.put(Monto, monto);
         values.put(Fecha, fecha);
         values.put(Descripcion, descripcion);
         // Actualizar fila
-        return db.update(tablaIngresos, values, keyID + " = ?", new String[]{String.valueOf(idIngreso)});
+        return db.update(TABLA_INGRESOS, values, KEY_ID + " = ?", new String[]{String.valueOf(idIngreso)});
     }
 
     // Método para eliminar un ingreso
     public void deleteIngreso(int idIngreso) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(tablaIngresos, keyID + " = ?", new String[]{String.valueOf(idIngreso)});
+        db.delete(TABLA_INGRESOS, KEY_ID + " = ?", new String[]{String.valueOf(idIngreso)});
         db.close();
     }
 
     // Método para obtener todos los ingresos
     public Cursor getAllIngresos() {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(tablaIngresos, null, null, null, null, null, null);
+        return db.query(TABLA_INGRESOS, null, null, null, null, null, null);
     }
 
     // Método para obtener un ingreso por ID
     public Cursor getIngreso(int idIngreso) {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(tablaIngresos, null, keyID + "=?", new String[]{String.valueOf(idIngreso)}, null, null, null);
+        return db.query(TABLA_INGRESOS, null, KEY_ID + "=?", new String[]{String.valueOf(idIngreso)}, null, null, null);
     }
 
     // Método para insertar un nuevo gasto
     public void insertGasto(int idCategoria, int idUsuario, double monto, String fecha, String descripcion) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(IDCategoria, idCategoria);
-        values.put(IDUsuarioGasto, idUsuario);
+        values.put(ID_Categoria, idCategoria);
+        values.put(ID_Usuario_Gasto, idUsuario);
         values.put(MontoGastos, monto);
         values.put(FechaGastos, fecha);
         values.put(DescripcionGastos, descripcion);
-        db.insert(tablaGastos, null, values);
+        db.insert(TABLA_GASTOS, null, values);
         db.close();
     }
 
@@ -295,51 +252,32 @@ public class BaseDatos extends SQLiteOpenHelper {
     public int updateGasto(int idGasto, int idCategoria, int idUsuario, double monto, String fecha, String descripcion) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(IDCategoria, idCategoria);
-        values.put(IDUsuarioGasto, idUsuario);
+        values.put(ID_Categoria, idCategoria);
+        values.put(ID_Usuario_Gasto, idUsuario);
         values.put(MontoGastos, monto);
         values.put(FechaGastos, fecha);
         values.put(DescripcionGastos, descripcion);
         // Actualizar fila
-        return db.update(tablaGastos, values, keyID + " = ?", new String[]{String.valueOf(idGasto)});
+        return db.update(TABLA_GASTOS, values, KEY_ID + " = ?", new String[]{String.valueOf(idGasto)});
     }
 
     // Método para eliminar un gasto
     public void deleteGasto(int idGasto) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(tablaGastos, keyID + " = ?", new String[]{String.valueOf(idGasto)});
+        db.delete(TABLA_GASTOS, KEY_ID + " = ?", new String[]{String.valueOf(idGasto)});
         db.close();
     }
 
     // Método para obtener todos los gastos
     public Cursor getAllGastos() {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(tablaGastos, null, null, null, null, null, null);
+        return db.query(TABLA_GASTOS, null, null, null, null, null, null);
     }
 
     // Método para obtener un gasto por ID
     public Cursor getGasto(int idGasto) {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(tablaGastos, null, keyID + "=?", new String[]{String.valueOf(idGasto)}, null, null, null);
+        return db.query(TABLA_GASTOS, null, KEY_ID + "=?", new String[]{String.valueOf(idGasto)}, null, null, null);
     }
 
-<<<<<<< HEAD
-
-    //Se crean  nuevos usuarios y se insertan en la tabla
-    public long addUsuario(String usuario, String nombre, String apellido, String celular, String contraseña, String ocupacion) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(Usuario, usuario);
-        values.put(Nombre, nombre);
-        values.put(Apellido, apellido);
-        values.put(Celular, celular);
-        values.put(Contraseña, contraseña);
-
-
-        long id = sqLiteDatabase.insert(tablaUsuario, null, values);
-        sqLiteDatabase.close();
-        return id;
-    }
-=======
->>>>>>> cloned-repo/main
 }

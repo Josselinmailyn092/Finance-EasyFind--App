@@ -1,13 +1,10 @@
-package com.example.proyecto;
+package com.example.sistemadeespera;
 
-import static com.example.proyecto.R.id.main;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,11 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,13 +36,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
         db= new BaseDatos(this);
 
         // Asociar vistas de XML con variables Java
@@ -62,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Configurar acciones cuando se hace clic en "Iniciar Sesión"
         iniciarSesionButton.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("Range")
             @Override
             public void onClick(View v) {
                 String usuario = usuarioEditText.getText().toString();
@@ -74,8 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Cursor cursor = db.getUsuario(usuario);
                     if (cursor.moveToFirst()) {
-                        String dbContraseña;
-                        dbContraseña = cursor.getString(cursor.getColumnIndex("contraseña"));
+                        String dbContraseña = cursor.getString(cursor.getColumnIndex("contraseña"));
                         if (dbContraseña.equals(contraseña)) {
                             Toast.makeText(MainActivity.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
                             // Aquí puedes redirigir a otra actividad si lo deseas

@@ -1,4 +1,6 @@
-package com.example.proyecto;
+package com.example.sistemadeespera;
 
-public class InicioActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class InicioActivity extends AppCompatActivity {
 }

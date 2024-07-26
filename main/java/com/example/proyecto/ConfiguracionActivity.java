@@ -2,17 +2,9 @@ package com.example.sistemadeespera;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-
 import android.view.View;
-
 import android.widget.Button;
 import android.widget.ImageButton;
-<<<<<<< HEAD
-=======
-
-import androidx.appcompat.app.AppCompatActivity;
->>>>>>> cloned-repo/main
 
 import androidx.appcompat.app.AppCompatActivity;
 
