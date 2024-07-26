@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center_horizontal"
+    android:background="#ffffff"
     tools:context=".MainActivity">
 
     <FrameLayout
-        android:layout_width="378dp"
-        android:layout_height="683dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="45dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="20dp"
         android:background="#D9D9D9"
-        android:backgroundTint="#ffffffff"
+        android:backgroundTint="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +23,7 @@
 
         <TextView
             android:id="@+id/fondolila"
-            android:layout_width="372dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:background="@drawable/rounded"
@@ -35,131 +36,130 @@
             android:background="@drawable/rounded_green"
             android:rotationX="0" />
 
-        <android.support.constraint.ConstraintLayout
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="355dp"
+            android:layout_height="186dp"
+            android:layout_centerInParent="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            app:srcCompat="@drawable/imagen1"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/EasyFin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="189dp"
+            android:gravity="center"
+            android:backgroundTint="#00F3EFEF"
+            android:ems="10"
+            android:fontFamily="sans-serif"
+            android:inputType="textPersonName"
+            android:text="EasyFin"
+            android:textColor="#FFFFFF"
+            android:textSize="38sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.5" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="-100dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/EasyFin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="355dp"
-                android:layout_height="186dp"
-                android:layout_centerInParent="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/imagen1"
-                tools:layout_editor_absoluteY="6dp" />
-
-            <TextView
-                android:id="@+id/EasyFin"
-                android:layout_width="369dp"
-                android:layout_height="63dp"
-                android:layout_marginStart="300dp"
-                android:layout_marginTop="185dp"
-                android:layout_marginBottom="374dp"
-                android:backgroundTint="#00F3EFEF"
-                android:ems="10"
+            <EditText
+                android:id="@+id/usuario"
+                android:layout_width="266dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="311dp"
+                android:background="@drawable/rounded_white"
                 android:fontFamily="sans-serif"
-                android:inputType="textPersonName"
-                android:text="EasyFin"
+                android:gravity="center"
+                android:hint="Usuario"
+                android:inputType="text"
+                android:rotationX="0"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="normal" />
+
+            <EditText
+                android:id="@+id/contraseña"
+                android:layout_width="266dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_white"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:hint="Contraseña"
+                android:inputType="textPassword"
+                android:rotationX="0"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="normal" />
+
+            <Button
+                android:id="@+id/Iniciar"
+                android:layout_width="173dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/rounded_verde"
+                android:gravity="center"
+                android:text="Iniciar Sesión"
                 android:textColor="#FFFFFF"
-                android:textSize="38sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.612"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                android:textSize="18sp" />
 
             <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
+                android:layout_width="198dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/usuario"
-                    android:layout_width="266dp"
-                    android:layout_height="43dp"
-                    android:layout_marginTop="311dp"
-                    android:background="@drawable/rounded_white"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:hint="Usuario"
-                    android:inputType="text"
-                    android:rotationX="0"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="normal" />
-
-                <EditText
-                    android:id="@+id/contraseña"
-                    android:layout_width="266dp"
-                    android:layout_height="43dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/rounded_white"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:hint="Contraseña"
-                    android:inputType="textPassword"
-                    android:rotationX="0"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="normal" />
-
-                <Button
-                    android:id="@+id/Iniciar"
-                    android:layout_width="173dp"
-                    android:layout_height="37dp"
-                    android:layout_marginTop="18dp"
-                    android:background="@drawable/rounded_verde"
-                    android:gravity="center"
-                    android:text="Iniciar Sesión"
-                    android:textColor="#FFFFFF" />
-
-                <LinearLayout
-                    android:layout_width="226dp"
+                <TextView
+                    android:id="@+id/noCuenta"
+                    android:layout_width="126dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="8dp"
+                    android:background="#007A7575"
+                    android:ems="10"
+                    android:text="¿No tienes cuenta? "
+                    android:textColor="#717171"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/noCuenta"
-                        android:layout_width="126dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:background="#007A7575"
-                        android:ems="10"
-                        android:text="¿No tienes cuenta? "
-                        android:textColor="#717171"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/Registro"
+                    android:layout_width="81dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#007A7575"
+                    android:clickable="true"
+                    android:ems="10"
+                    android:text="Registrarse"
+                    android:textColor="#3C873F"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/Registro"
-                        android:layout_width="81dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:background="#007A7575"
-                        android:ems="10"
-                        android:text="Registrarse"
-                        android:textColor="#3C873F"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:clickable="true"/>
-                </LinearLayout>
             </LinearLayout>
 
             <TextView
                 android:id="@+id/sin_cuenta"
-                android:layout_width="205dp"
-                android:layout_height="22dp"
-                android:layout_marginStart="55dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
                 android:background="#007A7575"
                 android:ems="10"
                 android:text="Acceder sin tener cuenta "
@@ -168,10 +168,11 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.502"
+                app:layout_constraintHorizontal_bias="0.338"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                app:layout_constraintVertical_bias="0.0" />
-        </android.support.constraint.ConstraintLayout>
+                app:layout_constraintVertical_bias="0.881" />
+        </LinearLayout>
+
     </FrameLayout>
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
