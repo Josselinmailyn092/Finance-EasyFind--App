@@ -2,8 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#FFFFFF"/> <!-- Fondo blanco -->
-            <stroke android:width="2dp" android:color="#000"/> <!-- Borde café -->
+            <solid android:color="#FaFaFa"/> <!-- Fondo blanco -->
+            <stroke android:width="2dp" android:color="#a6a7a6"/> <!-- Borde café -->
             <corners android:radius="4dp"/> <!-- Esquinas ligeramente redondeadas -->
         </shape>
     </item>

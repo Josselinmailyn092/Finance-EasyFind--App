@@ -1,9 +1,9 @@
-package com.example.proyecto;
+package com.example.sistemadeespera;
 
-import android.view.View;
-import android.widget.Button;
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
+import android.widget.Button;
 
 public class ClipsBar implements View.OnClickListener {
     private Context context;
@@ -17,7 +17,7 @@ public class ClipsBar implements View.OnClickListener {
         Intent intent;
         switch (v.getId()) {
             case R.id.buttonInicio:
-                intent = new Intent(context, InicioActivity.class); //Cambiar el nombre de las actividades a las adecuadas
+                intent = new Intent(context, InicioActivity.class);
                 break;
             case R.id.buttonSaldo:
                 intent = new Intent(context, SaldoActivity.class);

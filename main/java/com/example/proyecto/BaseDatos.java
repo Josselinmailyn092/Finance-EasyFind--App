@@ -1,4 +1,4 @@
-package com.example.proyecto;
+package com.example.sistemadeespera;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -87,10 +87,46 @@ public class BaseDatos extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Crear las tablas al iniciar la base de datos si no existen
+<<<<<<< HEAD
         db.execSQL(createTableUsuario);
         db.execSQL(createTableCategoria);
         db.execSQL(createTableIngresos);
         db.execSQL(createTableGastos);
+=======
+        db.execSQL("CREATE TABLE " + TABLA_USUARIO + " (" +
+                KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                Usuario + " TEXT UNIQUE, " +
+                Nombre + " TEXT, " +
+                Apellido + " TEXT, " +
+                Celular + " TEXT, " +
+                Contraseña + " TEXT, " +
+                Ocupacion + " TEXT, " +
+                Saldo_Total + " REAL)");
+
+        db.execSQL("CREATE TABLE " + TABLA_CATEGORIA + " (" +
+                KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                NombreCategoria + " TEXT, " +
+                ID_Usuario + " INTEGER, " +
+                "FOREIGN KEY(" + ID_Usuario + ") REFERENCES " + TABLA_USUARIO + "(" + KEY_ID + "))");
+
+        db.execSQL("CREATE TABLE " + TABLA_INGRESOS + " (" +
+                KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                ID_Usuario_Ingreso + " INTEGER, " +
+                Monto + " REAL, " +
+                Fecha + " TEXT, " +
+                Descripcion + " TEXT, " +
+                "FOREIGN KEY(" + ID_Usuario_Ingreso + ") REFERENCES " + TABLA_USUARIO + "(" + KEY_ID + "))");
+
+        db.execSQL("CREATE TABLE " + TABLA_GASTOS + " (" +
+                KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                ID_Categoria + " INTEGER, " +
+                ID_Usuario_Gasto + " INTEGER, " +
+                MontoGastos + " REAL, " +
+                FechaGastos + " TEXT, " +
+                DescripcionGastos + " TEXT, " +
+                "FOREIGN KEY(" + ID_Categoria + ") REFERENCES " + TABLA_CATEGORIA + "(" + KEY_ID + "), " +
+                "FOREIGN KEY(" + ID_Usuario_Gasto + ") REFERENCES " + TABLA_USUARIO + "(" + KEY_ID + "))");
+>>>>>>> cloned-repo/main
     }
 
     @Override
@@ -103,7 +139,7 @@ public class BaseDatos extends SQLiteOpenHelper {
     }
 
     // Método para insertar un nuevo usuario
-    public void insertUsuario(String usuario, String nombre, String apellido, String celular, String contrasena, String ocupacion, double saldoTotal) {
+    public long insertUsuario(String usuario, String nombre, String apellido, String celular, String contrasena, String ocupacion, double saldoTotal) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Usuario, usuario);
@@ -112,9 +148,15 @@ public class BaseDatos extends SQLiteOpenHelper {
         values.put(Celular, celular);
         values.put(Contraseña, contrasena);
         values.put(Ocupacion, ocupacion);
+<<<<<<< HEAD
         values.put(SaldoTotal, saldoTotal);
         db.insert(tablaUsuario, null, values);
+=======
+        values.put(Saldo_Total, saldoTotal);
+        long id= db.insert(TABLA_USUARIO, null, values);
+>>>>>>> cloned-repo/main
         db.close();
+        return id;
     }
 
     // Método para actualizar un usuario
@@ -281,6 +323,7 @@ public class BaseDatos extends SQLiteOpenHelper {
         return db.query(tablaGastos, null, keyID + "=?", new String[]{String.valueOf(idGasto)}, null, null, null);
     }
 
+<<<<<<< HEAD
 
     //Se crean  nuevos usuarios y se insertan en la tabla
     public long addUsuario(String usuario, String nombre, String apellido, String celular, String contraseña, String ocupacion) {
@@ -297,4 +340,6 @@ public class BaseDatos extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return id;
     }
+=======
+>>>>>>> cloned-repo/main
 }
