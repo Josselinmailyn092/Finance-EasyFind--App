@@ -23,7 +23,7 @@ public class ClipsBar implements View.OnClickListener {
                 intent = new Intent(context, SaldoActivity.class);
                 break;
             case R.id.buttonInforme:
-                intent = new Intent(context, InformeActivity.class);
+                intent = new Intent(context, InformesActivity.class);
                 break;
             case R.id.buttonConfiguracion:
                 intent = new Intent(context, ConfiguracionActivity.class);
