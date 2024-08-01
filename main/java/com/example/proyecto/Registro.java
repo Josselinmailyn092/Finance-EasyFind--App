@@ -1,4 +1,4 @@
-package com.example.sistemadeespera;
+package com.example.proyecto;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Registro extends AppCompatActivity {
 
-    private EditText usuario, nombre, apellido, celular, contraseña, confirmarContraseña;
+    private EditText usuario, nombre, apellido, celular, contrasena, confirmarContrasena;
     private Spinner ocupacion;
     private Button registrarse;
     private BaseDatos db;
@@ -34,8 +34,8 @@ public class Registro extends AppCompatActivity {
         nombre = findViewById(R.id.nombre);
         apellido = findViewById(R.id.apellido);
         celular = findViewById(R.id.celular);
-        contraseña = findViewById(R.id.contraseña2);
-        confirmarContraseña = findViewById(R.id.confirmar_contraseña);
+        contrasena = findViewById(R.id.contrasena2);
+        confirmarContrasena = findViewById(R.id.confirmar_contrasena);
         ocupacion = findViewById(R.id.ocupacion);
         registrarse = findViewById(R.id.registrarse);
 
@@ -54,24 +54,22 @@ public class Registro extends AppCompatActivity {
                 String nombreText = nombre.getText().toString();
                 String apellidoText = apellido.getText().toString();
                 String celularText = celular.getText().toString();
-                String contraseñaText = contraseña.getText().toString();
-                String confirmarContraseñaText = confirmarContraseña.getText().toString();
+                String contrasenaText = contrasena.getText().toString();
+                String confirmarContrasenaText = confirmarContrasena.getText().toString();
                 String ocupacionText = ocupacion.getSelectedItem().toString();
 
                 // Validar los campos
                 if (usuarioText.isEmpty() || nombreText.isEmpty() || apellidoText.isEmpty() ||
-                        celularText.isEmpty() || contraseñaText.isEmpty() || confirmarContraseñaText.isEmpty()) {
+                        celularText.isEmpty() || contrasenaText.isEmpty() || confirmarContrasenaText.isEmpty()) {
                     Toast.makeText(Registro.this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
-                } else if (!contraseñaText.equals(confirmarContraseñaText)) {
+                } else if (!contrasenaText.equals(confirmarContrasenaText)) {
                     Toast.makeText(Registro.this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
                 } else if (ocupacionText.equals("Seleccione su ocupación")) {
                     Toast.makeText(Registro.this, "Seleccione una ocupación válida", Toast.LENGTH_SHORT).show();
                 } else {
-                    long id= db.insertUsuario(usuarioText, nombreText, apellidoText, celularText, contraseñaText, ocupacionText, 0.0);
+                    long id= db.insertUsuario(usuarioText, nombreText, apellidoText, celularText, contrasenaText, ocupacionText, 0.0);
                     if (id > 0) {
                         showToast("Registro completado exitosamente");
-                        Intent intent = new Intent(Registro.this, MainActivity.class);
-                        startActivity(intent);
                         finish();
                     } else {
                         showToast("Error en el registro");

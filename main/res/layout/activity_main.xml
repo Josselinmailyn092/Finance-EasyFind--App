@@ -97,7 +97,7 @@
                 android:textStyle="normal" />
 
             <EditText
-                android:id="@+id/contraseña"
+                android:id="@+id/contrasena"
                 android:layout_width="266dp"
                 android:layout_height="43dp"
                 android:layout_marginTop="16dp"
@@ -116,11 +116,11 @@
                 android:layout_width="173dp"
                 android:layout_height="37dp"
                 android:layout_marginTop="18dp"
-                android:background="@drawable/rounded_verde"
+                android:backgroundTint="#162219"
                 android:gravity="center"
-                android:text="Iniciar Sesión"
+                android:text="Iniciar sesión"
                 android:textColor="#FFFFFF"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="198dp"

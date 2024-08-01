@@ -1,4 +1,4 @@
-package com.example.sistemadeespera;
+package com.example.proyecto;
 
 public class PrivacidadActivity {
 }
