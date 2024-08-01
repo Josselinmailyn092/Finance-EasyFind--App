@@ -1,15 +1,15 @@
 <resources>
     <string name="app_name">Proyecto</string>
 
-    <string-array name="ocupacion_array">
-        <item>Seleccione su ocupación</item>
-        <item>Doctor</item>
-        <item>Ingeniero</item>
-        <item>Profesor</item>
-        <item>Abogado</item>
-        <item>Artista</item>
-    </string-array>
-    <string name="close">Cerrar</string>
+        <string-array name="ocupacion_array">
+            <item>Seleccione su ocupación</item>
+            <item>Doctor</item>
+            <item>Ingeniero</item>
+            <item>Profesor</item>
+            <item>Abogado</item>
+            <item>Artista</item>
+        </string-array>
+        <string name="close">Cerrar</string>
     <string name="user_name">Usuario</string>
     <string name="user_role">Gestión de Finanzas Personales</string>
     <string name="categorias">Categorías</string>
@@ -20,6 +20,8 @@
     <string name="terminos_condiciones">Términos y condiciones</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
     <string name="profile_image">Imagen de perfil</string>
+
+
 
 
 </resources>

@@ -1,4 +1,4 @@
-package com.example.sistemadeespera;
+package com.example.probarproyecto;
 
 public class DetallesPerfilActivity {
 }

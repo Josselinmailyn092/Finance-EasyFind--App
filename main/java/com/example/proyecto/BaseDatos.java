@@ -1,4 +1,4 @@
-package com.example.sistemadeespera;
+package com.example.probarproyecto;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,7 +10,7 @@ public class BaseDatos extends SQLiteOpenHelper {
 
     // Definir nombre de base de datos y versión
     private static final String DATABASE_NAME = "easyfind.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Nombre de las tablas
     private static final String TABLA_USUARIO = "usuario";
@@ -88,6 +88,24 @@ public class BaseDatos extends SQLiteOpenHelper {
                 DescripcionGastos + " TEXT, " +
                 "FOREIGN KEY(" + ID_Categoria + ") REFERENCES " + TABLA_CATEGORIA + "(" + KEY_ID + "), " +
                 "FOREIGN KEY(" + ID_Usuario_Gasto + ") REFERENCES " + TABLA_USUARIO + "(" + KEY_ID + "))");
+
+        // Insertar usuario inicial
+        db.execSQL("INSERT INTO " + TABLA_USUARIO + " (" + Usuario + ", " + Nombre + ", " + Apellido + ", " + Celular + ", " + Contraseña + ", " + Ocupacion + ", " + Saldo_Total + ") VALUES ('admin@gmail.com', 'Administración','OLA', '0000000000', 'admin', 'Ingeniero', 0.0)");
+
+        // Insertar datos ficticios
+        db.execSQL("INSERT INTO " + TABLA_CATEGORIA + " (" + NombreCategoria + ", " + ID_Usuario + ") VALUES ('Alimentación', 1)");
+        db.execSQL("INSERT INTO " + TABLA_CATEGORIA + " (" + NombreCategoria + ", " + ID_Usuario + ") VALUES ('Alquiler', 1)");
+        db.execSQL("INSERT INTO " + TABLA_CATEGORIA + " (" + NombreCategoria + ", " + ID_Usuario + ") VALUES ('Deporte', 1)");
+
+        // Insertar gastos ficticios
+        db.execSQL("INSERT INTO " + TABLA_GASTOS + " (" + ID_Categoria + ", " + ID_Usuario_Gasto + ", " + MontoGastos + ", " + FechaGastos + ", " + DescripcionGastos + ") VALUES (1, 1, 50.0, '2024-08-01', 'Compra de comida')");
+        db.execSQL("INSERT INTO " + TABLA_GASTOS + " (" + ID_Categoria + ", " + ID_Usuario_Gasto + ", " + MontoGastos + ", " + FechaGastos + ", " + DescripcionGastos + ") VALUES (2, 1, 500.0, '2024-08-01', 'Pago de alquiler')");
+        db.execSQL("INSERT INTO " + TABLA_GASTOS + " (" + ID_Categoria + ", " + ID_Usuario_Gasto + ", " + MontoGastos + ", " + FechaGastos + ", " + DescripcionGastos + ") VALUES (3, 1, 30.0, '2024-08-01', 'Gimnasio')");
+
+        // Insertar ingresos ficticios
+        db.execSQL("INSERT INTO " + TABLA_INGRESOS + " (" + ID_Usuario_Ingreso + ", " + Monto + ", " + Fecha + ", " + Descripcion + ") VALUES (1, 1000.0, '2024-08-01', 'Salario')");
+        db.execSQL("INSERT INTO " + TABLA_INGRESOS + " (" + ID_Usuario_Ingreso + ", " + Monto + ", " + Fecha + ", " + Descripcion + ") VALUES (1, 200.0, '2024-08-01', 'Venta de artículos')");
+
     }
 
     @Override
@@ -280,4 +298,57 @@ public class BaseDatos extends SQLiteOpenHelper {
         return db.query(TABLA_GASTOS, null, KEY_ID + "=?", new String[]{String.valueOf(idGasto)}, null, null, null);
     }
 
+    // Método para obtener un usuario por ID
+    public Cursor getUsuarioById(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(
+                TABLA_USUARIO,        // Nombre de la tabla
+                null,                 // Seleccionar todas las columnas
+                KEY_ID + "=?",        // Condición WHERE
+                new String[]{String.valueOf(userId)},  // Argumentos para la condición WHERE
+                null,                 // Agrupamiento
+                null,                 // Ordenamiento
+                null                  // Limitación
+        );
+    }
+
+    // Método para obtener las 3 categorías más recientes (por usuario y genéricas)
+    public Cursor getCategoriasPorUsuario(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLA_CATEGORIA +
+                " WHERE " + ID_Usuario + " = ? OR " + ID_Usuario + " = 0" +
+                " ORDER BY " + KEY_ID + " DESC LIMIT 3";
+        return db.rawQuery(query, new String[]{String.valueOf(userId)});
+    }
+
+    //MEtodo para obtener 3 gastos de usuario
+    public Cursor getGastosPorUsuario(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLA_GASTOS +
+                " WHERE " + ID_Usuario_Gasto + " = ?" +
+                " ORDER BY " + FechaGastos + " DESC LIMIT 3";
+        return db.rawQuery(query, new String[]{String.valueOf(userId)});
+    }
+
+    // Método para obtener los ingresos por usuario
+    public Cursor getIngresosPorUsuario(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLA_INGRESOS +
+                " WHERE " + ID_Usuario_Ingreso + " = ?" +
+                " ORDER BY " + Fecha + " DESC";
+        return db.rawQuery(query, new String[]{String.valueOf(userId)});
+    }
+    // Método para obtener el saldo total del usuario
+    public double getSaldoTotalUsuario(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT " + Saldo_Total + " FROM " + TABLA_USUARIO +
+                " WHERE " + KEY_ID + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+        if (cursor != null && cursor.moveToFirst()) {
+            double saldoTotal = cursor.getDouble(cursor.getColumnIndexOrThrow(Saldo_Total));
+            cursor.close();
+            return saldoTotal;
+        }
+        return 0.0;
+    }
 }

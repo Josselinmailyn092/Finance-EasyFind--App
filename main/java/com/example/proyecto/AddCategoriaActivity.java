@@ -1,4 +1,4 @@
 package com.example.probarproyecto;
 
-public class PrivacidadActivity {
+public class AddCategoriaActivity {
 }

@@ -54,7 +54,7 @@
             android:layout_marginTop="18dp"
             android:background="@drawable/rounded_white"
             android:hint="Usuario"
-            android:paddingStart="30dp"
+            android:paddingLeft="30dp"
             android:paddingTop="8dp"
             android:textSize="17sp" />
 
@@ -66,7 +66,7 @@
             android:layout_marginTop="18dp"
             android:background="@drawable/rounded_white"
             android:hint="Nombres"
-            android:paddingStart="30dp"
+            android:paddingLeft="30dp"
             android:paddingTop="8dp"
             android:textSize="17sp" />
 
@@ -78,7 +78,7 @@
             android:layout_marginTop="18dp"
             android:background="@drawable/rounded_white"
             android:hint="Apellidos"
-            android:paddingStart="30dp"
+            android:paddingLeft="30dp"
             android:paddingTop="8dp"
             android:textSize="17sp" />
 
@@ -91,12 +91,12 @@
             android:background="@drawable/rounded_white"
             android:hint="Celular"
             android:inputType="number"
-            android:paddingStart="30dp"
+            android:paddingLeft="30dp"
             android:paddingTop="8dp"
             android:textSize="17sp" />
 
         <EditText
-            android:id="@+id/contraseña2"
+            android:id="@+id/contrasena2"
             android:layout_width="266dp"
             android:layout_height="43dp"
             android:layout_gravity="center_horizontal"
@@ -104,12 +104,12 @@
             android:background="@drawable/rounded_white"
             android:hint="Contraseña"
             android:inputType="textPassword"
-            android:paddingStart="30dp"
+            android:paddingLeft="30dp"
             android:paddingTop="8dp"
             android:textSize="17sp" />
 
         <EditText
-            android:id="@+id/confirmar_contraseña"
+            android:id="@+id/confirmar_contrasena"
             android:layout_width="266dp"
             android:layout_height="43dp"
             android:layout_gravity="center_horizontal"
@@ -117,9 +117,9 @@
             android:background="@drawable/rounded_white"
             android:hint="Confirmar contraseña"
             android:inputType="textPassword"
-            android:paddingStart="30dp"
             android:paddingTop="8dp"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:paddingLeft="30dp" />
 
         <Spinner
             android:id="@+id/ocupacion"

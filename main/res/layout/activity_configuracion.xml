@@ -18,17 +18,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.056"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="TouchTargetSizeCheck" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="16dp"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -67,8 +66,8 @@
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
-        android:layout_width="369dp"
-        android:layout_height="531dp"
+        android:layout_width="349dp"
+        android:layout_height="470dp"
         android:background="@drawable/bg_rounded"
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -80,12 +79,12 @@
         <Button
             android:id="@+id/btn_categorias"
             style="@style/MenuButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="338dp"
+            android:layout_height="46dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="16dp"
-            android:text="@string/categorias"
-            android:drawableLeft="@drawable/ic_categories" />
+            android:drawableLeft="@drawable/ic_categories"
+            android:text="@string/categorias" />
 
         <Button
             android:id="@+id/btn_informes"

@@ -1,4 +1,6 @@
-package com.example.sistemadeespera;
+package com.example.probarproyecto;
 
-public class InformeActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class InformeActivity extends AppCompatActivity {
 }

@@ -1,4 +1,4 @@
-package com.example.sistemadeespera;
+package com.example.probarproyecto;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,11 +9,14 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ConfiguracionActivity extends AppCompatActivity {
-
+    private int userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracion);
+
+        Intent intent = getIntent();
+        userId = intent.getIntExtra("USER_ID", -1);
 
         // Configuración del botón de cierre
         ImageButton btnClose = findViewById(R.id.btn_close);
@@ -25,7 +28,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
         });
 
         // Configuración de los botones del toolbar
-        ClipsBar.setupToolbar(findViewById(R.id.toolbar4), ConfiguracionActivity.this);
+        ClipsBar.setupToolbar(findViewById(R.id.toolbar4), ConfiguracionActivity.this, userId);
 
         // Configuración de los botones de menú
         Button btnCategorias = findViewById(R.id.btn_categorias);
@@ -36,47 +39,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
         Button btnTerminosCondiciones = findViewById(R.id.btn_terminos_condiciones);
         Button btnCerrarSesion = findViewById(R.id.btn_cerrar_sesion);
 
-        btnCategorias.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ConfiguracionActivity.this, CategoriasActivity.class));
-            }
-        });
 
-        btnInformes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ConfiguracionActivity.this, InformeActivity.class));
-            }
-        });
-
-        btnDetallesPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ConfiguracionActivity.this, DetallesPerfilActivity.class));
-            }
-        });
-
-        btnPrivacidad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ConfiguracionActivity.this, PrivacidadActivity.class));
-            }
-        });
-
-        btnCentroSoporte.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ConfiguracionActivity.this, CentroSoporteActivity.class));
-            }
-        });
-
-        btnTerminosCondiciones.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ConfiguracionActivity.this, TerminosCondicionesActivity.class));
-            }
-        });
 
         btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
