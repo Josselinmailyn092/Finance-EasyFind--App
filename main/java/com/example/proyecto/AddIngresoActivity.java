@@ -1,5 +1,4 @@
-package com.example.probarproyecto;
-
+package com.example.proyecto;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AddIngresoActivity extends AppCompatActivity {

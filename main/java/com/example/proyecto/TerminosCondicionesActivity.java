@@ -1,4 +1,3 @@
-package com.example.probarproyecto;
-
+package com.example.proyecto;
 public class TerminosCondicionesActivity {
 }

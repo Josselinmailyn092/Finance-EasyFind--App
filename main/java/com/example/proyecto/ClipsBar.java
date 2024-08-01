@@ -1,4 +1,4 @@
-package com.example.probarproyecto;
+package com.example.proyecto;
 
 import android.content.Context;
 import android.content.Intent;
