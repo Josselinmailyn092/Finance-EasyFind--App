@@ -28,9 +28,11 @@ public class ClipsBar implements View.OnClickListener {
                     break;
                 case "saldo":
                     // Evitar navegar si ya estamos en SaldoActivity
+
                     if (!(context instanceof SaldoActivity)) {
                         intent = new Intent(context, SaldoActivity.class);
                     }
+
                     break;
                 case "informe":
                     // Evitar navegar si ya estamos en InformeActivity

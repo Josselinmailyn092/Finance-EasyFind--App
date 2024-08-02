@@ -8,8 +8,8 @@
     tools:context=".MainActivity">
 
     <FrameLayout
-        android:layout_width="382dp"
-        android:layout_height="705dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
@@ -41,23 +41,23 @@
             android:layout_width="355dp"
             android:layout_height="186dp"
             android:layout_centerInParent="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/imagen1" />
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            app:srcCompat="@drawable/imagen1"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/EasyFin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="189dp"
+            android:gravity="center"
             android:backgroundTint="#00F3EFEF"
             android:ems="10"
             android:fontFamily="sans-serif"
-            android:gravity="center"
             android:inputType="textPersonName"
             android:text="EasyFin"
             android:textColor="#FFFFFF"
@@ -65,10 +65,10 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.5" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -77,9 +77,9 @@
             android:layout_marginTop="-100dp"
             android:gravity="center"
             android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/EasyFin"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/EasyFin">
+            app:layout_constraintStart_toStartOf="parent">
 
             <EditText
                 android:id="@+id/usuario"
@@ -113,8 +113,8 @@
 
             <Button
                 android:id="@+id/Iniciar"
-                android:layout_width="178dp"
-                android:layout_height="wrap_content"
+                android:layout_width="173dp"
+                android:layout_height="37dp"
                 android:layout_marginTop="18dp"
                 android:backgroundTint="#162219"
                 android:gravity="center"
