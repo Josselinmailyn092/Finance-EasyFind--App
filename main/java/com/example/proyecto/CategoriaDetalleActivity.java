@@ -11,9 +11,10 @@ public class CategoriaDetalleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categoria_detalle);
 
-        TextView tvCategoriaNombre = findViewById(R.id.tv_categoria_nombre);
-
         String categoriaNombre = getIntent().getStringExtra("CATEGORIA_NOMBRE");
-        tvCategoriaNombre.setText(categoriaNombre);
+
+        TextView textView = findViewById(R.id.tv_categoria_nombre);
+        textView.setText(categoriaNombre);
     }
 }
+

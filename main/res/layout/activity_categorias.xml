@@ -26,14 +26,14 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/btn_add_categoria"
+        app:layout_constraintBottom_toTopOf="@id/btnn_agregar_categoria"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         tools:listitem="@layout/item_categoria" />
 
     <Button
-        android:id="@+id/btn_add_categoria"
+        android:id="@+id/btnn_agregar_categoria"
         android:layout_width="175dp"
         android:layout_height="57dp"
         android:layout_marginBottom="16dp"

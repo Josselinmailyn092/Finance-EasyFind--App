@@ -113,8 +113,8 @@
 
             <Button
                 android:id="@+id/Iniciar"
-                android:layout_width="173dp"
-                android:layout_height="37dp"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:backgroundTint="#162219"
                 android:gravity="center"

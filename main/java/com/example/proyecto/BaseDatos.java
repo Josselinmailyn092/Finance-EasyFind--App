@@ -1,5 +1,7 @@
 package com.example.proyecto;
 
+
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -118,6 +120,12 @@ public class BaseDatos extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+
+    // Método para obtener un usuario por nombre de usuario
+    public Cursor getUsuario(String usuario) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(TABLA_USUARIO, null, Usuario + "=?", new String[]{usuario}, null, null, null);
+    }
     // Método para insertar un nuevo usuario
     public long insertUsuario(String usuario, String nombre, String apellido, String celular, String contrasena, String ocupacion, double saldoTotal) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -129,7 +137,7 @@ public class BaseDatos extends SQLiteOpenHelper {
         values.put(Contraseña, contrasena);
         values.put(Ocupacion, ocupacion);
         values.put(Saldo_Total, saldoTotal);
-        long id= db.insert(TABLA_USUARIO, null, values);
+        long id = db.insert(TABLA_USUARIO, null, values);
         db.close();
         return id;
     }
@@ -144,64 +152,105 @@ public class BaseDatos extends SQLiteOpenHelper {
         values.put(Contraseña, contrasena);
         values.put(Ocupacion, ocupacion);
         values.put(Saldo_Total, saldoTotal);
-        // Actualizar fila
-        return db.update(TABLA_USUARIO, values, Usuario + " = ?", new String[]{usuario});
-    }
-
-    // Método para eliminar un usuario
-    public void deleteUsuario(String usuario) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLA_USUARIO, Usuario + " = ?", new String[]{usuario});
+        int rowsAffected = db.update(TABLA_USUARIO, values, Usuario + "=?", new String[]{usuario});
         db.close();
+        return rowsAffected;
     }
-
-    // Método para obtener todos los usuarios
-    public Cursor getAllUsuarios() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(TABLA_USUARIO, null, null, null, null, null, null);
-    }
-
-    // Método para obtener un usuario por nombre de usuario
-    public Cursor getUsuario(String usuario) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(TABLA_USUARIO, null, Usuario + "=?", new String[]{usuario}, null, null, null);
-    }
-
-    // Método para insertar una nueva categoría
-    public void insertCategoria(String nombre, Integer idUsuario) {
+    // Método para eliminar un usuario por nombre de usuario
+    public int deleteUsuario(String usuario) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(NombreCategoria, nombre);
-        if (idUsuario != null) {
-            values.put(ID_Usuario, idUsuario);
+        int rowsAffected = db.delete(TABLA_USUARIO, Usuario + "=?", new String[]{usuario});
+        db.close();
+        return rowsAffected;
+    }
+    public int getUserIdByusuario(String usuario) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT " + KEY_ID + " FROM " + TABLA_USUARIO + " WHERE " + Usuario + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{usuario});
+        int userId = -1;
+        if (cursor.moveToFirst()) {
+            userId = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID));
         }
-        db.insert(TABLA_CATEGORIA, null, values);
-        db.close();
+        cursor.close();
+        return userId;
     }
 
-    // Método para actualizar una categoría
-    public int updateCategoria(int idCategoria, String nombre, Integer idUsuario) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(NombreCategoria, nombre);
-        if (idUsuario != null) {
-            values.put(ID_Usuario, idUsuario);
-        }
-        // Actualizar fila
-        return db.update(TABLA_CATEGORIA, values, KEY_ID + " = ?", new String[]{String.valueOf(idCategoria)});
-    }
-
-    // Método para eliminar una categoría
-    public void deleteCategoria(int idCategoria) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLA_CATEGORIA, KEY_ID + " = ?", new String[]{String.valueOf(idCategoria)});
-        db.close();
-    }
-
-    // Método para obtener todas las categorías
-    public Cursor getAllCategorias() {
+    // Método para obtener ingresos por mes
+    public Cursor getIngresosPorMes(int userId, int month, int year) {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(TABLA_CATEGORIA, null, null, null, null, null, null);
+        String query = "SELECT descripcion, monto, fecha FROM " + TABLA_INGRESOS +
+                " WHERE strftime('%m', fecha) = ? AND strftime('%Y', fecha) = ? AND " + ID_Usuario_Ingreso + " = ?";
+        return db.rawQuery(query, new String[]{String.format("%02d", month), String.valueOf(year), String.valueOf(userId)});
+    }
+
+    // Método para obtener gastos por mes
+    public Cursor getGastosPorMes(int userId, int month, int year) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT descripcion, monto, fecha FROM " + TABLA_GASTOS +
+                " WHERE strftime('%m', fecha) = ? AND strftime('%Y', fecha) = ? AND " + ID_Usuario_Gasto + " = ?";
+        return db.rawQuery(query, new String[]{String.format("%02d", month), String.valueOf(year), String.valueOf(userId)});
+    }
+
+    // Método para obtener ingresos por semana
+    public Cursor getIngresosPorSemana(int userId, String startDate, String endDate) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT descripcion, monto, fecha FROM " + TABLA_INGRESOS +
+                " WHERE date(fecha) BETWEEN date(?) AND date(?) AND " + ID_Usuario_Ingreso + " = ?";
+        return db.rawQuery(query, new String[]{startDate, endDate, String.valueOf(userId)});
+    }
+
+    // Método para obtener gastos por semana
+    public Cursor getGastosPorSemana(int userId, String startDate, String endDate) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT descripcion, monto, fecha FROM " + TABLA_GASTOS +
+                " WHERE date(fecha) BETWEEN date(?) AND date(?) AND " + ID_Usuario_Gasto + " = ?";
+        return db.rawQuery(query, new String[]{startDate, endDate, String.valueOf(userId)});
+    }
+
+    // Método para obtener ingresos por año
+    public Cursor getIngresosPorAño(int userId, int year) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT descripcion, monto, fecha FROM " + TABLA_INGRESOS +
+                " WHERE strftime('%Y', fecha) = ? AND " + ID_Usuario_Ingreso + " = ?";
+        return db.rawQuery(query, new String[]{String.valueOf(year), String.valueOf(userId)});
+    }
+
+    // Método para obtener gastos por año
+    public Cursor getGastosPorAño(int userId, int year) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT descripcion, monto, fecha FROM " + TABLA_GASTOS +
+                " WHERE strftime('%Y', fecha) = ? AND " + ID_Usuario_Gasto + " = ?";
+        return db.rawQuery(query, new String[]{String.valueOf(year), String.valueOf(userId)});
+    }
+
+    // Método para obtener la suma total de ingresos para un usuario
+    public double getTotalIngresos(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT SUM(" + Monto + ") as total FROM " + TABLA_INGRESOS + " WHERE " + ID_Usuario_Ingreso + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+        if (cursor.moveToFirst()) {
+            double total = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
+            cursor.close();
+            return total;
+        } else {
+            cursor.close();
+            return 0.0;
+        }
+    }
+
+    // Método para obtener la suma total de gastos para un usuario
+    public double getTotalGastos(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT SUM(" + MontoGastos + ") as total FROM " + TABLA_GASTOS + " WHERE " + ID_Usuario_Gasto + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+        if (cursor.moveToFirst()) {
+            double total = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
+            cursor.close();
+            return total;
+        } else {
+            cursor.close();
+            return 0.0;
+        }
     }
 
     // Método para obtener una categoría por ID
@@ -209,6 +258,45 @@ public class BaseDatos extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.query(TABLA_CATEGORIA, null, KEY_ID + "=?", new String[]{String.valueOf(idCategoria)}, null, null, null);
     }
+
+
+
+    // Método para obtener todos los usuarios
+    public Cursor getAllUsuarios() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(TABLA_USUARIO, null, null, null, null, null, null);
+    }
+    // Métodos para categorías
+
+    public Cursor getAllCategorias() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLA_CATEGORIA, null);
+    }
+    public Cursor getCategoriaNombre(int idCategoria) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM categorias WHERE id = ?", new String[]{String.valueOf(idCategoria)});
+    }
+
+    public boolean insertCategoria(String nombre, int idUsuario) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(NombreCategoria, nombre);
+        values.put(ID_Usuario, idUsuario);
+        long result = db.insert(TABLA_CATEGORIA, null, values);
+        return result != -1;
+    }
+
+    public boolean deleteCategoria(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(TABLA_CATEGORIA, KEY_ID + "=?", new String[]{String.valueOf(id)});
+        return result > 0;
+    }
+
+    public Cursor getCategoriaNombre(String nombre) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT " + KEY_ID + " FROM " + TABLA_CATEGORIA + " WHERE " + NombreCategoria + " =?", new String[]{nombre});
+    }
+
 
     // Método para insertar un nuevo ingreso
     public void insertIngreso(int idCliente, double monto, String fecha, String descripcion) {
@@ -341,55 +429,55 @@ public class BaseDatos extends SQLiteOpenHelper {
     }
 
 
-        // Método para obtener los ingresos del mes actual
-        public double getIngresoMes(int userId) {
-            SQLiteDatabase db = this.getReadableDatabase();
-            String query = "SELECT SUM(" + Monto + ") as total FROM " + TABLA_INGRESOS +
-                    " WHERE " + ID_Usuario_Ingreso + " = ?" +
-                    " AND strftime('%m', " + Fecha + ") = strftime('%m', 'now')" +
-                    " AND strftime('%Y', " + Fecha + ") = strftime('%Y', 'now')";
+    // Método para obtener los ingresos del mes actual
+    public double getIngresoMes(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT SUM(" + Monto + ") as total FROM " + TABLA_INGRESOS +
+                " WHERE " + ID_Usuario_Ingreso + " = ?" +
+                " AND strftime('%m', " + Fecha + ") = strftime('%m', 'now')" +
+                " AND strftime('%Y', " + Fecha + ") = strftime('%Y', 'now')";
 
-            double ingresoTotal = 0.0;
-            Cursor cursor = null;
-            try {
-                cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
-                if (cursor != null && cursor.moveToFirst()) {
-                    ingresoTotal = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
-                }
+        double ingresoTotal = 0.0;
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+            if (cursor != null && cursor.moveToFirst()) {
+                ingresoTotal = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
             }
-            return ingresoTotal;
-        }
-
-        // Método para obtener los gastos del mes actual
-        public double getGastoMes(int userId) {
-            SQLiteDatabase db = this.getReadableDatabase();
-            String query = "SELECT SUM(" + MontoGastos + ") as total FROM " + TABLA_GASTOS +
-                    " WHERE " + ID_Usuario_Gasto + " = ?" +
-                    " AND strftime('%m', " + FechaGastos + ") = strftime('%m', 'now')" +
-                    " AND strftime('%Y', " + FechaGastos + ") = strftime('%Y', 'now')";
-
-            double gastoTotal = 0.0;
-            Cursor cursor = null;
-            try {
-                cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
-                if (cursor != null && cursor.moveToFirst()) {
-                    gastoTotal = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
-                }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
             }
-            return gastoTotal;
         }
+        return ingresoTotal;
+    }
+
+    // Método para obtener los gastos del mes actual
+    public double getGastoMes(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT SUM(" + MontoGastos + ") as total FROM " + TABLA_GASTOS +
+                " WHERE " + ID_Usuario_Gasto + " = ?" +
+                " AND strftime('%m', " + FechaGastos + ") = strftime('%m', 'now')" +
+                " AND strftime('%Y', " + FechaGastos + ") = strftime('%Y', 'now')";
+
+        double gastoTotal = 0.0;
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+            if (cursor != null && cursor.moveToFirst()) {
+                gastoTotal = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return gastoTotal;
+    }
 
 
     // Método para obtener el saldo total del usuario

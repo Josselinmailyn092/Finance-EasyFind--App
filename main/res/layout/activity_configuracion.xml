@@ -84,7 +84,8 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="16dp"
             android:drawableLeft="@drawable/ic_categories"
-            android:text="@string/categorias" />
+            android:text="@string/categorias"
+            android:onClick="btnCategorias"/>
 
         <Button
             android:id="@+id/btn_informes"

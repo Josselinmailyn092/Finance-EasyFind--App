@@ -11,19 +11,18 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/tv_categoria_nombre"
+        android:id="@+id/tv_categoria"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
         android:text="Nombre de la categoría"
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/btn_eliminar_categoria"
+        android:id="@+id/btn_eliminar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#DC7272"
+        android:backgroundTint="#E80F0F"
         android:text="Eliminar"
         android:textColor="#FFFFFF" />
 

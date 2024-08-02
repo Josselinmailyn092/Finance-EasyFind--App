@@ -1,7 +1,9 @@
 package com.example.proyecto;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -19,14 +21,15 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class InformeActivity extends AppCompatActivity {
 
-    private Spinner spinnerPeriodo;
+   private Spinner spinnerPeriodo;
     private Button btnGenerarInforme;
+    private static final int PERMISSION_REQUEST_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,8 @@ public class InformeActivity extends AppCompatActivity {
         // Verificar permisos de almacenamiento
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        } else {
+           // generarInforme();
         }
 
         btnGenerarInforme.setOnClickListener(new View.OnClickListener() {
@@ -68,38 +73,114 @@ public class InformeActivity extends AppCompatActivity {
     }
 
     private void generarInforme(String periodo) {
-        // Lógica para obtener datos según el periodo seleccionado
-        List<String> datosInforme = obtenerDatosInforme(periodo);
-
         try {
-            // Ruta del archivo PDF
-            File pdfFile = new File(Environment.getExternalStorageDirectory(), "Informe.pdf");
-            FileOutputStream fos = new FileOutputStream(pdfFile);
+            // Definir ruta y nombre del archivo PDF
+            String pdfPath = Environment.getExternalStorageDirectory() + "/Informe.pdf";
+            PdfWriter writer = new PdfWriter(pdfPath);
+            PdfDocument pdfDoc = new PdfDocument(writer);
+            Document document = new Document(pdfDoc);
 
-            // Crear PDF
-            PdfWriter writer = new PdfWriter(fos);
-            PdfDocument pdfDocument = new PdfDocument(writer);
-            Document document = new Document(pdfDocument);
+            // Consultar la base de datos para obtener la información según el periodo
+            BaseDatos db = new BaseDatos(this);
+            int userId = Integer.parseInt(String.valueOf(getUserId())); // Obtener el ID del usuario actual
+            Cursor cursorIngresos = null;
+            Cursor cursorGastos = null;
 
-            // Agregar contenido al PDF
-            document.add(new Paragraph("Informe de " + periodo));
-            for (String dato : datosInforme) {
-                document.add(new Paragraph(dato));
+            switch (periodo) {
+                case "Mensual":
+                    int mes = getCurrentMonth();
+                    int año = getCurrentYear();
+                    cursorIngresos = db.getIngresosPorMes(userId, mes, año);
+                    cursorGastos = db.getGastosPorMes(userId, mes, año);
+                    break;
+                case "Semanal":
+                    String startDate = getStartDateOfWeek();
+                    String endDate = getEndDateOfWeek();
+                    cursorIngresos = db.getIngresosPorSemana(userId, startDate, endDate);
+                    cursorGastos = db.getGastosPorSemana(userId, startDate, endDate);
+                    break;
+                case "Anual":
+                    int añoActual = getCurrentYear();
+                    cursorIngresos = db.getIngresosPorAño(userId, añoActual);
+                    cursorGastos = db.getGastosPorAño(userId, añoActual);
+                    break;
             }
 
-            // Cerrar documento
-            document.close();
+            // Agregar datos al PDF
+            if (cursorIngresos != null) {
+                document.add(new Paragraph("Ingresos:"));
+                int descripcionIndex = cursorIngresos.getColumnIndex("descripcion");
+                int montoIndex = cursorIngresos.getColumnIndex("monto");
+                int fechaIndex = cursorIngresos.getColumnIndex("fecha");
 
-            Toast.makeText(this, "Informe generado en: " + pdfFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                if (descripcionIndex >= 0 && montoIndex >= 0 && fechaIndex >= 0) {
+                    while (cursorIngresos.moveToNext()) {
+                        String descripcion = cursorIngresos.getString(descripcionIndex);
+                        double monto = cursorIngresos.getDouble(montoIndex);
+                        String fecha = cursorIngresos.getString(fechaIndex);
+                        document.add(new Paragraph(descripcion + ": $" + monto + " - " + fecha));
+                    }
+                }
+                cursorIngresos.close();
+            }
+
+            if (cursorGastos != null) {
+                document.add(new Paragraph("Gastos:"));
+                int descripcionGastosIndex = cursorGastos.getColumnIndex("descripcion");
+                int montoGastosIndex = cursorGastos.getColumnIndex("monto");
+                int fechaGastosIndex = cursorGastos.getColumnIndex("fecha");
+
+                if (descripcionGastosIndex >= 0 && montoGastosIndex >= 0 && fechaGastosIndex >= 0) {
+                    while (cursorGastos.moveToNext()) {
+                        String descripcion = cursorGastos.getString(descripcionGastosIndex);
+                        double monto = cursorGastos.getDouble(montoGastosIndex);
+                        String fecha = cursorGastos.getString(fechaGastosIndex);
+                        document.add(new Paragraph(descripcion + ": $" + monto + " - " + fecha));
+                    }
+                }
+                cursorGastos.close();
+            }
+
+            document.close();
+            Toast.makeText(this, "Informe generado en: " + pdfPath, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Error al generar el informe", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error al generar informe", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private List<String> obtenerDatosInforme(String periodo) {
-        // Aquí debes implementar la lógica para obtener los datos de informe según el periodo
-        // Por ejemplo, consultar una API o base de datos y obtener los datos correspondientes
-        return List.of("Dato 1", "Dato 2", "Dato 3"); // Datos de ejemplo
+    private int getCurrentMonth() {
+        return Calendar.getInstance().get(Calendar.MONTH) + 1;
     }
+
+    private int getCurrentYear() {
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.YEAR);
+    }
+
+    private String getStartDateOfWeek() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return sdf.format(calendar.getTime());
+    }
+
+    private String getEndDateOfWeek() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+        calendar.add(Calendar.DAY_OF_WEEK, 6);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return sdf.format(calendar.getTime());
+    }
+
+    private int getUserId() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String usuario = sharedPreferences.getString("usuario", null);  // Obtén el email almacenado en las preferencias compartidas
+        if (usuario != null) {
+            BaseDatos db = new BaseDatos(this);
+            return db.getUserIdByusuario(usuario);  // Usa el método para obtener el ID del usuario por su email
+        }
+        return -1;  // Retorna -1 si no se encuentra el email
+    }
+
 }

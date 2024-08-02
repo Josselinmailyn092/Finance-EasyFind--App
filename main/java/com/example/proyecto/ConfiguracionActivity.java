@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ConfiguracionActivity extends AppCompatActivity {
     private int userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +40,53 @@ public class ConfiguracionActivity extends AppCompatActivity {
         Button btnTerminosCondiciones = findViewById(R.id.btn_terminos_condiciones);
         Button btnCerrarSesion = findViewById(R.id.btn_cerrar_sesion);
 
+        btnCategorias.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ConfiguracionActivity.this, CategoriasActivity.class);
+                startActivity(intent);
+            }
+        });
 
+        btnInformes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ConfiguracionActivity.this, InformeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnDetallesPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ConfiguracionActivity.this, DetallesPerfilActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnPrivacidad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ConfiguracionActivity.this, PrivacidadActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnCentroSoporte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ConfiguracionActivity.this, CentroSoporteActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnTerminosCondiciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ConfiguracionActivity.this, TerminosCondicionesActivity.class);
+                startActivity(intent);
+            }
+        });
 
         btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
