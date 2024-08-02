@@ -28,7 +28,7 @@ public class DetallesPerfilActivity extends AppCompatActivity {
     private Button btnChangePhoto, btnSave;
     private BaseDatos baseDatos;
     private String currentUser;
-/*
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +46,7 @@ public class DetallesPerfilActivity extends AppCompatActivity {
 
         baseDatos = new BaseDatos(this);
         currentUser = getIntent().getStringExtra("USERNAME");
-
+/*
         loadUserData();
 
         btnChangePhoto.setOnClickListener(new View.OnClickListener() {
@@ -112,4 +112,5 @@ public class DetallesPerfilActivity extends AppCompatActivity {
             Toast.makeText(this, "Error al actualizar datos", Toast.LENGTH_SHORT).show();
         }
     }*/
-}
+    }}
+
