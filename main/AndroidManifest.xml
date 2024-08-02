@@ -28,11 +28,17 @@
         <activity android:name=".SaldoActivity"></activity>
         <activity android:name=".InicioActivity"></activity>
         <activity android:name=".Registro"></activity>
-        <activity android:name=".InformeActivity"></activity>
         <activity android:name=".AddCategoriaActivity"></activity>
         <activity android:name=".AddGastoActivity"></activity>
         <activity android:name=".AddIngresoActivity"></activity>
         <activity android:name=".AllCategoriasActivity"></activity>
+        <activity android:name=".CategoriasActivity" />
+        <activity android:name=".InformeActivity" />
+        <activity android:name=".DetallesPerfilActivity" />
+        <activity android:name=".PrivacidadActivity" />
+        <activity android:name=".CentroSoporteActivity" />
+        <activity android:name=".TerminosCondicionesActivity" />
+
 
     </application>
 
