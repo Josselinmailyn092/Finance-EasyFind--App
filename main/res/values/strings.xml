@@ -26,6 +26,14 @@
         <item>Año</item>
     </string-array>
 
+    <string name="privacidad_content">Here is the privacy policy content...</string>
+    <string name="section_1_title">Información Recopilada</string>
+    <string name="section_1_content">Aquí se detalla la información recopilada...</string>
+    <string name="section_2_title">Uso de Información</string>
+    <string name="section_2_content">Aquí se detalla el uso de la información...</string>
+    <string name="section_3_title">Compartir Información</string>
+    <string name="section_3_content">Aquí se detalla cómo compartimos la información...</string>
+
 
 
 </resources>
