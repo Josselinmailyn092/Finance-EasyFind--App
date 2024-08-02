@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ConfiguracionActivity extends AppCompatActivity {
-    private int userId;
+    private int usuarioId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,10 +17,10 @@ public class ConfiguracionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_configuracion);
 
         Intent intent = getIntent();
-        userId = intent.getIntExtra("USER_ID", -1);
+        usuarioId = intent.getIntExtra("USER_ID", -1);
 
         // Configuración del botón de cierre
-        ImageButton btnClose = findViewById(R.id.btn_close);
+        ImageButton btnClose = findViewById(R.id.btn_cerrar);
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -29,7 +29,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
         });
 
         // Configuración de los botones del toolbar
-        ClipsBar.setupToolbar(findViewById(R.id.toolbar4), ConfiguracionActivity.this, userId);
+        ClipsBar.setupToolbar(findViewById(R.id.toolbar4), ConfiguracionActivity.this, usuarioId);
 
         // Configuración de los botones de menú
         Button btnCategorias = findViewById(R.id.btn_categorias);

@@ -21,8 +21,8 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Ca
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
-        void onDeleteClick(int position);
+        void onItemClick(int posicion);
+        void onDeleteClick(int posicion);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -37,9 +37,9 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Ca
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoriaViewHolder holder, int position) {
-        String categoria = categorias.get(position);
-        holder.textViewCategoria.setText(categoria);
+    public void onBindViewHolder(@NonNull CategoriaViewHolder holder, int posicion) {
+        String categoria = categorias.get(posicion);
+        holder.textoCategoria.setText(categoria);
     }
 
     @Override
@@ -49,29 +49,29 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Ca
 
     public static class CategoriaViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewCategoria;
-        ImageButton btnDelete;
+        TextView textoCategoria;
+        ImageButton btnEliminar;
 
         @SuppressLint("WrongViewCast")
         public CategoriaViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
-            textViewCategoria = itemView.findViewById(R.id.tv_categoria);
-            btnDelete = itemView.findViewById(R.id.btn_eliminar);
+            textoCategoria = itemView.findViewById(R.id.tv_categoria);
+            btnEliminar = itemView.findViewById(R.id.btn_eliminar);
 
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(position);
+                    int posicion = getAdapterPosition();
+                    if (posicion != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(posicion);
                     }
                 }
             });
 
-            btnDelete.setOnClickListener(v -> {
+            btnEliminar.setOnClickListener(v -> {
                 if (listener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onDeleteClick(position);
+                    int posicion = getAdapterPosition();
+                    if (posicion != RecyclerView.NO_POSITION) {
+                        listener.onDeleteClick(posicion);
                     }
                 }
             });
