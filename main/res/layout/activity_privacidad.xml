@@ -9,6 +9,7 @@
 
     <!-- Top bar with close button -->
     <RelativeLayout
+        android:id="@+id/relativeLayout3"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="?attr/colorPrimary"
@@ -25,7 +26,8 @@
             android:layout_marginStart="8dp"
             android:background="?android:selectableItemBackground"
             android:contentDescription="@string/close"
-            android:src="@drawable/ic_close" />
+            android:src="@drawable/ic_close"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/tv_privacidad_title"
@@ -39,78 +41,131 @@
     </RelativeLayout>
 
     <!-- Main content area -->
-    <LinearLayout
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/btn_close_privacidad"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/relativeLayout3">
 
-        <!-- Section 1 -->
-        <TextView
-            android:id="@+id/tv_section_1_title"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/section_1_title"
-            android:textColor="#4CAF50"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tv_section_1_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/section_1_content"
-            android:textColor="#000000"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/Intro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Introducción"
+                android:textColor="#000000"
+                android:textSize="18sp" />
 
-        <!-- Section 2 -->
-        <TextView
-            android:id="@+id/tv_section_2_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/section_2_title"
-            android:textColor="#4CAF50"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/introduccion"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:lineSpacingExtra="4dp"
+                android:paddingBottom="8dp"/>
 
-        <TextView
-            android:id="@+id/tv_section_2_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/section_2_content"
-            android:textColor="#000000"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/recoleccion_datos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Recoleción de Datos"
+                android:textColor="#000000"
+                android:textSize="18sp" />
 
-        <!-- Section 3 -->
-        <TextView
-            android:id="@+id/tv_section_3_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/section_3_title"
-            android:textColor="#4CAF50"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/recoleccion_datos"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:lineSpacingExtra="4dp"
+                android:paddingBottom="8dp"/>
 
-        <TextView
-            android:id="@+id/tv_section_3_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/section_3_content"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/Infor_uso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Uso de la información"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/uso_informacion"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:lineSpacingExtra="4dp"
+                android:paddingBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/Compa_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Compartir Información"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/compartir_informacion"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:lineSpacingExtra="4dp"
+                android:paddingBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/contacto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Seguridad"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/seguridad"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:lineSpacingExtra="4dp"
+                android:paddingBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/seguridad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Contacto"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/contacto"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:lineSpacingExtra="4dp"
+                android:paddingBottom="8dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 

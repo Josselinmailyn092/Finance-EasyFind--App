@@ -26,13 +26,15 @@
         <item>Año</item>
     </string-array>
 
-    <string name="privacidad_content">Here is the privacy policy content...</string>
-    <string name="section_1_title">Información Recopilada</string>
-    <string name="section_1_content">Aquí se detalla la información recopilada...</string>
-    <string name="section_2_title">Uso de Información</string>
-    <string name="section_2_content">Aquí se detalla el uso de la información...</string>
-    <string name="section_3_title">Compartir Información</string>
-    <string name="section_3_content">Aquí se detalla cómo compartimos la información...</string>
+
+    <string name="texto_privacidad">Esta es la política de privacidad de nuestra aplicación de finanzas. Aquí describimos cómo manejamos su información personal...</string>
+    <string name="introduccion">Esta es la política de privacidad de nuestra aplicación de finanzas. Aquí describimos cómo manejamos su información personal...</string>
+    <string name="recoleccion_datos">Recopilamos la información necesaria para proporcionar nuestros servicios, incluyendo datos personales, financieros y de contacto...</string>
+    <string name="uso_informacion">Utilizamos su información para mejorar nuestros servicios, proporcionar soporte al cliente y cumplir con obligaciones legales...</string>
+    <string name="compartir_informacion">No compartimos su información personal con terceros, excepto cuando sea necesario para cumplir con la ley o con su consentimiento...</string>
+    <string name="seguridad">Implementamos medidas de seguridad para proteger su información contra accesos no autorizados, alteraciones o destrucción...</string>
+    <string name="contacto">Si tiene alguna pregunta sobre nuestra política de privacidad, puede contactarnos en EasyFin@finanzasapp.com...</string>
+
 
 
 
