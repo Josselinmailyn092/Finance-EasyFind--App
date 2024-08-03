@@ -8,34 +8,24 @@
     tools:context=".DetallesPerfilActivity">
 
     <ImageView
-        android:id="@+id/imgProfilePhoto"
+        android:id="@+id/imgfotoPerfil"
         android:layout_width="106dp"
         android:layout_height="102dp"
         android:layout_gravity="center"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_profile_placeholder" />
 
-    <Button
-        android:id="@+id/btnChangePhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="#4EA75D"
-        android:text="Cambiar Foto"
-        android:textColor="#ffffff" />
-
     <EditText
-        android:id="@+id/etUsername"
+        android:id="@+id/usuario1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:enabled="false"
+        android:enabled="true"
         android:hint="Usuario"
         android:inputType="text"
         android:minHeight="48dp" />
 
     <EditText
-        android:id="@+id/etFirstName"
+        android:id="@+id/nombre1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Nombre"
@@ -43,7 +33,7 @@
         android:minHeight="48dp" />
 
     <EditText
-        android:id="@+id/etLastName"
+        android:id="@+id/apellido1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Apellido"
@@ -51,7 +41,7 @@
         android:minHeight="48dp" />
 
     <EditText
-        android:id="@+id/etPhone"
+        android:id="@+id/celular1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Celular"
@@ -59,27 +49,27 @@
         android:minHeight="48dp" />
 
     <EditText
-        android:id="@+id/etPassword"
+        android:id="@+id/contrasena1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Contraseña"
         android:inputType="textPassword"
         android:minHeight="48dp" />
 
-    <EditText
-        android:id="@+id/etProfession"
+    <Spinner
+        android:id="@+id/ocupacion1"
         android:layout_width="match_parent"
+        android:background="@drawable/rounded_spinner"
         android:layout_height="wrap_content"
-        android:hint="Profesión"
-        android:inputType="text"
-        android:minHeight="48dp" />
+        android:spinnerMode="dropdown"/>
 
     <Button
-        android:id="@+id/btnSave"
+        android:id="@+id/btnguardar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:backgroundTint="#296B3A"
+        android:onClick="actualizarUsuario"
         android:text="Guardar"
         android:textColor="#ffffff" />
 </LinearLayout>

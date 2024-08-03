@@ -33,7 +33,10 @@
         <activity android:name=".AddGastoActivity"></activity>
         <activity android:name=".AddIngresoActivity"></activity>
         <activity android:name=".AllCategoriasActivity"></activity>
-
+        <activity
+            android:name=".DetallesPerfilActivity"
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>

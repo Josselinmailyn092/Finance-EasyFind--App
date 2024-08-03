@@ -39,7 +39,14 @@ public class ConfiguracionActivity extends AppCompatActivity {
         Button btnTerminosCondiciones = findViewById(R.id.btn_terminos_condiciones);
         Button btnCerrarSesion = findViewById(R.id.btn_cerrar_sesion);
 
-
+        btnDetallesPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ConfiguracionActivity.this, DetallesPerfilActivity.class);
+                intent.putExtra("USER_ID", userId);
+                startActivity(intent);
+            }
+        });
 
         btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,5 +56,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
+
 }

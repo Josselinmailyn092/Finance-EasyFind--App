@@ -3,9 +3,10 @@
 
         <string-array name="ocupacion_array">
             <item>Seleccione su ocupación</item>
+            <item>Estudiante</item>
             <item>Doctor</item>
             <item>Ingeniero</item>
-            <item>Profesor</item>
+            <item>Docente</item>
             <item>Abogado</item>
             <item>Artista</item>
         </string-array>
