@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="#FFFFFF"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageButton
+        android:id="@+id/btn_close"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="32dp"
+        android:background="?android:selectableItemBackground"
+        android:contentDescription="@string/close"
+        android:src="@drawable/ic_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.056"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="349dp"
+        android:layout_height="470dp"
+        android:background="@drawable/bg_rounded"
+        android:backgroundTint="#D9D9D9"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.628">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="Monto de gasto"
+                android:textSize="25sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:background="@drawable/borde_cuadrado"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/iconoDolar"
+                    android:layout_width="50dp"
+                    android:layout_height="43dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/rounded_white"
+                    android:hint="$"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="8dp"
+                    android:textSize="35sp" />
+
+                <EditText
+                    android:id="@+id/monto"
+                    android:layout_width="266dp"
+                    android:layout_height="43dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/rounded_white"
+                    android:hint="0.00"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="8dp"
+                    android:textSize="35sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="Categoría"
+                android:textSize="25sp" />
+
+            <Spinner
+                android:id="@+id/categoria"
+                style="@style/SpinnerStyle"
+                android:layout_width="266dp"
+                android:layout_height="43dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp"
+                android:background="@drawable/rounded_spinner"
+                android:backgroundTint="#FFFFFF"
+                android:spinnerMode="dropdown" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/descripcionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="25dp"
+                android:text="Descripción"
+                android:textSize="25sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginLeft="25dp"
+                android:background="@drawable/borde_cuadrado"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:gravity="top|left"
+                    android:id="@+id/descripcion"
+                    android:layout_width="266dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_white"
+                    android:hint="Descripción"
+                    android:paddingLeft="30dp"
+                    android:paddingTop="8dp"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnRegistrarIngreso"
+            android:layout_width="220dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/descripcionLayout"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="#387d2e"
+            android:textColor="#ffffff"
+            android:text="Registrar ingreso"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/Titulo"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:backgroundTint="#4EA75D"
+        android:fontFamily="@font/noto_serif"
+        android:gravity="left"
+        android:text="GASTO"
+        android:textSize="50sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="100dp" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="309dp"
+        android:layout_height="162dp"
+        android:layout_gravity="center_horizontal"
+        app:srcCompat="@drawable/imagen2"
+        tools:layout_editor_absoluteX="200dp"
+        tools:layout_editor_absoluteY="32dp"
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
