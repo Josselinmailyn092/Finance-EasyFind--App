@@ -113,10 +113,10 @@
 
             <Button
                 android:id="@+id/Iniciar"
-                android:layout_width="173dp"
-                android:layout_height="37dp"
+                android:layout_width="178dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
-                android:backgroundTint="#162219"
+                android:backgroundTint="#4EA75D"
                 android:gravity="center"
                 android:text="Iniciar sesión"
                 android:textColor="#FFFFFF"
@@ -157,7 +157,7 @@
 
             <TextView
                 android:id="@+id/sin_cuenta"
-                android:layout_width="wrap_content"
+                android:layout_width="175dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
                 android:background="#007A7575"

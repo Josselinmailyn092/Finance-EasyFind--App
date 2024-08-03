@@ -3,6 +3,7 @@ package com.example.proyecto;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import java.util.Calendar;
 
@@ -16,12 +17,14 @@ public class SaldoActivity extends AppCompatActivity {
     public TextView ultIng;
     public TextView i_valor;
     public TextView g_valor;
-
+    private ImageButton btnCerrar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saldo);
 
+        btnCerrar= findViewById(R.id.btnCerrarSaldo);
+        btnCerrar.setOnClickListener(v -> finish());
         saldo = findViewById(R.id.saldo_total_value);
         mesActual = findViewById(R.id.mesAc);
         ultIng = findViewById(R.id.ultimosIngresos);

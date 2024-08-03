@@ -35,7 +35,9 @@
     <string name="compartir_informacion">No compartimos su información personal con terceros, excepto cuando sea necesario para cumplir con la ley o con su consentimiento...</string>
     <string name="seguridad">Implementamos medidas de seguridad para proteger su información contra accesos no autorizados, alteraciones o destrucción...</string>
     <string name="contacto">Si tiene alguna pregunta sobre nuestra política de privacidad, puede contactarnos en EasyFin@finanzasapp.com...</string>
-
+   <string name="soporte_intro">Bienvenido al centro de soporte. Aquí puedes encontrar respuestas a preguntas frecuentes o ponerte en contacto con nuestro equipo de soporte.</string>
+    <string name="faq">Preguntas Frecuentes</string>
+    <string name="contact_support">Contactar Soporte</string>
 
 
 

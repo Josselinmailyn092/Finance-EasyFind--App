@@ -10,16 +10,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class PrivacidadActivity extends AppCompatActivity {
 
-    private ImageButton btnClosePrivacidad;
+    private ImageButton btnCerrarPrivacidad;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_privacidad);
-        btnClosePrivacidad = findViewById(R.id.btn_close_privacidad);
+        btnCerrarPrivacidad = findViewById(R.id.btnCerrarPriv);
 
-        btnClosePrivacidad.setOnClickListener(new View.OnClickListener() {
+        btnCerrarPrivacidad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Close the activity

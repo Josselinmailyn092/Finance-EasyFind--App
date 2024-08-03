@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BaseDatos extends SQLiteOpenHelper {
 
     // Definir nombre de base de datos y versión
@@ -150,9 +153,9 @@ public class BaseDatos extends SQLiteOpenHelper {
     }
 
     // Método para eliminar un usuario
-    public void deleteUsuario(String usuario) {
+    public void deleteCategoria(String nombre) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLA_USUARIO, Usuario + " = ?", new String[]{usuario});
+        db.delete(TABLA_CATEGORIA, NombreCategoria + " = ?", new String[]{nombre});
         db.close();
     }
 
@@ -169,13 +172,10 @@ public class BaseDatos extends SQLiteOpenHelper {
     }
 
     // Método para insertar una nueva categoría
-    public void insertCategoria(String nombre, Integer idUsuario) {
+    public void insertCategoria(String nombre) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(NombreCategoria, nombre);
-        if (idUsuario != null) {
-            values.put(ID_Usuario, idUsuario);
-        }
         db.insert(TABLA_CATEGORIA, null, values);
         db.close();
     }
@@ -200,9 +200,19 @@ public class BaseDatos extends SQLiteOpenHelper {
     }
 
     // Método para obtener todas las categorías
-    public Cursor getAllCategorias() {
+    public List<String> getAllCategorias() {
+        List<String> categorias = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(TABLA_CATEGORIA, null, null, null, null, null, null);
+        Cursor cursor = db.query(TABLA_CATEGORIA, new String[]{NombreCategoria}, null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                categorias.add(cursor.getString(cursor.getColumnIndexOrThrow(NombreCategoria)));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return categorias;
     }
 
     // Método para obtener una categoría por ID

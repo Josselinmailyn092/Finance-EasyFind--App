@@ -3,7 +3,6 @@ package com.example.proyecto;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -22,11 +21,12 @@ import java.util.Map;
 
 public class InicioActivity extends AppCompatActivity {
     private TextView nombreUsuario, contenidoGasto1, contenidoGasto2, contenidoGasto3;
-    private Button anadirCategoria, categoria1, categoria2, categoria3, verMas, generarInforme, anadirDinero, registrarGasto,masDetalles;
+    private Button anadirCategoria, categoria1, categoria2, categoria3, verMas, generarInforme, anadirDinero, registrarGasto, masDetalles;
     private ImageView imagenGasto1, imagenGasto2, imagenGasto3;
     private LinearLayout contenedorRegistros;
     private int userId;
     private BaseDatos db;
+    private List<Map<String, String>> categoriasList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class InicioActivity extends AppCompatActivity {
         contenidoGasto2 = findViewById(R.id.contenidoGasto2);
         contenidoGasto3 = findViewById(R.id.contenidoGasto3);
         contenedorRegistros = findViewById(R.id.contenedorRegistros);
-        masDetalles=findViewById(R.id.verDetalles);
+        masDetalles = findViewById(R.id.verDetalles);
 
         // Rescate de variables de entorno (BD, IdUser)
         db = new BaseDatos(this);
@@ -66,20 +66,22 @@ public class InicioActivity extends AppCompatActivity {
         anadirCategoria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(InicioActivity.this, AddCategoriaActivity.class);
+                Intent intent = new Intent(InicioActivity.this, CategoriasActivity.class);
                 intent.putExtra("USER_ID", userId);
                 startActivity(intent);
             }
         });
+
         // Click en ver más categorías
         verMas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(InicioActivity.this, AllCategoriasActivity.class);
+                Intent intent = new Intent(InicioActivity.this, CategoriasActivity.class);
                 intent.putExtra("USER_ID", userId);
                 startActivity(intent);
             }
         });
+
         // Click en generar Informe
         generarInforme.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +91,7 @@ public class InicioActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         // Click en añadir Ingreso
         anadirDinero.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +101,7 @@ public class InicioActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         // Click en registrar Gasto
         registrarGasto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +111,8 @@ public class InicioActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        //Click en ver más
+
+        // Click en ver más
         masDetalles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,7 +121,6 @@ public class InicioActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
         // Configura la barra de navegación
         ClipsBar.setupToolbar(findViewById(R.id.toolbar4), this, userId);
@@ -143,20 +147,29 @@ public class InicioActivity extends AppCompatActivity {
         Cursor cursor = null;
         try {
             cursor = db.getCategoriasPorUsuario(userId);
+            categoriasList = new ArrayList<>();
             if (cursor != null) {
                 int index = 0;
                 while (cursor.moveToNext() && index < 3) {
                     String nombreCategoria = cursor.getString(cursor.getColumnIndexOrThrow("nombre"));
+                    int idCategoria = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                    Map<String, String> categoriaMap = new HashMap<>();
+                    categoriaMap.put("nombre", nombreCategoria);
+                    categoriaMap.put("id", String.valueOf(idCategoria));
+                    categoriasList.add(categoriaMap);
                     // Actualizar los botones según el índice
                     switch (index) {
                         case 0:
                             categoria1.setText(nombreCategoria);
+                            categoria1.setOnClickListener(new CategoriaClickListener(idCategoria));
                             break;
                         case 1:
                             categoria2.setText(nombreCategoria);
+                            categoria2.setOnClickListener(new CategoriaClickListener(idCategoria));
                             break;
                         case 2:
                             categoria3.setText(nombreCategoria);
+                            categoria3.setOnClickListener(new CategoriaClickListener(idCategoria));
                             break;
                     }
                     index++;
@@ -274,13 +287,12 @@ public class InicioActivity extends AppCompatActivity {
                 return ((String) r2.get("fecha")).compareTo((String) r1.get("fecha")); // Suponiendo que fecha está en formato "YYYY-MM-DD"
             }
         });
-        Log.d("DEBUG", "LLega hasta aquí");
+
         // Obtener el monto total del usuario
         double montoTotalUsuario = obtenerMontoTotalUsuario(userId);
 
         // Limpiar el contenedor
         contenedorRegistros.removeAllViews();
-
 
         // Inflar y añadir los 5 registros más recientes
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -293,7 +305,7 @@ public class InicioActivity extends AppCompatActivity {
             TextView porcentaje = registroView.findViewById(R.id.porcentaje);
             tipoRegistro.setText((String) registro.get("tipo"));
             // Formatear el monto con signo de negativo si es un gasto
-            if ("Gasto".equals( registro.get("tipo"))) {
+            if ("Gasto".equals(registro.get("tipo"))) {
                 monto.setText(String.format("-$%.2f", (Double) registro.get("monto")));
             } else {
                 monto.setText(String.format("+$%.2f", (Double) registro.get("monto")));
@@ -322,5 +334,21 @@ public class InicioActivity extends AppCompatActivity {
             }
         }
         return montoTotal;
+    }
+
+    private class CategoriaClickListener implements View.OnClickListener {
+        private int idCategoria;
+
+        public CategoriaClickListener(int idCategoria) {
+            this.idCategoria = idCategoria;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(InicioActivity.this, CategoriaDetalleActivity.class);
+            intent.putExtra("CATEGORIA_ID", idCategoria);
+            intent.putExtra("USER_ID", userId);
+            startActivity(intent);
+        }
     }
 }

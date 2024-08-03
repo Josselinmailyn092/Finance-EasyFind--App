@@ -4,7 +4,10 @@
 
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <!-- Permiso para leer el almacenamiento externo (opcional, pero útil para otras operaciones) -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,7 +15,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Proyecto"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:dataExtractionRules="@xml/data_extraction_rules"
         tools:targetApi="31">
 
@@ -28,15 +31,26 @@
         <activity android:name=".SaldoActivity"></activity>
         <activity android:name=".InicioActivity"></activity>
         <activity android:name=".Registro"></activity>
-        <activity android:name=".InformeActivity"></activity>
         <activity android:name=".AddCategoriaActivity"></activity>
         <activity android:name=".AddGastoActivity"></activity>
         <activity android:name=".AddIngresoActivity"></activity>
         <activity android:name=".AllCategoriasActivity"></activity>
+
         <activity
             android:name=".DetallesPerfilActivity"
             android:exported="false">
         </activity>
+
+        <activity android:name=".CategoriasActivity" />
+        <activity android:name=".CategoriaDetalleActivity"></activity>
+        <activity android:name=".InformeActivity" />
+
+        <activity android:name=".PrivacidadActivity" />
+        <activity android:name=".CentroSoporteActivity" />
+        <activity android:name=".TerminosCondicionesActivity" />
+
+
+
     </application>
 
 </manifest>
