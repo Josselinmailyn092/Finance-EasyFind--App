@@ -85,7 +85,7 @@ public class InformeActivity extends AppCompatActivity {
             int userId = Integer.parseInt(String.valueOf(getUserId())); // Obtener el ID del usuario actual
             Cursor cursorIngresos = null;
             Cursor cursorGastos = null;
-
+/*
             switch (periodo) {
                 case "Mensual":
                     int mes = getCurrentMonth();
@@ -104,7 +104,7 @@ public class InformeActivity extends AppCompatActivity {
                     cursorIngresos = db.getIngresosPorAño(userId, añoActual);
                     cursorGastos = db.getGastosPorAño(userId, añoActual);
                     break;
-            }
+            }*/
 
             // Agregar datos al PDF
             if (cursorIngresos != null) {
@@ -178,7 +178,7 @@ public class InformeActivity extends AppCompatActivity {
         String usuario = sharedPreferences.getString("usuario", null);  // Obtén el email almacenado en las preferencias compartidas
         if (usuario != null) {
             BaseDatos db = new BaseDatos(this);
-            return db.getUserIdByusuario(usuario);  // Usa el método para obtener el ID del usuario por su email
+           // return db.getUserIdByusuario(usuario);  // Usa el método para obtener el ID del usuario por su email
         }
         return -1;  // Retorna -1 si no se encuentra el email
     }
