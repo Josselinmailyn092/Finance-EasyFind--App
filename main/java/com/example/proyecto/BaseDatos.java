@@ -135,7 +135,8 @@ public class BaseDatos extends SQLiteOpenHelper {
     }
 
     // Método para actualizar un usuario
-    public int updateUsuario(String usuario, String nombre, String apellido, String celular, String contrasena, String ocupacion, double saldoTotal) {
+    public int updateUsuario(String usuario, String nombre, String apellido, String celular,
+                             String contrasena, String ocupacion) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Nombre, nombre);
@@ -143,7 +144,7 @@ public class BaseDatos extends SQLiteOpenHelper {
         values.put(Celular, celular);
         values.put(Contraseña, contrasena);
         values.put(Ocupacion, ocupacion);
-        values.put(Saldo_Total, saldoTotal);
+
         // Actualizar fila
         return db.update(TABLA_USUARIO, values, Usuario + " = ?", new String[]{usuario});
     }
