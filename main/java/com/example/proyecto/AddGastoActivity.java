@@ -1,4 +1,4 @@
-package com.example.probarproyecto;
+package com.example.proyecto;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,12 +26,14 @@ public class AddGastoActivity extends AppCompatActivity {
     private ImageButton btnClose;
     private int userId;
     private BaseDatos baseDatos;
+    private ImageButton btnCerrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_gasto);
-
+        btnCerrar= findViewById(R.id.btnCerrargasto);
+        btnCerrar.setOnClickListener(v -> finish());
         // Inicializar la base de datos
         baseDatos = new BaseDatos(this);
 
@@ -51,15 +53,9 @@ public class AddGastoActivity extends AppCompatActivity {
         etDescripcion = findViewById(R.id.descripcion);
         spCategoria = findViewById(R.id.categoria);
         btnRegistrarIngreso = findViewById(R.id.btnRegistrarIngreso);
-        btnClose = findViewById(R.id.btn_close);
 
-        // Configurar el botón de cerrar
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
+
 
         // Cargar categorías en el Spinner
         cargarCategorias();

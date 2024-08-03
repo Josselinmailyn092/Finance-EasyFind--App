@@ -5,25 +5,28 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:background="#FFFFFF"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".AddGastoActivity">
 
-    <ImageButton
-        android:id="@+id/btn_close"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="32dp"
-        android:background="?android:selectableItemBackground"
-        android:contentDescription="@string/close"
-        android:src="@drawable/ic_close"
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="309dp"
+        android:layout_height="162dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.056"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/relativeLayout3"
+        app:layout_constraintVertical_bias="0.821"
+        app:srcCompat="@drawable/imagen2"
+        tools:ignore="MissingConstraints"
+        />
 
     <LinearLayout
         android:id="@+id/relativeLayout"
-        android:layout_width="349dp"
-        android:layout_height="470dp"
+        android:layout_width="342dp"
+        android:layout_height="481dp"
         android:background="@drawable/bg_rounded"
         android:backgroundTint="#D9D9D9"
         android:gravity="center"
@@ -31,9 +34,10 @@
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.628">
+        app:layout_constraintVertical_bias="0.872">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,13 +49,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:text="Monto de gasto"
-                android:textSize="25sp" />
+                android:textSize="22sp" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="256dp"
+                android:layout_height="52dp"
                 android:layout_marginLeft="25dp"
-                android:background="@drawable/borde_cuadrado"
+                android:background="@drawable/bg_rounded"
                 android:orientation="horizontal">
 
                 <EditText
@@ -64,11 +68,12 @@
                     android:hint="$"
                     android:paddingLeft="15dp"
                     android:paddingTop="8dp"
-                    android:textSize="35sp" />
+                    android:textSize="22sp"
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <EditText
                     android:id="@+id/monto"
-                    android:layout_width="266dp"
+                    android:layout_width="66dp"
                     android:layout_height="43dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="3dp"
@@ -76,7 +81,8 @@
                     android:hint="0.00"
                     android:paddingLeft="5dp"
                     android:paddingTop="8dp"
-                    android:textSize="35sp" />
+                    android:textSize="22sp"
+                    tools:ignore="TouchTargetSizeCheck" />
             </LinearLayout>
 
         </LinearLayout>
@@ -91,19 +97,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:text="Categoría"
-                android:textSize="25sp" />
+                android:textSize="22sp" />
 
             <Spinner
                 android:id="@+id/categoria"
                 style="@style/SpinnerStyle"
                 android:layout_width="266dp"
-                android:layout_height="43dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:textSize="18sp"
                 android:background="@drawable/rounded_spinner"
                 android:backgroundTint="#FFFFFF"
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dropdown"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -117,23 +123,23 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="25dp"
                 android:text="Descripción"
-                android:textSize="25sp" />
+                android:textSize="22sp" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_width="260dp"
+                android:layout_height="79dp"
                 android:layout_marginLeft="25dp"
-                android:background="@drawable/borde_cuadrado"
+                android:background="@drawable/bg_rounded"
                 android:orientation="horizontal">
 
                 <EditText
-                    android:gravity="top|left"
                     android:id="@+id/descripcion"
                     android:layout_width="266dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/rounded_white"
+                    android:gravity="top|left"
                     android:hint="Descripción"
                     android:paddingLeft="30dp"
                     android:paddingTop="8dp"
@@ -149,33 +155,43 @@
             android:layout_below="@id/descripcionLayout"
             android:layout_marginTop="30dp"
             android:backgroundTint="#387d2e"
+            android:text="Registrar gasto"
             android:textColor="#ffffff"
-            android:text="Registrar ingreso"
             android:textSize="18sp" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/Titulo"
+    <RelativeLayout
+        android:id="@+id/relativeLayout3"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="56dp"
+        android:background="?attr/colorPrimary"
         android:backgroundTint="#4EA75D"
-        android:fontFamily="@font/noto_serif"
-        android:gravity="left"
-        android:text="GASTO"
-        android:textSize="50sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="100dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="309dp"
-        android:layout_height="162dp"
-        android:layout_gravity="center_horizontal"
-        app:srcCompat="@drawable/imagen2"
-        tools:layout_editor_absoluteX="200dp"
-        tools:layout_editor_absoluteY="32dp"
-        tools:ignore="MissingConstraints" />
+        <ImageButton
+            android:id="@+id/btnCerrargasto"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:background="?android:selectableItemBackground"
+            android:contentDescription="@string/close"
+            android:src="@drawable/ic_close"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:id="@+id/tv_privacidad_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Registrar Gasto"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

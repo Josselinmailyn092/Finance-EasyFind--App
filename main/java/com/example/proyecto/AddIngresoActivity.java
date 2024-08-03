@@ -1,4 +1,4 @@
-package com.example.probarproyecto;
+package com.example.proyecto;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,15 +16,17 @@ public class AddIngresoActivity extends AppCompatActivity {
 
     private EditText editMonto, editTitulo, editDescripcion;
     private Button btnRegistrarIngreso;
-    private ImageButton btnClose;
+
     private int userId;
     private BaseDatos bd;
-
+    private ImageButton btnCerrar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingresar_dinero);
 
+        btnCerrar= findViewById(R.id.btnCerrarIngreso);
+        btnCerrar.setOnClickListener(v -> finish());
         // Obtener el ID del usuario de la actividad anterior
         Intent intent = getIntent();
         userId = intent.getIntExtra("USER_ID", -1);
@@ -44,7 +46,7 @@ public class AddIngresoActivity extends AppCompatActivity {
         editTitulo = findViewById(R.id.titulo);
         editDescripcion = findViewById(R.id.descripcion);
         btnRegistrarIngreso = findViewById(R.id.btnRegistrarIngreso);
-        btnClose = findViewById(R.id.btn_close);
+
 
         // Establecer onClickListener para el botón de registrar ingreso
         btnRegistrarIngreso.setOnClickListener(new View.OnClickListener() {
@@ -54,13 +56,7 @@ public class AddIngresoActivity extends AppCompatActivity {
             }
         });
 
-        // Establecer onClickListener para el botón de cerrar
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
     }
 
     private void registrarIngreso() {
