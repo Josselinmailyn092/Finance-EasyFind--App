@@ -36,6 +36,7 @@
         <activity android:name=".AddIngresoActivity"></activity>
         <activity android:name=".AllCategoriasActivity"></activity>
         <activity android:name=".CategoriasActivity" />
+        <activity android:name=".CategoriaDetalleActivity"></activity>
         <activity android:name=".InformeActivity" />
         <activity android:name=".DetallesPerfilActivity" />
         <activity android:name=".PrivacidadActivity" />

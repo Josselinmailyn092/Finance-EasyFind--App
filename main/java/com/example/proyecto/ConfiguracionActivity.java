@@ -44,6 +44,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ConfiguracionActivity.this, CategoriasActivity.class);
+                intent.putExtra("USER_ID", usuarioId);
                 startActivity(intent);
             }
         });

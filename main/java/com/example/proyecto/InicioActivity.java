@@ -66,7 +66,7 @@ public class InicioActivity extends AppCompatActivity {
         anadirCategoria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(InicioActivity.this, AddCategoriaActivity.class);
+                Intent intent = new Intent(InicioActivity.this, CategoriasActivity.class);
                 intent.putExtra("USER_ID", userId);
                 startActivity(intent);
             }
