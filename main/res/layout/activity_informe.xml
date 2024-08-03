@@ -7,22 +7,37 @@
     android:background="#E6E6E6"
     tools:context=".InformeActivity">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="247dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#4CAF50"
-        android:fontFamily="sans-serif"
-        android:gravity="center"
-        android:text="Informes"
-        android:textColor="#296B3A"
-        android:textSize="38sp"
-        android:textStyle="bold"
+    <RelativeLayout
+        android:id="@+id/relativeLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?attr/colorPrimary"
+        android:backgroundTint="#4EA75D"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
+        <ImageButton
+            android:id="@+id/btnCerrarPriv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:background="?android:selectableItemBackground"
+            android:contentDescription="@string/close"
+            android:src="@drawable/ic_close"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:id="@+id/tv_privacidad_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/informes"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
     <TextView
         android:id="@+id/tv_seleccionar_periodo"
         android:layout_width="wrap_content"

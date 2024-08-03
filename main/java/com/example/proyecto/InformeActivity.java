@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -30,12 +31,13 @@ public class InformeActivity extends AppCompatActivity {
    private Spinner spinnerPeriodo;
     private Button btnGenerarInforme;
     private static final int PERMISSION_REQUEST_CODE = 100;
-
+    private ImageButton btnCerrarInforme;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informe);
-
+        btnCerrarInforme = findViewById(R.id.btnCerrarPriv);
+        btnCerrarInforme.setOnClickListener(v -> finish());
         spinnerPeriodo = findViewById(R.id.spinner_periodo);
         btnGenerarInforme = findViewById(R.id.btn_generar_informe);
 
