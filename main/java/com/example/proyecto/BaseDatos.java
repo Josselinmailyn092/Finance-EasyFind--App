@@ -335,9 +335,63 @@ public class BaseDatos extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLA_INGRESOS +
                 " WHERE " + ID_Usuario_Ingreso + " = ?" +
-                " ORDER BY " + Fecha + " DESC";
+                " ORDER BY " + Fecha + " DESC ";
+
         return db.rawQuery(query, new String[]{String.valueOf(userId)});
     }
+
+
+        // Método para obtener los ingresos del mes actual
+        public double getIngresoMes(int userId) {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT SUM(" + Monto + ") as total FROM " + TABLA_INGRESOS +
+                    " WHERE " + ID_Usuario_Ingreso + " = ?" +
+                    " AND strftime('%m', " + Fecha + ") = strftime('%m', 'now')" +
+                    " AND strftime('%Y', " + Fecha + ") = strftime('%Y', 'now')";
+
+            double ingresoTotal = 0.0;
+            Cursor cursor = null;
+            try {
+                cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+                if (cursor != null && cursor.moveToFirst()) {
+                    ingresoTotal = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+            return ingresoTotal;
+        }
+
+        // Método para obtener los gastos del mes actual
+        public double getGastoMes(int userId) {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT SUM(" + MontoGastos + ") as total FROM " + TABLA_GASTOS +
+                    " WHERE " + ID_Usuario_Gasto + " = ?" +
+                    " AND strftime('%m', " + FechaGastos + ") = strftime('%m', 'now')" +
+                    " AND strftime('%Y', " + FechaGastos + ") = strftime('%Y', 'now')";
+
+            double gastoTotal = 0.0;
+            Cursor cursor = null;
+            try {
+                cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+                if (cursor != null && cursor.moveToFirst()) {
+                    gastoTotal = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+            return gastoTotal;
+        }
+
+
     // Método para obtener el saldo total del usuario
     public double getSaldoTotalUsuario(int userId) {
         SQLiteDatabase db = this.getReadableDatabase();
