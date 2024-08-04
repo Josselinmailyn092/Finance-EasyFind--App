@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +20,7 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Ca
         this.categorias = categorias;
     }
 
+    // Interface para manejar los eventos de clic
     public interface OnItemClickListener {
         void onItemClick(int posicion);
         void onDeleteClick(int posicion);
@@ -50,14 +51,14 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Ca
     public static class CategoriaViewHolder extends RecyclerView.ViewHolder {
 
         TextView textoCategoria;
-        ImageButton btnEliminar;
+        Button btnEliminar;
 
-        @SuppressLint("WrongViewCast")
         public CategoriaViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             textoCategoria = itemView.findViewById(R.id.tv_categoria);
             btnEliminar = itemView.findViewById(R.id.btn_eliminar);
 
+            // Configura el evento de clic para el ítem completo
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     int posicion = getAdapterPosition();
@@ -67,6 +68,7 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Ca
                 }
             });
 
+            // Configura el evento de clic para el botón eliminar
             btnEliminar.setOnClickListener(v -> {
                 if (listener != null) {
                     int posicion = getAdapterPosition();

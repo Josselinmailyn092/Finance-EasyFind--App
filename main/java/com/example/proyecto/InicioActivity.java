@@ -26,6 +26,8 @@ public class InicioActivity extends AppCompatActivity {
     private LinearLayout contenedorRegistros;
     private int userId;
     private BaseDatos db;
+    private List<String> categorias;
+
     private List<Map<String, String>> categoriasList;
 
     @Override
@@ -53,12 +55,20 @@ public class InicioActivity extends AppCompatActivity {
 
         // Rescate de variables de entorno (BD, IdUser)
         db = new BaseDatos(this);
+
         Intent intent = getIntent();
         userId = intent.getIntExtra("USER_ID", -1);
 
+
+
+        categorias = db.getAllCategorias(userId);
+
+
+        categoria1.setText(categorias.get(0));
+        categoria2.setText(categorias.get(1));
+        categoria3.setText(categorias.get(2));
         // Invocar métodos para generar datos
         cargarDatosUsuario(userId);
-        cargarCategorias(userId);
         cargarGastos(userId);
         cargarResumen(userId);
 
@@ -91,6 +101,10 @@ public class InicioActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
+
 
         // Click en añadir Ingreso
         anadirDinero.setOnClickListener(new View.OnClickListener() {
@@ -143,44 +157,6 @@ public class InicioActivity extends AppCompatActivity {
         }
     }
 
-    private void cargarCategorias(int userId) {
-        Cursor cursor = null;
-        try {
-            cursor = db.getCategoriasPorUsuario(userId);
-            categoriasList = new ArrayList<>();
-            if (cursor != null) {
-                int index = 0;
-                while (cursor.moveToNext() && index < 3) {
-                    String nombreCategoria = cursor.getString(cursor.getColumnIndexOrThrow("nombre"));
-                    int idCategoria = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                    Map<String, String> categoriaMap = new HashMap<>();
-                    categoriaMap.put("nombre", nombreCategoria);
-                    categoriaMap.put("id", String.valueOf(idCategoria));
-                    categoriasList.add(categoriaMap);
-                    // Actualizar los botones según el índice
-                    switch (index) {
-                        case 0:
-                            categoria1.setText(nombreCategoria);
-                            categoria1.setOnClickListener(new CategoriaClickListener(idCategoria));
-                            break;
-                        case 1:
-                            categoria2.setText(nombreCategoria);
-                            categoria2.setOnClickListener(new CategoriaClickListener(idCategoria));
-                            break;
-                        case 2:
-                            categoria3.setText(nombreCategoria);
-                            categoria3.setOnClickListener(new CategoriaClickListener(idCategoria));
-                            break;
-                    }
-                    index++;
-                }
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
 
     private void cargarGastos(int userId) {
         Cursor cursor = null;

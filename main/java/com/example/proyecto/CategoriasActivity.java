@@ -15,7 +15,7 @@ import java.util.List;public class CategoriasActivity extends AppCompatActivity 
 
     private List<String> categorias;
     private CategoriasAdapter adapter;
-    private BaseDatos db;
+    public BaseDatos db;
     private int usuarioId;
 
     @Override
@@ -27,7 +27,7 @@ import java.util.List;public class CategoriasActivity extends AppCompatActivity 
         Intent intent = getIntent();
         usuarioId = intent.getIntExtra("USER_ID", -1);
 
-        categorias = db.getAllCategorias();
+        categorias = db.getAllCategorias(usuarioId);
 
         RecyclerView recyclerView = findViewById(R.id.rv_categorias);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -62,6 +62,7 @@ import java.util.List;public class CategoriasActivity extends AppCompatActivity 
         });
     }
 
+
     private void mostrarDialogoAgregarCategoria() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Añadir Categoría");
@@ -72,7 +73,9 @@ import java.util.List;public class CategoriasActivity extends AppCompatActivity 
         builder.setPositiveButton("Añadir", (dialog, which) -> {
             String nuevaCategoria = input.getText().toString().trim();
             if (!nuevaCategoria.isEmpty()) {
-                db.insertCategoria(nuevaCategoria);
+                //insertar junto al id de usuario a la categoria
+
+                db.insertCategoria(nuevaCategoria,usuarioId);
                 categorias.add(nuevaCategoria);
                 adapter.notifyItemInserted(categorias.size() - 1);
             }
