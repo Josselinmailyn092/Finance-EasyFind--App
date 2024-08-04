@@ -41,20 +41,21 @@
 
     <LinearLayout
         android:layout_width="408dp"
-        android:layout_height="688dp"
+        android:layout_height="720dp"
+        android:layout_marginTop="50dp"
         android:orientation="vertical"
-        android:padding="15dp"
-        tools:layout_editor_absoluteX="3dp"
-        tools:layout_editor_absoluteY="43dp">
+        android:padding="22dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/relativeLayout3">
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Introducción"
             android:fontFamily="sans-serif-black"
+            android:text="Introducción"
             android:textColor="#000000"
-            android:textSize="16sp"/>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView4"
@@ -62,26 +63,26 @@
             android:layout_height="wrap_content"
             android:text="Bienvenido a EasyFin, una herramienta proporcionada por nosotros. Al descargar, instalar y utilizar la Aplicación, aceptas estar sujeto a estos términos y condiciones . Si no estás de acuerdo con estos Términos, no debes utilizar la Aplicación."
             android:textColor="#333333"
-            android:textSize="13sp"/>
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Uso de la aplicación"
             android:fontFamily="sans-serif-black"
+            android:text="Uso de la aplicación"
             android:textColor="#000000"
-            android:textSize="16sp"/>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Licencia de Uso "
             android:fontFamily="sans-serif-black"
+            android:text="Licencia de Uso "
             android:textColor="#000000"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textView7"
@@ -89,17 +90,17 @@
             android:layout_height="wrap_content"
             android:text="Te otorgamos una licencia limitada, no exclusiva, no transferible y revocable para usar la Aplicación únicamente para tus fines personales y no comerciales."
             android:textColor="#333333"
-            android:textSize="13sp"/>
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textView8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="Registro y Seguridad"
             android:fontFamily="sans-serif-black"
+            android:text="Registro y Seguridad"
             android:textColor="#000000"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textView9"
@@ -107,26 +108,26 @@
             android:layout_height="wrap_content"
             android:text="Para usar ciertas funciones de la Aplicación, es posible que debas registrarte y crear una cuenta. Eres responsable de mantener la confidencialidad de tu cuenta y contraseña, así como de todas las actividades que ocurran bajo tu cuenta."
             android:textColor="#333333"
-            android:textSize="13sp"/>
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textView10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Información Financiera"
             android:fontFamily="sans-serif-black"
+            android:text="Información Financiera"
             android:textColor="#000000"
-            android:textSize="16sp"/>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Datos de Usuario"
             android:fontFamily="sans-serif-black"
+            android:text="Datos de Usuario"
             android:textColor="#000000"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textView14"
@@ -134,17 +135,17 @@
             android:layout_height="wrap_content"
             android:text="La Aplicación puede requerir que ingreses información financiera personal, como ingresos, gastos y detalles de cuentas bancarias. Asegúrate de que toda la información proporcionada sea precisa y actualizada."
             android:textColor="#333333"
-            android:textSize="13sp"/>
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textView12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="Seguridad de los Datos"
             android:fontFamily="sans-serif-black"
+            android:text="Seguridad de los Datos"
             android:textColor="#000000"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textView13"
@@ -152,17 +153,17 @@
             android:layout_height="wrap_content"
             android:text="Nos comprometemos a proteger la privacidad y seguridad de tu información financiera de acuerdo con nuestra Política de Privacidad."
             android:textColor="#333333"
-            android:textSize="13sp"/>
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textView15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Terminación"
             android:fontFamily="sans-serif-black"
+            android:text="Terminación"
             android:textColor="#000000"
-            android:textSize="16sp"/>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView16"
@@ -170,17 +171,17 @@
             android:layout_height="wrap_content"
             android:text="Podemos suspender o terminar tu acceso a la Aplicación en cualquier momento, por cualquier motivo, sin previo aviso ni responsabilidad para contigo."
             android:textColor="#333333"
-            android:textSize="13sp"/>
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textView17"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Contacto"
             android:fontFamily="sans-serif-black"
+            android:text="Contacto"
             android:textColor="#000000"
-            android:textSize="16sp"/>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView18"
@@ -188,7 +189,7 @@
             android:layout_height="wrap_content"
             android:text="Si tienes alguna pregunta sobre estos Términos, por favor contacta con nosotros en:  "
             android:textColor="#333333"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/textView19"

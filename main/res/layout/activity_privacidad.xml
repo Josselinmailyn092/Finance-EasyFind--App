@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="#ffffff"
     tools:context=".PrivacidadActivity">
 
     <!-- Top bar with close button -->
@@ -67,11 +67,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="4dp"
+                android:paddingBottom="8dp"
                 android:text="@string/introduccion"
                 android:textColor="#333333"
-                android:textSize="16sp"
-                android:lineSpacingExtra="4dp"
-                android:paddingBottom="8dp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/recoleccion_datos"
@@ -85,11 +85,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="4dp"
+                android:paddingBottom="8dp"
                 android:text="@string/recoleccion_datos"
                 android:textColor="#333333"
-                android:textSize="16sp"
-                android:lineSpacingExtra="4dp"
-                android:paddingBottom="8dp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/Infor_uso"
@@ -103,11 +103,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="4dp"
+                android:paddingBottom="8dp"
                 android:text="@string/uso_informacion"
                 android:textColor="#333333"
-                android:textSize="16sp"
-                android:lineSpacingExtra="4dp"
-                android:paddingBottom="8dp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/Compa_info"
@@ -121,11 +121,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="4dp"
+                android:paddingBottom="8dp"
                 android:text="@string/compartir_informacion"
                 android:textColor="#333333"
-                android:textSize="16sp"
-                android:lineSpacingExtra="4dp"
-                android:paddingBottom="8dp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/contacto"
@@ -139,11 +139,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="4dp"
+                android:paddingBottom="8dp"
                 android:text="@string/seguridad"
                 android:textColor="#333333"
-                android:textSize="16sp"
-                android:lineSpacingExtra="4dp"
-                android:paddingBottom="8dp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/seguridad"
@@ -157,11 +157,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="4dp"
+                android:paddingBottom="8dp"
                 android:text="@string/contacto"
                 android:textColor="#333333"
-                android:textSize="16sp"
-                android:lineSpacingExtra="4dp"
-                android:paddingBottom="8dp"/>
+                android:textSize="16sp" />
 
         </LinearLayout>
     </ScrollView>
