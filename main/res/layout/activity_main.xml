@@ -162,6 +162,7 @@
                 android:layout_marginTop="80dp"
                 android:background="#007A7575"
                 android:ems="10"
+                android:gravity="center_horizontal|center_vertical"
                 android:text="Acceder sin tener cuenta "
                 android:textColor="#044D0B"
                 android:textSize="14sp"

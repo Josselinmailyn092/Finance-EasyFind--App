@@ -39,6 +39,8 @@
     <string name="faq">Preguntas Frecuentes</string>
     <string name="contact_support">Contactar Soporte</string>
 
+    <string name="terminos_condiciones_texto">Aquí van los términos y condiciones...</string>
+
 
 
 </resources>
