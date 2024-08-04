@@ -129,7 +129,6 @@
                         android:layout_margin="4dp"
                         android:background="@drawable/bordes_categorias"
                         android:gravity="center"
-                        android:text="Alimentación"
                         android:textColor="#54754e"
                         android:textSize="13sp" />
 
@@ -142,7 +141,6 @@
                         android:layout_margin="4dp"
                         android:background="@drawable/bordes_categorias"
                         android:gravity="center"
-                        android:text="Alimentación"
                         android:textColor="#54754e"
                         android:textSize="13sp" />
 
@@ -155,7 +153,6 @@
                         android:layout_margin="4dp"
                         android:background="@drawable/bordes_categorias"
                         android:gravity="center"
-                        android:text="Alimentación"
                         android:textColor="#54754e"
                         android:textSize="13sp" />
 
