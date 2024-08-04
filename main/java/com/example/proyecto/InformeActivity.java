@@ -1,6 +1,5 @@
 package com.example.proyecto;
 
-<<<<<<< HEAD
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -14,12 +13,6 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-=======
-import android.content.Intent;
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
->>>>>>> 9a32b2a (nada)
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -34,7 +27,6 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class InformeActivity extends AppCompatActivity {
-<<<<<<< HEAD
 
    private Spinner spinnerPeriodo;
     private Button btnGenerarInforme;
@@ -194,16 +186,3 @@ public class InformeActivity extends AppCompatActivity {
     }
 
 }
-=======
-   private int userId;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        userId = intent.getIntExtra("USER_ID", -1);
-
-
-    }
-}
->>>>>>> 9a32b2a (nada)
