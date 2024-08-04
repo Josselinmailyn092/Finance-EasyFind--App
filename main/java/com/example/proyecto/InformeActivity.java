@@ -75,79 +75,91 @@ public class InformeActivity extends AppCompatActivity {
     }
 
     private void generarInforme(String periodo) {
+        Cursor cursorGastos = null;
         try {
             // Definir ruta y nombre del archivo PDF
-            String pdfPath = Environment.getExternalStorageDirectory() + "/Informe.pdf";
+            String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Informe_" + periodo + ".pdf";
             PdfWriter writer = new PdfWriter(pdfPath);
             PdfDocument pdfDoc = new PdfDocument(writer);
             Document document = new Document(pdfDoc);
 
             // Consultar la base de datos para obtener la información según el periodo
             BaseDatos db = new BaseDatos(this);
-            int userId = Integer.parseInt(String.valueOf(getUserId())); // Obtener el ID del usuario actual
-            Cursor cursorIngresos = null;
-            Cursor cursorGastos = null;
-/*
+            int userId = getUserId();
+
+            // Título del informe
+            document.add(new Paragraph("Informe de Gastos " + periodo).setFontSize(18).setBold());
+            document.add(new Paragraph("\n"));
+
             switch (periodo) {
-                case "Mensual":
-                    int mes = getCurrentMonth();
-                    int año = getCurrentYear();
-                    cursorIngresos = db.getIngresosPorMes(userId, mes, año);
-                    cursorGastos = db.getGastosPorMes(userId, mes, año);
-                    break;
                 case "Semanal":
                     String startDate = getStartDateOfWeek();
                     String endDate = getEndDateOfWeek();
-                    cursorIngresos = db.getIngresosPorSemana(userId, startDate, endDate);
                     cursorGastos = db.getGastosPorSemana(userId, startDate, endDate);
+                    document.add(new Paragraph("Período: " + startDate + " a " + endDate));
+                    break;
+                case "Mensual":
+                    int mes = getCurrentMonth();
+                    int año = getCurrentYear();
+                    cursorGastos = db.getGastosPorMes(userId, mes, año);
+                    document.add(new Paragraph("Mes: " + mes + "/" + año));
                     break;
                 case "Anual":
                     int añoActual = getCurrentYear();
-                    cursorIngresos = db.getIngresosPorAño(userId, añoActual);
                     cursorGastos = db.getGastosPorAño(userId, añoActual);
+                    document.add(new Paragraph("Año: " + añoActual));
                     break;
-            }*/
-
-            // Agregar datos al PDF
-            if (cursorIngresos != null) {
-                document.add(new Paragraph("Ingresos:"));
-                int descripcionIndex = cursorIngresos.getColumnIndex("descripcion");
-                int montoIndex = cursorIngresos.getColumnIndex("monto");
-                int fechaIndex = cursorIngresos.getColumnIndex("fecha");
-
-                if (descripcionIndex >= 0 && montoIndex >= 0 && fechaIndex >= 0) {
-                    while (cursorIngresos.moveToNext()) {
-                        String descripcion = cursorIngresos.getString(descripcionIndex);
-                        double monto = cursorIngresos.getDouble(montoIndex);
-                        String fecha = cursorIngresos.getString(fechaIndex);
-                        document.add(new Paragraph(descripcion + ": $" + monto + " - " + fecha));
-                    }
-                }
-                cursorIngresos.close();
             }
 
-            if (cursorGastos != null) {
-                document.add(new Paragraph("Gastos:"));
-                int descripcionGastosIndex = cursorGastos.getColumnIndex("descripcion");
-                int montoGastosIndex = cursorGastos.getColumnIndex("monto");
-                int fechaGastosIndex = cursorGastos.getColumnIndex("fecha");
+            document.add(new Paragraph("\n"));
 
-                if (descripcionGastosIndex >= 0 && montoGastosIndex >= 0 && fechaGastosIndex >= 0) {
-                    while (cursorGastos.moveToNext()) {
-                        String descripcion = cursorGastos.getString(descripcionGastosIndex);
-                        double monto = cursorGastos.getDouble(montoGastosIndex);
-                        String fecha = cursorGastos.getString(fechaGastosIndex);
-                        document.add(new Paragraph(descripcion + ": $" + monto + " - " + fecha));
+            // Agregar datos al PDF
+            if (cursorGastos != null && cursorGastos.moveToFirst()) {
+                String categoriaActual = "";
+                float totalCategoria = 0;
+                float totalGeneral = 0;
+
+                do {
+                    String categoria = cursorGastos.getString(cursorGastos.getColumnIndexOrThrow("nombre"));
+                    double monto = cursorGastos.getDouble(cursorGastos.getColumnIndexOrThrow("monto_gastos"));
+                    String fecha = cursorGastos.getString(cursorGastos.getColumnIndexOrThrow("fecha_gastos"));
+                    String descripcion = cursorGastos.getString(cursorGastos.getColumnIndexOrThrow("descripcion_gastos"));
+
+                    if (!categoria.equals(categoriaActual)) {
+                        if (!categoriaActual.isEmpty()) {
+                            document.add(new Paragraph("Total " + categoriaActual + ": $" + String.format("%.2f", totalCategoria)).setFontSize(12).setBold());
+                            document.add(new Paragraph("\n"));
+                        }
+                        document.add(new Paragraph(categoria).setFontSize(14).setBold());
+                        categoriaActual = categoria;
+                        totalCategoria = 0;
                     }
-                }
-                cursorGastos.close();
+
+                    document.add(new Paragraph(descripcion + ": $" + String.format("%.2f", monto) + " - " + fecha));
+                    totalCategoria += monto;
+                    totalGeneral += monto;
+
+                } while (cursorGastos.moveToNext());
+
+                // Añadir el total de la última categoría
+                document.add(new Paragraph("Total " + categoriaActual + ": $" + String.format("%.2f", totalCategoria)).setFontSize(12).setBold());
+                document.add(new Paragraph("\n"));
+
+                // Añadir el total general
+                document.add(new Paragraph("Total General: $" + String.format("%.2f", totalGeneral)).setFontSize(14).setBold());
+            } else {
+                document.add(new Paragraph("No se encontraron gastos para el período seleccionado."));
             }
 
             document.close();
             Toast.makeText(this, "Informe generado en: " + pdfPath, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Error al generar informe", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error al generar informe: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        } finally {
+            if (cursorGastos != null) {
+                cursorGastos.close();
+            }
         }
     }
 

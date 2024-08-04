@@ -416,4 +416,73 @@ public class BaseDatos extends SQLiteOpenHelper {
         }
         return 0.0;
     }
+
+    // Método para obtener gastos por semana
+    public Cursor getGastosPorSemana(int userId, String startDate, String endDate) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT c.nombre, g.monto_gastos, g.fecha_gastos, g.descripcion_gastos" +
+                " FROM " + TABLA_GASTOS + " g" +
+                " JOIN " + TABLA_CATEGORIA + " c ON g.id_categoria = c.id" +
+                " WHERE g.id_cliente = ?" +
+                " AND g.fecha_gastos BETWEEN ? AND ?" +
+                " ORDER BY c.nombre, g.fecha_gastos";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId), startDate, endDate});
+        if (cursor != null && cursor.getCount() > 0) {
+            return cursor;
+        } else {
+            if (cursor != null) {
+                cursor.close();
+            }
+            return null;
+        }
+    }
+
+    // Método para obtener gastos por mes
+    public Cursor getGastosPorMes(int userId, int mes, int año) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT c.nombre, g.monto_gastos, g.fecha_gastos, g.descripcion_gastos" +
+                " FROM " + TABLA_GASTOS + " g" +
+                " JOIN " + TABLA_CATEGORIA + " c ON g.id_categoria = c.id" +
+                " WHERE g.id_cliente = ?" +
+                " AND strftime('%m', g.fecha_gastos) = ?" +
+                " AND strftime('%Y', g.fecha_gastos) = ?" +
+                " ORDER BY c.nombre, g.fecha_gastos";
+        Cursor cursor = db.rawQuery(query, new String[]{
+                String.valueOf(userId),
+                String.format("%02d", mes),
+                String.valueOf(año)
+        });
+        if (cursor != null && cursor.getCount() > 0) {
+            return cursor;
+        } else {
+            if (cursor != null) {
+                cursor.close();
+            }
+            return null;
+        }
+    }
+
+    // Método para obtener gastos por año
+    // Método para obtener gastos por año
+    public Cursor getGastosPorAño(int userId, int año) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT c.nombre, g.monto_gastos, g.fecha_gastos, g.descripcion_gastos" +
+                " FROM " + TABLA_GASTOS + " g" +
+                " JOIN " + TABLA_CATEGORIA + " c ON g.id_categoria = c.id" +
+                " WHERE g.id_cliente = ?" +
+                " AND strftime('%Y', g.fecha_gastos) = ?" +
+                " ORDER BY c.nombre, g.fecha_gastos";
+        Cursor cursor = db.rawQuery(query, new String[]{
+                String.valueOf(userId),
+                String.valueOf(año)
+        });
+        if (cursor != null && cursor.getCount() > 0) {
+            return cursor;
+        } else {
+            if (cursor != null) {
+                cursor.close();
+            }
+            return null;
+        }
+    }
 }
