@@ -63,10 +63,25 @@ public class InicioActivity extends AppCompatActivity {
 
         categorias = db.getAllCategorias(userId);
 
+        // Verificar el tamaño de la lista de categorías antes de acceder a sus elementos
+        if (categorias.size() > 0) {
+            categoria1.setText(categorias.get(0));
+        } else {
+            categoria1.setVisibility(View.GONE); // O cualquier manejo adecuado
+        }
 
-        categoria1.setText(categorias.get(0));
-        categoria2.setText(categorias.get(1));
-        categoria3.setText(categorias.get(2));
+        if (categorias.size() > 1) {
+            categoria2.setText(categorias.get(1));
+        } else {
+            categoria2.setVisibility(View.GONE); // O cualquier manejo adecuado
+        }
+
+        if (categorias.size() > 2) {
+            categoria3.setText(categorias.get(2));
+        } else {
+            categoria3.setVisibility(View.GONE); // O cualquier manejo adecuado
+        }
+
         // Invocar métodos para generar datos
         cargarDatosUsuario(userId);
         cargarGastos(userId);
