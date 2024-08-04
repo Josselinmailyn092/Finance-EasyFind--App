@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class InicioActivity extends AppCompatActivity {
     private TextView nombreUsuario, contenidoGasto1, contenidoGasto2, contenidoGasto3;
-    private Button anadirCategoria, categoria1, categoria2, categoria3, verMas, generarInforme, anadirDinero, registrarGasto, masDetalles;
+    private Button  categoria1, categoria2, categoria3, verMas, anadirDinero, registrarGasto, masDetalles;
     private ImageView imagenGasto1, imagenGasto2, imagenGasto3;
     private LinearLayout contenedorRegistros;
     private int userId;
@@ -36,12 +36,10 @@ public class InicioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inicio);
 
         nombreUsuario = findViewById(R.id.nombreUsuario);
-        anadirCategoria = findViewById(R.id.addCategoria);
         categoria1 = findViewById(R.id.categoria1);
         categoria2 = findViewById(R.id.categoria2);
         categoria3 = findViewById(R.id.categoria3);
         verMas = findViewById(R.id.verMas);
-        generarInforme = findViewById(R.id.boton_generar_informe);
         anadirDinero = findViewById(R.id.boton_anadir_dinero);
         registrarGasto = findViewById(R.id.boton_registrar_gasto);
         imagenGasto1 = findViewById(R.id.imagenGasto1);
@@ -87,31 +85,12 @@ public class InicioActivity extends AppCompatActivity {
         cargarGastos(userId);
         cargarResumen(userId);
 
-        // Click en añadir categoría
-        anadirCategoria.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(InicioActivity.this, CategoriasActivity.class);
-                intent.putExtra("USER_ID", userId);
-                startActivity(intent);
-            }
-        });
 
         // Click en ver más categorías
         verMas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(InicioActivity.this, CategoriasActivity.class);
-                intent.putExtra("USER_ID", userId);
-                startActivity(intent);
-            }
-        });
-
-        // Click en generar Informe
-        generarInforme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(InicioActivity.this, InformeActivity.class);
                 intent.putExtra("USER_ID", userId);
                 startActivity(intent);
             }
@@ -155,6 +134,14 @@ public class InicioActivity extends AppCompatActivity {
         ClipsBar.setupToolbar(findViewById(R.id.toolbar4), this, userId);
     }
 
+@Override
+    protected void onResume() {
+        super.onResume();
+        // Cada vez que la actividad vuelve a primer plano, recargamos los datos
+        cargarDatosUsuario(userId);
+        cargarGastos(userId);
+        cargarResumen(userId);
+    }
     private void cargarDatosUsuario(int userId) {
         Cursor cursor = null;
         try {
@@ -179,7 +166,8 @@ public class InicioActivity extends AppCompatActivity {
             cursor = db.getGastosPorUsuario(userId);
             if (cursor != null) {
                 int index = 0;
-                while (cursor.moveToNext() && index < 3) {
+                List<String> gastos = new ArrayList<>();
+                while (cursor.moveToNext()) {
                     int categoriaId = cursor.getInt(cursor.getColumnIndexOrThrow("id_categoria"));
                     String categoria = obtenerNombreCategoria(categoriaId);
                     double monto = cursor.getDouble(cursor.getColumnIndexOrThrow("monto_gastos"));
@@ -191,6 +179,9 @@ public class InicioActivity extends AppCompatActivity {
                     if (imageResource == 0) {
                         imageResource = R.drawable.ic_default;  // Imagen por defecto
                     }
+
+                    gastos.add(contenidoGasto);
+
                     switch (index) {
                         case 0:
                             contenidoGasto1.setText(contenidoGasto);
@@ -207,6 +198,22 @@ public class InicioActivity extends AppCompatActivity {
                     }
                     index++;
                 }
+
+                // Verificar el tamaño de la lista de gastos antes de acceder a sus elementos
+                if (gastos.size() < 3) {
+                    switch (gastos.size()) {
+                        case 0:
+                            contenidoGasto1.setVisibility(View.GONE);
+                            imagenGasto1.setVisibility(View.GONE);
+                        case 1:
+                            contenidoGasto2.setVisibility(View.GONE);
+                            imagenGasto2.setVisibility(View.GONE);
+                        case 2:
+                            contenidoGasto3.setVisibility(View.GONE);
+                            imagenGasto3.setVisibility(View.GONE);
+                            break;
+                    }
+                }
             }
         } finally {
             if (cursor != null) {
@@ -214,6 +221,7 @@ public class InicioActivity extends AppCompatActivity {
             }
         }
     }
+
 
     private String obtenerNombreCategoria(int idCategoria) {
         Cursor cursor = null;

@@ -329,7 +329,7 @@ public class BaseDatos extends SQLiteOpenHelper {
     public Cursor getCategoriasPorUsuario(int userId) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLA_CATEGORIA +
-                " WHERE " + ID_Usuario + " = ? OR " + ID_Usuario + " = 0" +
+                " WHERE " + ID_Usuario + " = ? OR " + ID_Usuario + " = 1" +
                 " ORDER BY " + KEY_ID + " DESC LIMIT 3";
         return db.rawQuery(query, new String[]{String.valueOf(userId)});
     }
