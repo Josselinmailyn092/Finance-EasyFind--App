@@ -16,8 +16,8 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
-
 public class AddGastoActivity extends AppCompatActivity {
 
     private EditText etMonto, etDescripcion;
@@ -27,44 +27,44 @@ public class AddGastoActivity extends AppCompatActivity {
     private int userId;
     private BaseDatos baseDatos;
     private ImageButton btnCerrar;
+    private HashMap<String, Integer> categoriaMap; // Para mapear categorías con sus IDs
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_gasto);
-        btnCerrar= findViewById(R.id.btnCerrargasto);
-        btnCerrar.setOnClickListener(v -> finish());
-        // Inicializar la base de datos
-        baseDatos = new BaseDatos(this);
 
-        // Obtener el ID del usuario desde la intención
+        // Inicializar vistas
+        btnCerrar = findViewById(R.id.btnCerrargasto);
+        btnCerrar.setOnClickListener(v -> finish());
+
+        etMonto = findViewById(R.id.monto);
+        etDescripcion = findViewById(R.id.descripcion);
+        spCategoria = findViewById(R.id.categoria);
+        btnRegistrarIngreso = findViewById(R.id.btnRegistrarIngreso);
+
+        // Inicializar base de datos
+        baseDatos = new BaseDatos(this);
+        categoriaMap = new HashMap<>();
+
+        // Obtener ID del usuario desde la intención
         Intent intent = getIntent();
         userId = intent.getIntExtra("USER_ID", -1);
 
-        // Verificar si se recibió correctamente el ID del usuario
         if (userId == -1) {
             Toast.makeText(this, "Error al recibir el ID del usuario", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
-        // Vincular vistas
-        etMonto = findViewById(R.id.monto);
-        etDescripcion = findViewById(R.id.descripcion);
-        spCategoria = findViewById(R.id.categoria);
-        btnRegistrarIngreso = findViewById(R.id.btnRegistrarIngreso);
-
-
-
-
         // Cargar categorías en el Spinner
         cargarCategorias();
 
-        // Configurar el botón de registrar ingreso
+        // Configurar el botón de registrar gasto
         btnRegistrarIngreso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registrarIngreso();
+                registrarGasto();
             }
         });
     }
@@ -75,8 +75,10 @@ public class AddGastoActivity extends AppCompatActivity {
 
         if (cursor.moveToFirst()) {
             do {
-                String categoria = cursor.getString(cursor.getColumnIndexOrThrow("nombre_columna_categoria"));
-                categorias.add(categoria);
+                int idCategoria = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                String nombreCategoria = cursor.getString(cursor.getColumnIndexOrThrow("nombre"));
+                categorias.add(nombreCategoria);
+                categoriaMap.put(nombreCategoria, idCategoria); // Mapear categoría con su ID
             } while (cursor.moveToNext());
         }
 
@@ -87,28 +89,25 @@ public class AddGastoActivity extends AppCompatActivity {
         spCategoria.setAdapter(adapter);
     }
 
-    private void registrarIngreso() {
-        // Obtener valores de los campos de texto
+    private void registrarGasto() {
         String montoStr = etMonto.getText().toString().trim();
         String descripcion = etDescripcion.getText().toString().trim();
         String categoria = spCategoria.getSelectedItem().toString().trim();
 
-        // Validar los campos
         if (montoStr.isEmpty() || categoria.isEmpty() || descripcion.isEmpty()) {
             Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
             return;
         }
 
         double monto = Double.parseDouble(montoStr);
-
-        // Obtener la fecha actual del sistema
+        int idCategoria = categoriaMap.get(categoria); // Obtener ID de la categoría seleccionada
         String fechaActual = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-        // Insertar el ingreso en la base de datos
-        baseDatos.insertIngreso(userId, monto, fechaActual, descripcion);
+        // Insertar el gasto en la base de datos
+        baseDatos.insertGasto(idCategoria, userId, monto, fechaActual, descripcion);
 
-        // Mostrar mensaje de éxito y finalizar la actividad
-        Toast.makeText(this, "Ingreso registrado exitosamente", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Gasto registrado exitosamente", Toast.LENGTH_SHORT).show();
         finish();
     }
+
 }

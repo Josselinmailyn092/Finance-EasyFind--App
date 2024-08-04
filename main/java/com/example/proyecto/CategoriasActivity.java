@@ -28,7 +28,7 @@ import java.util.List;public class CategoriasActivity extends AppCompatActivity 
         setContentView(R.layout.activity_categorias);
 
         btnCerrar = findViewById(R.id.btnCerrarCategoria);
-        btnCerrar.setOnClickListener(v -> finish());
+        btnCerrar.setOnClickListener(v -> onDestroy());
         db = new BaseDatos(this);
         Intent intent = getIntent();
         usuarioId = intent.getIntExtra("USER_ID", -1);
