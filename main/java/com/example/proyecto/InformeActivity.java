@@ -1,11 +1,12 @@
 package com.example.proyecto;
 
-import android.Manifest;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,187 +15,155 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class InformeActivity extends AppCompatActivity {
 
-   private Spinner spinnerPeriodo;
+    private static final String TAG = "InformeActivity";
+    private Spinner spinnerPeriodo;
     private Button btnGenerarInforme;
-    private static final int PERMISSION_REQUEST_CODE = 100;
-    private ImageButton btnCerrarInforme;
+    private ImageButton btnCerrar;
+    private BaseDatos db;
+    private int userId = 1; // Asume que tienes un userId, ajusta según sea necesario
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informe);
-        btnCerrarInforme = findViewById(R.id.btnCerrarPriv);
-        btnCerrarInforme.setOnClickListener(v -> finish());
-        spinnerPeriodo = findViewById(R.id.spinner_periodo);
-        btnGenerarInforme = findViewById(R.id.btn_generar_informe);
 
-        // Configurar spinner con opciones de periodo
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.periodos_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerPeriodo.setAdapter(adapter);
-
-        // Verificar permisos de almacenamiento
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        } else {
-           // generarInforme();
-        }
-
-        btnGenerarInforme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String periodo = spinnerPeriodo.getSelectedItem().toString();
-                generarInforme(periodo);
-            }
-        });
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permiso concedido", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void generarInforme(String periodo) {
-        Cursor cursorGastos = null;
         try {
-            // Definir ruta y nombre del archivo PDF
-            String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Informe_" + periodo + ".pdf";
-            PdfWriter writer = new PdfWriter(pdfPath);
-            PdfDocument pdfDoc = new PdfDocument(writer);
-            Document document = new Document(pdfDoc);
+            db = new BaseDatos(this);
+            spinnerPeriodo = findViewById(R.id.spinner_periodo);
+            btnGenerarInforme = findViewById(R.id.btn_generar_informe);
+            btnCerrar = findViewById(R.id.btnCerrarPriv);
 
-            // Consultar la base de datos para obtener la información según el periodo
-            BaseDatos db = new BaseDatos(this);
-            int userId = getUserId();
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                    R.array.periodos_array, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerPeriodo.setAdapter(adapter);
 
-            // Título del informe
-            document.add(new Paragraph("Informe de Gastos " + periodo).setFontSize(18).setBold());
-            document.add(new Paragraph("\n"));
+            btnGenerarInforme.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    generarInforme();
+                }
+            });
 
-            switch (periodo) {
-                case "Semanal":
-                    String startDate = getStartDateOfWeek();
-                    String endDate = getEndDateOfWeek();
-                    cursorGastos = db.getGastosPorSemana(userId, startDate, endDate);
-                    document.add(new Paragraph("Período: " + startDate + " a " + endDate));
-                    break;
-                case "Mensual":
-                    int mes = getCurrentMonth();
-                    int año = getCurrentYear();
-                    cursorGastos = db.getGastosPorMes(userId, mes, año);
-                    document.add(new Paragraph("Mes: " + mes + "/" + año));
-                    break;
-                case "Anual":
-                    int añoActual = getCurrentYear();
-                    cursorGastos = db.getGastosPorAño(userId, añoActual);
-                    document.add(new Paragraph("Año: " + añoActual));
-                    break;
-            }
-
-            document.add(new Paragraph("\n"));
-
-            // Agregar datos al PDF
-            if (cursorGastos != null && cursorGastos.moveToFirst()) {
-                String categoriaActual = "";
-                float totalCategoria = 0;
-                float totalGeneral = 0;
-
-                do {
-                    String categoria = cursorGastos.getString(cursorGastos.getColumnIndexOrThrow("nombre"));
-                    double monto = cursorGastos.getDouble(cursorGastos.getColumnIndexOrThrow("monto_gastos"));
-                    String fecha = cursorGastos.getString(cursorGastos.getColumnIndexOrThrow("fecha_gastos"));
-                    String descripcion = cursorGastos.getString(cursorGastos.getColumnIndexOrThrow("descripcion_gastos"));
-
-                    if (!categoria.equals(categoriaActual)) {
-                        if (!categoriaActual.isEmpty()) {
-                            document.add(new Paragraph("Total " + categoriaActual + ": $" + String.format("%.2f", totalCategoria)).setFontSize(12).setBold());
-                            document.add(new Paragraph("\n"));
-                        }
-                        document.add(new Paragraph(categoria).setFontSize(14).setBold());
-                        categoriaActual = categoria;
-                        totalCategoria = 0;
-                    }
-
-                    document.add(new Paragraph(descripcion + ": $" + String.format("%.2f", monto) + " - " + fecha));
-                    totalCategoria += monto;
-                    totalGeneral += monto;
-
-                } while (cursorGastos.moveToNext());
-
-                // Añadir el total de la última categoría
-                document.add(new Paragraph("Total " + categoriaActual + ": $" + String.format("%.2f", totalCategoria)).setFontSize(12).setBold());
-                document.add(new Paragraph("\n"));
-
-                // Añadir el total general
-                document.add(new Paragraph("Total General: $" + String.format("%.2f", totalGeneral)).setFontSize(14).setBold());
-            } else {
-                document.add(new Paragraph("No se encontraron gastos para el período seleccionado."));
-            }
-
-            document.close();
-            Toast.makeText(this, "Informe generado en: " + pdfPath, Toast.LENGTH_LONG).show();
+            btnCerrar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Error al generar informe: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        } finally {
-            if (cursorGastos != null) {
-                cursorGastos.close();
+            Log.e(TAG, "Error en onCreate: ", e);
+            Toast.makeText(this, "Error al inicializar la actividad", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void generarInforme() {
+        try {
+            String periodoSeleccionado = spinnerPeriodo.getSelectedItem().toString();
+            File pdfFile = crearPDF(periodoSeleccionado);
+
+            if (pdfFile != null && pdfFile.exists()) {
+                Uri pdfUri = FileProvider.getUriForFile(this, "com.example.proyecto.fileprovider", pdfFile);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(pdfUri, "application/pdf");
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Error al generar el informe: archivo no creado", Toast.LENGTH_LONG).show();
             }
+        } catch (Exception e) {
+            Log.e(TAG, "Error al generar informe: ", e);
+            Toast.makeText(this, "Error al generar el informe: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
-    private int getCurrentMonth() {
-        return Calendar.getInstance().get(Calendar.MONTH) + 1;
-    }
+    private File crearPDF(String periodo) {
+        File pdfFile = null;
+        try {
+            String fileName = "Informe_" + periodo + "_" + new SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Calendar.getInstance().getTime()) + ".pdf";
+            File dir = new File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "informes");
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            pdfFile = new File(dir, fileName);
 
-    private int getCurrentYear() {
-        Calendar calendar = Calendar.getInstance();
-        return calendar.get(Calendar.YEAR);
-    }
+            PdfWriter writer = new PdfWriter(new FileOutputStream(pdfFile));
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf);
 
-    private String getStartDateOfWeek() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        return sdf.format(calendar.getTime());
-    }
+            PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+            document.setFont(font);
 
-    private String getEndDateOfWeek() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
-        calendar.add(Calendar.DAY_OF_WEEK, 6);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        return sdf.format(calendar.getTime());
-    }
+            document.add(new Paragraph("Informe de Gastos - " + periodo).setFontSize(18));
+            document.add(new Paragraph("\n"));
 
-    private int getUserId() {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-        String usuario = sharedPreferences.getString("usuario", null);  // Obtén el email almacenado en las preferencias compartidas
-        if (usuario != null) {
-            BaseDatos db = new BaseDatos(this);
-           // return db.getUserIdByusuario(usuario);  // Usa el método para obtener el ID del usuario por su email
+            Table table = new Table(4);
+            table.addCell("Categoría");
+            table.addCell("Monto");
+            table.addCell("Fecha");
+            table.addCell("Descripción");
+
+            Cursor cursor = getCursorForPeriod(userId, periodo);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    table.addCell(cursor.getString(cursor.getColumnIndexOrThrow("categoria")));
+                    table.addCell(String.format("%.2f", cursor.getDouble(cursor.getColumnIndexOrThrow("monto_gastos"))));
+                    table.addCell(cursor.getString(cursor.getColumnIndexOrThrow("fecha_gastos")));
+                    table.addCell(cursor.getString(cursor.getColumnIndexOrThrow("descripcion_gastos")));
+                } while (cursor.moveToNext());
+                cursor.close();
+            } else {
+                document.add(new Paragraph("No se encontraron datos para el período seleccionado."));
+            }
+
+            document.add(table);
+            document.close();
+
+            Log.d(TAG, "PDF creado exitosamente: " + pdfFile.getAbsolutePath());
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error al crear el PDF", e);
+            Toast.makeText(this, "Error al crear el PDF: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            return null;
         }
-        return -1;  // Retorna -1 si no se encuentra el email
+
+        return pdfFile;
     }
 
+    private Cursor getCursorForPeriod(int userId, String periodo) {
+        MatrixCursor cursor = new MatrixCursor(new String[]{"categoria", "monto_gastos", "fecha_gastos", "descripcion_gastos"});
+        List<String> dates = Arrays.asList("2024-08-01", "2024-08-02", "2024-08-04");
+        List<String> amounts = Arrays.asList("10.00", "20.00", "30.00"); // Example amounts
+        List<String> descriptions = Arrays.asList("Compra A", "Compra B", "Compra C"); // Example descriptions
+        List<String> categories = Arrays.asList("Categoría A", "Categoría B", "Categoría C"); // Example categories
+
+        for (int i = 0; i < dates.size(); i++) {
+            cursor.addRow(new Object[]{categories.get(i), amounts.get(i), dates.get(i), descriptions.get(i)});
+        }
+
+        return cursor;
+    }
 }

@@ -463,7 +463,6 @@ public class BaseDatos extends SQLiteOpenHelper {
     }
 
     // Método para obtener gastos por año
-    // Método para obtener gastos por año
     public Cursor getGastosPorAño(int userId, int año) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT c.nombre, g.monto_gastos, g.fecha_gastos, g.descripcion_gastos" +
@@ -486,3 +485,5 @@ public class BaseDatos extends SQLiteOpenHelper {
         }
     }
 }
+
+
