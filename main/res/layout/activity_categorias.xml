@@ -9,26 +9,24 @@
 
     <RelativeLayout
         android:id="@+id/relativeLayout3"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="56dp"
-        android:layout_marginTop="4dp"
         android:background="?attr/colorPrimary"
         android:backgroundTint="#4EA75D"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/btnCerrarPriv"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:id="@+id/btnCerrarCategoria"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="8dp"
             android:background="?android:selectableItemBackground"
             android:contentDescription="@string/close"
-            android:src="@drawable/ic_close"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:padding="4dp"
+            android:src="@drawable/ic_close" />
 
         <TextView
             android:id="@+id/tv_privacidad_title"
@@ -43,9 +41,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_categorias"
-        android:layout_width="411dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_categoria"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout3"
@@ -53,16 +51,15 @@
 
     <Button
         android:id="@+id/btn_add_categoria"
-        android:layout_width="175dp"
-        android:layout_height="57dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:backgroundTint="#296B3A"
         android:text="Añadir Categoría"
         android:textColor="#FFFFFF"
-        android:textSize="15dp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="TextSizeCheck" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

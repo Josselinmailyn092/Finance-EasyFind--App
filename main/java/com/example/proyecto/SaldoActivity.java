@@ -17,14 +17,15 @@ public class SaldoActivity extends AppCompatActivity {
     public TextView ultIng;
     public TextView i_valor;
     public TextView g_valor;
-    private ImageButton btnCerrar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saldo);
 
-        btnCerrar= findViewById(R.id.btnCerrarSaldo);
-        btnCerrar.setOnClickListener(v -> finish());
+        // Configuración de los botones del toolbar
+        ClipsBar.setupToolbar(findViewById(R.id.toolbar4), SaldoActivity.this, userId);
+
         saldo = findViewById(R.id.saldo_total_value);
         mesActual = findViewById(R.id.mesAc);
         ultIng = findViewById(R.id.ultimosIngresos);

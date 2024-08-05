@@ -13,50 +13,50 @@
         android:backgroundTint="#f4f4f4">
 
         <!-- Sección de Usuario -->
-    <LinearLayout
-        android:id="@+id/section_user"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:gravity="center">
-
-        <ImageView
-            android:id="@+id/imagenUsuario"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="12dp"
-            android:background="@drawable/bordes_images"
-            android:src="@drawable/ic_user" />
-
         <LinearLayout
+            android:id="@+id/section_user"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:gravity="center">
 
-            <TextView
-                android:id="@+id/nombreUsuario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Anderson Velásquez"
-                android:textColor="#238722"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="8dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            <ImageView
+                android:id="@+id/imagenUsuario"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/bordes_images"
+                android:src="@drawable/ic_user" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Gestión de Finanzas Personales"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:layout_marginLeft="10dp"
-                android:textStyle="normal"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nombreUsuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Anderson Velásquez"
+                    android:textColor="#238722"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gestión de Finanzas Personales"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="10dp"
+                    android:textStyle="normal"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="3dp"
@@ -87,24 +87,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:text="Categorías de Gastos"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="#000000"
                     android:textSize="20sp" />
-
-                <Button
-                    android:id="@+id/addCategoria"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:drawableLeft="@drawable/ic_add"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:text="Añadir"
-                    android:textAppearance="?attr/textAppearanceButton"
-                    android:textColor="#000000"
-                    android:textSize="12sp" />
             </LinearLayout>
 
             <ScrollView
@@ -157,7 +144,9 @@
                         android:gravity="center"
                         android:text="Alimentación"
                         android:textColor="#54754e"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:visibility="visible"
+                        tools:visibility="visible" />
 
                     <Button
                         android:id="@+id/verMas"
@@ -186,7 +175,7 @@
         <LinearLayout
             android:id="@+id/section_recent_expenses"
             android:layout_width="match_parent"
-            android:layout_height="260dp"
+            android:layout_height="225dp"
             android:orientation="vertical"
             android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -285,20 +274,7 @@
                 android:layout_height="3dp"
                 android:background="#e8e8e8"/>
 
-            <Button
-                android:id="@+id/boton_generar_informe"
-                android:layout_width="match_parent"
-                android:layout_height="38dp"
-                android:layout_marginBottom="0dp"
-                android:layout_marginLeft="60dp"
-                android:layout_marginRight="60dp"
-                android:backgroundTint="#4EA75D"
-                android:text="Generar Informe"
-                android:textSize="14sp"
-                android:gravity="top|center"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                />
+
             <Button
                 android:id="@+id/boton_anadir_dinero"
                 android:layout_width="match_parent"
@@ -310,7 +286,8 @@
                 android:textSize="14sp"
                 android:gravity="top|center"
                 android:textStyle="bold"
-                android:textColor="#296B3A"
+                android:backgroundTint="#4EA75D"
+                android:textColor="#FFFFFF"
                 />
             <Button
                 android:id="@+id/boton_registrar_gasto"

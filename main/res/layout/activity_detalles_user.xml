@@ -1,75 +1,129 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#D9D9D9"
     android:orientation="vertical"
-    android:padding="16dp"
     tools:context=".DetallesPerfilActivity">
 
-    <ImageView
-        android:id="@+id/imgfotoPerfil"
-        android:layout_width="106dp"
-        android:layout_height="102dp"
-        android:layout_gravity="center"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_profile_placeholder" />
 
-    <EditText
-        android:id="@+id/usuario1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="true"
-        android:hint="Usuario"
-        android:inputType="text"
-        android:minHeight="48dp" />
+    <RelativeLayout
+        android:id="@+id/relativeLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="460dp"
+        android:layout_height="64dp"
+        android:background="?attr/colorPrimary"
+        android:backgroundTint="#4EA75D">
 
-    <EditText
-        android:id="@+id/nombre1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nombre"
-        android:inputType="text"
-        android:minHeight="48dp" />
+        <ImageButton
+            android:id="@+id/btnCerrarUser"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="12dp"
+            android:background="?android:selectableItemBackground"
+            android:contentDescription="@string/close"
+            android:src="@drawable/ic_close"
+            tools:ignore="TouchTargetSizeCheck" />
 
-    <EditText
-        android:id="@+id/apellido1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Apellido"
-        android:inputType="text"
-        android:minHeight="48dp" />
+        <TextView
+            android:id="@+id/tv_privacidad_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="143dp"
+            android:layout_marginTop="15dp"
+            android:text="Detalles Usuario"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/celular1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Celular"
-        android:inputType="phone"
-        android:minHeight="48dp" />
+    </RelativeLayout>
 
-    <EditText
-        android:id="@+id/contrasena1"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Contraseña"
-        android:inputType="textPassword"
-        android:minHeight="48dp" />
+        android:layout_height="585dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <Spinner
-        android:id="@+id/ocupacion1"
-        android:layout_width="match_parent"
-        android:background="@drawable/rounded_spinner"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dropdown"/>
+        <ImageView
+            android:id="@+id/imgfotoPerfil"
+            android:layout_width="106dp"
+            android:layout_height="102dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_profile_placeholder" />
 
-    <Button
-        android:id="@+id/btnguardar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#296B3A"
-        android:onClick="actualizarUsuario"
-        android:text="Guardar"
-        android:textColor="#ffffff" />
+        <EditText
+            android:id="@+id/usuario1"
+            android:layout_width="309dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:enabled="true"
+            android:hint="Usuario"
+            android:inputType="text"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/nombre1"
+            android:layout_width="307dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Nombre"
+            android:inputType="text"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/apellido1"
+            android:layout_width="307dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Apellido"
+            android:inputType="text"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/celular1"
+            android:layout_width="307dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Celular"
+            android:inputType="phone"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/contrasena1"
+            android:layout_width="310dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:minHeight="48dp" />
+
+        <Spinner
+            android:id="@+id/ocupacion1"
+            android:layout_width="289dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/rounded_spinner"
+            android:spinnerMode="dropdown"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <Button
+            android:id="@+id/btnguardar"
+            android:layout_width="293dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#296B3A"
+            android:onClick="actualizarUsuario"
+            android:text="Guardar"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
 </LinearLayout>

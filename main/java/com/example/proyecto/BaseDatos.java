@@ -172,10 +172,11 @@ public class BaseDatos extends SQLiteOpenHelper {
     }
 
     // Método para insertar una nueva categoría
-    public void insertCategoria(String nombre) {
+    public void insertCategoria(String nombre, int userId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(NombreCategoria, nombre);
+        values.put(ID_Usuario,userId);
         db.insert(TABLA_CATEGORIA, null, values);
         db.close();
     }
@@ -200,10 +201,11 @@ public class BaseDatos extends SQLiteOpenHelper {
     }
 
     // Método para obtener todas las categorías
-    public List<String> getAllCategorias() {
-        List<String> categorias = new ArrayList<>();
+    public List<String> getAllCategorias(int userId) {
+        ArrayList<String> categorias = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLA_CATEGORIA, new String[]{NombreCategoria}, null, null, null, null, null);
+        Cursor cursor = db.query(TABLA_CATEGORIA, new String[]{NombreCategoria}, ID_Usuario+"=?", new String[]{String.valueOf(userId)}, null, null, null);
+
 
         if (cursor.moveToFirst()) {
             do {
@@ -327,7 +329,7 @@ public class BaseDatos extends SQLiteOpenHelper {
     public Cursor getCategoriasPorUsuario(int userId) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLA_CATEGORIA +
-                " WHERE " + ID_Usuario + " = ? OR " + ID_Usuario + " = 0" +
+                " WHERE " + ID_Usuario + " = ? OR " + ID_Usuario + " = 1" +
                 " ORDER BY " + KEY_ID + " DESC LIMIT 3";
         return db.rawQuery(query, new String[]{String.valueOf(userId)});
     }

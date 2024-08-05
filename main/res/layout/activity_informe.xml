@@ -18,16 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/btnCerrarPriv"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="8dp"
-            android:background="?android:selectableItemBackground"
-            android:contentDescription="@string/close"
-            android:src="@drawable/ic_close"
-            tools:ignore="TouchTargetSizeCheck" />
+
 
         <TextView
             android:id="@+id/tv_privacidad_title"
@@ -75,6 +66,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner_periodo" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="horizontal">
+
+        <LinearLayout
+            android:id="@+id/contenedorRegistros"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+
+        </LinearLayout>
+    </HorizontalScrollView>
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="horizontal">
+
+        <LinearLayout
+            android:id="@+id/contenedorRegistros"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            tools:ignore="DuplicateIds">
+
+        </LinearLayout>
+    </HorizontalScrollView>
+    <include
+        android:id="@+id/include"
+        layout="@layout/bar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

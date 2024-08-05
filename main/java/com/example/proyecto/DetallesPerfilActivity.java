@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -20,12 +21,13 @@ public class DetallesPerfilActivity extends AppCompatActivity {
     private Spinner ocupacionUsu;
     private Button btnGuardar;
     private BaseDatos baseDatos;
-
+    private ImageButton btnCerrar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_user);
-
+        btnCerrar = findViewById(R.id.btnCerrarUser);
+        btnCerrar.setOnClickListener(v -> finish());
         // Inicializar vistas
         imgfotoPerfil = findViewById(R.id.imgfotoPerfil);
         usuario = findViewById(R.id.usuario1);

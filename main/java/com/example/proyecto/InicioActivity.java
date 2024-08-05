@@ -21,11 +21,13 @@ import java.util.Map;
 
 public class InicioActivity extends AppCompatActivity {
     private TextView nombreUsuario, contenidoGasto1, contenidoGasto2, contenidoGasto3;
-    private Button anadirCategoria, categoria1, categoria2, categoria3, verMas, generarInforme, anadirDinero, registrarGasto, masDetalles;
+    private Button  categoria1, categoria2, categoria3, verMas, anadirDinero, registrarGasto, masDetalles;
     private ImageView imagenGasto1, imagenGasto2, imagenGasto3;
     private LinearLayout contenedorRegistros;
     private int userId;
     private BaseDatos db;
+    private List<String> categorias;
+
     private List<Map<String, String>> categoriasList;
 
     @Override
@@ -34,12 +36,10 @@ public class InicioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inicio);
 
         nombreUsuario = findViewById(R.id.nombreUsuario);
-        anadirCategoria = findViewById(R.id.addCategoria);
         categoria1 = findViewById(R.id.categoria1);
         categoria2 = findViewById(R.id.categoria2);
         categoria3 = findViewById(R.id.categoria3);
         verMas = findViewById(R.id.verMas);
-        generarInforme = findViewById(R.id.boton_generar_informe);
         anadirDinero = findViewById(R.id.boton_anadir_dinero);
         registrarGasto = findViewById(R.id.boton_registrar_gasto);
         imagenGasto1 = findViewById(R.id.imagenGasto1);
@@ -53,24 +53,38 @@ public class InicioActivity extends AppCompatActivity {
 
         // Rescate de variables de entorno (BD, IdUser)
         db = new BaseDatos(this);
+
         Intent intent = getIntent();
         userId = intent.getIntExtra("USER_ID", -1);
 
+
+
+        categorias = db.getAllCategorias(userId);
+
+        // Verificar el tamaño de la lista de categorías antes de acceder a sus elementos
+        if (categorias.size() > 0) {
+            categoria1.setText(categorias.get(0));
+        } else {
+            categoria1.setVisibility(View.GONE); // O cualquier manejo adecuado
+        }
+
+        if (categorias.size() > 1) {
+            categoria2.setText(categorias.get(1));
+        } else {
+            categoria2.setVisibility(View.GONE); // O cualquier manejo adecuado
+        }
+
+        if (categorias.size() > 2) {
+            categoria3.setText(categorias.get(2));
+        } else {
+            categoria3.setVisibility(View.GONE); // O cualquier manejo adecuado
+        }
+
         // Invocar métodos para generar datos
         cargarDatosUsuario(userId);
-        cargarCategorias(userId);
         cargarGastos(userId);
         cargarResumen(userId);
 
-        // Click en añadir categoría
-        anadirCategoria.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(InicioActivity.this, CategoriasActivity.class);
-                intent.putExtra("USER_ID", userId);
-                startActivity(intent);
-            }
-        });
 
         // Click en ver más categorías
         verMas.setOnClickListener(new View.OnClickListener() {
@@ -82,15 +96,9 @@ public class InicioActivity extends AppCompatActivity {
             }
         });
 
-        // Click en generar Informe
-        generarInforme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(InicioActivity.this, InformeActivity.class);
-                intent.putExtra("USER_ID", userId);
-                startActivity(intent);
-            }
-        });
+
+
+
 
         // Click en añadir Ingreso
         anadirDinero.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +134,14 @@ public class InicioActivity extends AppCompatActivity {
         ClipsBar.setupToolbar(findViewById(R.id.toolbar4), this, userId);
     }
 
+@Override
+    protected void onResume() {
+        super.onResume();
+        // Cada vez que la actividad vuelve a primer plano, recargamos los datos
+        cargarDatosUsuario(userId);
+        cargarGastos(userId);
+        cargarResumen(userId);
+    }
     private void cargarDatosUsuario(int userId) {
         Cursor cursor = null;
         try {
@@ -143,44 +159,6 @@ public class InicioActivity extends AppCompatActivity {
         }
     }
 
-    private void cargarCategorias(int userId) {
-        Cursor cursor = null;
-        try {
-            cursor = db.getCategoriasPorUsuario(userId);
-            categoriasList = new ArrayList<>();
-            if (cursor != null) {
-                int index = 0;
-                while (cursor.moveToNext() && index < 3) {
-                    String nombreCategoria = cursor.getString(cursor.getColumnIndexOrThrow("nombre"));
-                    int idCategoria = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                    Map<String, String> categoriaMap = new HashMap<>();
-                    categoriaMap.put("nombre", nombreCategoria);
-                    categoriaMap.put("id", String.valueOf(idCategoria));
-                    categoriasList.add(categoriaMap);
-                    // Actualizar los botones según el índice
-                    switch (index) {
-                        case 0:
-                            categoria1.setText(nombreCategoria);
-                            categoria1.setOnClickListener(new CategoriaClickListener(idCategoria));
-                            break;
-                        case 1:
-                            categoria2.setText(nombreCategoria);
-                            categoria2.setOnClickListener(new CategoriaClickListener(idCategoria));
-                            break;
-                        case 2:
-                            categoria3.setText(nombreCategoria);
-                            categoria3.setOnClickListener(new CategoriaClickListener(idCategoria));
-                            break;
-                    }
-                    index++;
-                }
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
 
     private void cargarGastos(int userId) {
         Cursor cursor = null;
@@ -188,7 +166,8 @@ public class InicioActivity extends AppCompatActivity {
             cursor = db.getGastosPorUsuario(userId);
             if (cursor != null) {
                 int index = 0;
-                while (cursor.moveToNext() && index < 3) {
+                List<String> gastos = new ArrayList<>();
+                while (cursor.moveToNext()) {
                     int categoriaId = cursor.getInt(cursor.getColumnIndexOrThrow("id_categoria"));
                     String categoria = obtenerNombreCategoria(categoriaId);
                     double monto = cursor.getDouble(cursor.getColumnIndexOrThrow("monto_gastos"));
@@ -200,6 +179,9 @@ public class InicioActivity extends AppCompatActivity {
                     if (imageResource == 0) {
                         imageResource = R.drawable.ic_default;  // Imagen por defecto
                     }
+
+                    gastos.add(contenidoGasto);
+
                     switch (index) {
                         case 0:
                             contenidoGasto1.setText(contenidoGasto);
@@ -216,6 +198,22 @@ public class InicioActivity extends AppCompatActivity {
                     }
                     index++;
                 }
+
+                // Verificar el tamaño de la lista de gastos antes de acceder a sus elementos
+                if (gastos.size() < 3) {
+                    switch (gastos.size()) {
+                        case 0:
+                            contenidoGasto1.setVisibility(View.GONE);
+                            imagenGasto1.setVisibility(View.GONE);
+                        case 1:
+                            contenidoGasto2.setVisibility(View.GONE);
+                            imagenGasto2.setVisibility(View.GONE);
+                        case 2:
+                            contenidoGasto3.setVisibility(View.GONE);
+                            imagenGasto3.setVisibility(View.GONE);
+                            break;
+                    }
+                }
             }
         } finally {
             if (cursor != null) {
@@ -223,6 +221,7 @@ public class InicioActivity extends AppCompatActivity {
             }
         }
     }
+
 
     private String obtenerNombreCategoria(int idCategoria) {
         Cursor cursor = null;

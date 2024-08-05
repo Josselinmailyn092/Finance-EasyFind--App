@@ -88,7 +88,7 @@
                 android:background="@drawable/bg_rounded"
                 android:orientation="horizontal">
 
-                <EditText
+                <TextView
                     android:id="@+id/iconoDolar"
                     android:layout_width="50dp"
                     android:layout_height="43dp"
