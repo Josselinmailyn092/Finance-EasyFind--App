@@ -27,8 +27,8 @@ import java.util.List;public class CategoriasActivity extends AppCompatActivity 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categorias);
 
+
         btnCerrar = findViewById(R.id.btnCerrarCategoria);
-        btnCerrar.setOnClickListener(v -> onDestroy());
         db = new BaseDatos(this);
         Intent intent = getIntent();
         usuarioId = intent.getIntExtra("USER_ID", -1);
@@ -66,6 +66,14 @@ import java.util.List;public class CategoriasActivity extends AppCompatActivity 
                 mostrarDialogoAgregarCategoria();
             }
         });
+        btnCerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
     }
 
 

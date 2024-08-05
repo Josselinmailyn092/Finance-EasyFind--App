@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
 
     <application
 
@@ -29,10 +30,8 @@
         <activity android:name=".SaldoActivity"></activity>
         <activity android:name=".InicioActivity"></activity>
         <activity android:name=".Registro"></activity>
-        <activity android:name=".AddCategoriaActivity"></activity>
         <activity android:name=".AddGastoActivity"></activity>
         <activity android:name=".AddIngresoActivity"></activity>
-        <activity android:name=".AllCategoriasActivity"></activity>
 
         <activity
             android:name=".DetallesPerfilActivity"

@@ -3,6 +3,7 @@ package com.example.proyecto;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
+import android.net.ParseException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -10,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -40,25 +41,27 @@ public class InformeActivity extends AppCompatActivity {
     private static final String TAG = "InformeActivity";
     private Spinner spinnerPeriodo;
     private Button btnGenerarInforme;
-    private ImageButton btnCerrar;
     private BaseDatos db;
-    private int userId = 1; // Asume que tienes un userId, ajusta según sea necesario
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informe);
 
-        try {
-            db = new BaseDatos(this);
-            spinnerPeriodo = findViewById(R.id.spinner_periodo);
-            btnGenerarInforme = findViewById(R.id.btn_generar_informe);
-            btnCerrar = findViewById(R.id.btnCerrarPriv);
+        // Configuración de los botones del toolbar
+        ClipsBar.setupToolbar(findViewById(R.id.toolbar4), InformeActivity.this, userId);
 
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                    R.array.periodos_array, android.R.layout.simple_spinner_item);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinnerPeriodo.setAdapter(adapter);
+        Intent intent = getIntent();
+        userId = intent.getIntExtra("USER_ID", -1);
+        spinnerPeriodo = findViewById(R.id.spinner_periodo);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.periodos_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPeriodo.setAdapter(adapter);
+        
+            db = new BaseDatos(this);
+            btnGenerarInforme = findViewById(R.id.btn_generar_informe);
 
             btnGenerarInforme.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -67,16 +70,6 @@ public class InformeActivity extends AppCompatActivity {
                 }
             });
 
-            btnCerrar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-        } catch (Exception e) {
-            Log.e(TAG, "Error en onCreate: ", e);
-            Toast.makeText(this, "Error al inicializar la actividad", Toast.LENGTH_LONG).show();
-        }
     }
 
     private void generarInforme() {
@@ -155,13 +148,47 @@ public class InformeActivity extends AppCompatActivity {
 
     private Cursor getCursorForPeriod(int userId, String periodo) {
         MatrixCursor cursor = new MatrixCursor(new String[]{"categoria", "monto_gastos", "fecha_gastos", "descripcion_gastos"});
-        List<String> dates = Arrays.asList("2024-08-01", "2024-08-02", "2024-08-04");
-        List<String> amounts = Arrays.asList("10.00", "20.00", "30.00"); // Example amounts
-        List<String> descriptions = Arrays.asList("Compra A", "Compra B", "Compra C"); // Example descriptions
-        List<String> categories = Arrays.asList("Categoría A", "Categoría B", "Categoría C"); // Example categories
+
+        // Datos de ejemplo (en una aplicación real, estos vendrían de la base de datos)
+        List<String> dates = Arrays.asList("2024-08-01", "2024-07-15", "2024-08-02", "2024-07-10", "2024-7-31", "2024-6-15");
+        List<String> amounts = Arrays.asList("10.00", "20.00", "30.00", "40.00", "50.00", "60.00");
+        List<String> descriptions = Arrays.asList("Compra A", "Compra B", "Compra C", "Compra D", "Compra E", "Compra F");
+        List<String> categories = Arrays.asList("Categoría A", "Categoría B", "Categoría C", "Categoría D", "Categoría E", "Categoría F");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date currentDate = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(currentDate);
+
+        Date startDate;
+        switch (periodo) {
+            case "Semana":
+                cal.add(Calendar.DAY_OF_YEAR, -7);
+                startDate = cal.getTime();
+                break;
+            case "Mes":
+                cal.add(Calendar.MONTH, -1);
+                startDate = cal.getTime();
+                break;
+            case "Año":
+                cal.add(Calendar.YEAR, -1);
+                startDate = cal.getTime();
+                break;
+            default:
+                startDate = currentDate;
+                break;
+        }
 
         for (int i = 0; i < dates.size(); i++) {
-            cursor.addRow(new Object[]{categories.get(i), amounts.get(i), dates.get(i), descriptions.get(i)});
+            try {
+                Date entryDate = sdf.parse(dates.get(i));
+
+                if (entryDate != null && !entryDate.before(startDate) && !entryDate.after(currentDate)) {
+                    cursor.addRow(new Object[]{categories.get(i), amounts.get(i), dates.get(i), descriptions.get(i)});
+                }
+            } catch (ParseException | java.text.ParseException e) {
+                Log.e(TAG, "Error parsing date: " + dates.get(i), e);
+            }
         }
 
         return cursor;

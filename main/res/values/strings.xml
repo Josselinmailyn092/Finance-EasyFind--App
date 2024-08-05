@@ -21,6 +21,7 @@
     <string name="terminos_condiciones">Términos y condiciones</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
     <string name="profile_image">Imagen de perfil</string>
+
     <string-array name="periodos_array">
         <item>Semana</item>
         <item>Mes</item>

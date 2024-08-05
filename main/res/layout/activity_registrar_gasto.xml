@@ -81,6 +81,7 @@
                     android:hint="0.00"
                     android:paddingLeft="5dp"
                     android:paddingTop="8dp"
+                    android:inputType="numberDecimal"
                     android:textSize="22sp"
                     tools:ignore="TouchTargetSizeCheck" />
             </LinearLayout>
