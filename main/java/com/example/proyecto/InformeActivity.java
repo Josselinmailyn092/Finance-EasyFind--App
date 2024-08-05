@@ -1,7 +1,7 @@
 package com.example.proyecto;
 
 import android.Manifest;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -28,18 +28,25 @@ import java.util.Locale;
 
 public class InformeActivity extends AppCompatActivity {
 
-   private Spinner spinnerPeriodo;
+    private Spinner spinnerPeriodo;
     private Button btnGenerarInforme;
     private static final int PERMISSION_REQUEST_CODE = 100;
     private ImageButton btnCerrarInforme;
+    private int userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informe);
+
         btnCerrarInforme = findViewById(R.id.btnCerrarPriv);
         btnCerrarInforme.setOnClickListener(v -> finish());
+
         spinnerPeriodo = findViewById(R.id.spinner_periodo);
         btnGenerarInforme = findViewById(R.id.btn_generar_informe);
+
+        Intent intent = getIntent();
+        userId = intent.getIntExtra("USER_ID", -1);
 
         // Configurar spinner con opciones de periodo
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.periodos_array, android.R.layout.simple_spinner_item);
@@ -48,16 +55,19 @@ public class InformeActivity extends AppCompatActivity {
 
         // Verificar permisos de almacenamiento
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        } else {
-           // generarInforme();
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
         }
 
         btnGenerarInforme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String periodo = spinnerPeriodo.getSelectedItem().toString();
-                generarInforme(periodo);
+                // Verifica permisos nuevamente al intentar generar el informe
+                if (ContextCompat.checkSelfPermission(InformeActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    String periodo = spinnerPeriodo.getSelectedItem().toString();
+                    generarInforme(periodo);
+                } else {
+                    Toast.makeText(InformeActivity.this, "Permiso de escritura no concedido. No se puede generar el informe.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -65,7 +75,7 @@ public class InformeActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Permiso concedido", Toast.LENGTH_SHORT).show();
             } else {
@@ -75,6 +85,12 @@ public class InformeActivity extends AppCompatActivity {
     }
 
     private void generarInforme(String periodo) {
+        // Solo genera el informe si los permisos están concedidos
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Permiso de escritura no concedido. No se puede generar el informe.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Cursor cursorGastos = null;
         try {
             // Definir ruta y nombre del archivo PDF
@@ -85,7 +101,6 @@ public class InformeActivity extends AppCompatActivity {
 
             // Consultar la base de datos para obtener la información según el periodo
             BaseDatos db = new BaseDatos(this);
-            int userId = getUserId();
 
             // Título del informe
             document.add(new Paragraph("Informe de Gastos " + periodo).setFontSize(18).setBold());
@@ -186,15 +201,4 @@ public class InformeActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         return sdf.format(calendar.getTime());
     }
-
-    private int getUserId() {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-        String usuario = sharedPreferences.getString("usuario", null);  // Obtén el email almacenado en las preferencias compartidas
-        if (usuario != null) {
-            BaseDatos db = new BaseDatos(this);
-           // return db.getUserIdByusuario(usuario);  // Usa el método para obtener el ID del usuario por su email
-        }
-        return -1;  // Retorna -1 si no se encuentra el email
-    }
-
 }
