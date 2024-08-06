@@ -235,24 +235,8 @@ public class BaseDatos extends SQLiteOpenHelper {
         db.close();
     }
 
-    // Método para actualizar un ingreso
-    public int updateIngreso(int idIngreso, int idCliente, double monto, String fecha, String descripcion) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(ID_Usuario_Ingreso, idCliente);
-        values.put(Monto, monto);
-        values.put(Fecha, fecha);
-        values.put(Descripcion, descripcion);
-        // Actualizar fila
-        return db.update(TABLA_INGRESOS, values, KEY_ID + " = ?", new String[]{String.valueOf(idIngreso)});
-    }
 
-    // Método para eliminar un ingreso
-    public void deleteIngreso(int idIngreso) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLA_INGRESOS, KEY_ID + " = ?", new String[]{String.valueOf(idIngreso)});
-        db.close();
-    }
+
 
     // Método para obtener todos los ingresos
     public Cursor getAllIngresos() {
@@ -279,25 +263,6 @@ public class BaseDatos extends SQLiteOpenHelper {
         db.close();
     }
 
-    // Método para actualizar un gasto
-    public int updateGasto(int idGasto, int idCategoria, int idUsuario, double monto, String fecha, String descripcion) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(ID_Categoria, idCategoria);
-        values.put(ID_Usuario_Gasto, idUsuario);
-        values.put(MontoGastos, monto);
-        values.put(FechaGastos, fecha);
-        values.put(DescripcionGastos, descripcion);
-        // Actualizar fila
-        return db.update(TABLA_GASTOS, values, KEY_ID + " = ?", new String[]{String.valueOf(idGasto)});
-    }
-
-    // Método para eliminar un gasto
-    public void deleteGasto(int idGasto) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLA_GASTOS, KEY_ID + " = ?", new String[]{String.valueOf(idGasto)});
-        db.close();
-    }
 
     // Método para obtener todos los gastos
     public Cursor getAllGastos() {
@@ -359,8 +324,7 @@ public class BaseDatos extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT SUM(" + Monto + ") as total FROM " + TABLA_INGRESOS +
                 " WHERE " + ID_Usuario_Ingreso + " = ?" +
-                " AND strftime('%m', " + Fecha + ") = strftime('%m', 'now')" +
-                " AND strftime('%Y', " + Fecha + ") = strftime('%Y', 'now')";
+                " AND " + Fecha + " >= date('now', '-30 days')";
 
         double ingresoTotal = 0.0;
         Cursor cursor = null;
@@ -382,10 +346,10 @@ public class BaseDatos extends SQLiteOpenHelper {
     // Método para obtener los gastos del mes actual
     public double getGastoMes(int userId) {
         SQLiteDatabase db = this.getReadableDatabase();
+
         String query = "SELECT SUM(" + MontoGastos + ") as total FROM " + TABLA_GASTOS +
                 " WHERE " + ID_Usuario_Gasto + " = ?" +
-                " AND strftime('%m', " + FechaGastos + ") = strftime('%m', 'now')" +
-                " AND strftime('%Y', " + FechaGastos + ") = strftime('%Y', 'now')";
+                " AND " + FechaGastos + " >= date('now', '-30 days')";
 
         double gastoTotal = 0.0;
         Cursor cursor = null;
@@ -429,36 +393,12 @@ public class BaseDatos extends SQLiteOpenHelper {
         return categoryId;
     }
 
-    public List<String[]> getExpensesForUser(int userId) {
-        List<String[]> expenses = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        String query = "SELECT c." + NombreCategoria + ", g." + MontoGastos + ", g." + FechaGastos + ", g." + DescripcionGastos +
-                " FROM " + TABLA_GASTOS + " g " +
-                " JOIN " + TABLA_CATEGORIA + " c ON g." + ID_Categoria + " = c." + KEY_ID +
-                " WHERE g." + ID_Usuario_Gasto + " = ?";
-
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
-
-        if (cursor.moveToFirst()) {
-            do {
-                String[] expenseData = new String[4];
-                expenseData[0] = cursor.getString(0); // NombreCategoria
-                expenseData[1] = cursor.getString(1); // MontoGastos
-                expenseData[2] = cursor.getString(2); // FechaGastos
-                expenseData[3] = cursor.getString(3); // DescripcionGastos
-                expenses.add(expenseData);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return expenses;
-    }
 
     public String[] getCategoryNames(int userId) {
         List<String> categories = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String query = "SELECT DISTINCT c." + NombreCategoria +
+        String query = "SELECT c." + NombreCategoria +
                 " FROM " + TABLA_CATEGORIA + " c " +
                 " JOIN " + TABLA_GASTOS + " g ON c." + KEY_ID + " = g." + ID_Categoria +
                 " WHERE g." + ID_Usuario_Gasto + " = ?";
@@ -473,6 +413,7 @@ public class BaseDatos extends SQLiteOpenHelper {
         cursor.close();
         return categories.toArray(new String[0]);
     }
+
 
     public double[] getExpenseAmounts(int userId) {
         List<Double> amounts = new ArrayList<>();
