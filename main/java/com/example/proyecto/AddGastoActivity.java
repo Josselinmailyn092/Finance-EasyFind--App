@@ -45,7 +45,6 @@ public class AddGastoActivity extends AppCompatActivity {
 
         // Inicializar base de datos
         baseDatos = new BaseDatos(this);
-        categoriaMap = new HashMap<>();
 
         // Obtener ID del usuario desde la intención
         Intent intent = getIntent();
@@ -70,19 +69,8 @@ public class AddGastoActivity extends AppCompatActivity {
     }
 
     private void cargarCategorias() {
-        ArrayList<String> categorias = new ArrayList<>();
-        Cursor cursor = baseDatos.getCategoriasPorUsuario(userId);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int idCategoria = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String nombreCategoria = cursor.getString(cursor.getColumnIndexOrThrow("nombre"));
-                categorias.add(nombreCategoria);
-                categoriaMap.put(nombreCategoria, idCategoria); // Mapear categoría con su ID
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
+        ArrayList<String> categorias;
+      categorias= (ArrayList<String>) baseDatos.getAllCategorias(userId);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categorias);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -100,7 +88,7 @@ public class AddGastoActivity extends AppCompatActivity {
         }
 
         double monto = Double.parseDouble(montoStr);
-        int idCategoria = categoriaMap.get(categoria); // Obtener ID de la categoría seleccionada
+        int idCategoria = (int) baseDatos.getCategoriaNombreyUsuario(categoria,userId);
         String fechaActual = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
         // Insertar el gasto en la base de datos

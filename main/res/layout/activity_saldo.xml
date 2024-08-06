@@ -139,8 +139,8 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="285dp"
-        android:layout_height="98dp"
+        android:layout_width="308dp"
+        android:layout_height="187dp"
         android:layout_marginTop="436dp"
         android:background="@drawable/bg_rounded"
         android:orientation="vertical"
@@ -159,7 +159,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mes:"
+                android:text="Mes actual:"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -179,7 +179,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Enero"
             android:textSize="20sp"
             android:textStyle="bold" />
 

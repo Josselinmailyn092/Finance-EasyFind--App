@@ -1,6 +1,8 @@
 package com.example.proyecto;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ImageButton;
@@ -17,13 +19,12 @@ public class SaldoActivity extends AppCompatActivity {
     public TextView ultIng;
     public TextView i_valor;
     public TextView g_valor;
-
+    public BaseDatos bd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saldo);
 
-        // Configuración de los botones del toolbar
         ClipsBar.setupToolbar(findViewById(R.id.toolbar4), SaldoActivity.this, userId);
 
         saldo = findViewById(R.id.saldo_total_value);
@@ -35,6 +36,9 @@ public class SaldoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         userId = intent.getIntExtra("USER_ID", -1);
 
+        SharedPreferences sharedPref = getSharedPreferences("id", Context.MODE_PRIVATE);
+        userId = sharedPref.getInt("id_user", 0);
+
         mostrarSaldo();
         mostrarGastos();
 
@@ -44,16 +48,21 @@ public class SaldoActivity extends AppCompatActivity {
         String nombreMes = nombresMeses[mes];
         mesActual.setText(nombreMes);
     }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mostrarSaldo();
+        mostrarGastos();
+    }
     public void mostrarSaldo() {
-        BaseDatos bd = new BaseDatos(this);
-        double saldoTotal = bd.getSaldoTotalUsuario(userId);
-        saldo.setText(String.format("$%.2f", saldoTotal));
+        bd = new BaseDatos(this);
+
 
         double iTotal= bd.getIngresoMes(userId);
         double gTotal= bd.getGastoMes(userId);
         i_valor.setText(String.format("$%.2f", iTotal));
         g_valor.setText(String.format("$%.2f", gTotal));
+        saldo.setText(String.format("$%.2f", iTotal-gTotal));
     }
 
     public void mostrarGastos() {

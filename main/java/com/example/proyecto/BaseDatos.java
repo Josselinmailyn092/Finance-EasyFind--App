@@ -354,138 +354,177 @@ public class BaseDatos extends SQLiteOpenHelper {
     }
 
 
-        // Método para obtener los ingresos del mes actual
-        public double getIngresoMes(int userId) {
-            SQLiteDatabase db = this.getReadableDatabase();
-            String query = "SELECT SUM(" + Monto + ") as total FROM " + TABLA_INGRESOS +
-                    " WHERE " + ID_Usuario_Ingreso + " = ?" +
-                    " AND strftime('%m', " + Fecha + ") = strftime('%m', 'now')" +
-                    " AND strftime('%Y', " + Fecha + ") = strftime('%Y', 'now')";
-
-            double ingresoTotal = 0.0;
-            Cursor cursor = null;
-            try {
-                cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
-                if (cursor != null && cursor.moveToFirst()) {
-                    ingresoTotal = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
-                }
-            }
-            return ingresoTotal;
-        }
-
-        // Método para obtener los gastos del mes actual
-        public double getGastoMes(int userId) {
-            SQLiteDatabase db = this.getReadableDatabase();
-            String query = "SELECT SUM(" + MontoGastos + ") as total FROM " + TABLA_GASTOS +
-                    " WHERE " + ID_Usuario_Gasto + " = ?" +
-                    " AND strftime('%m', " + FechaGastos + ") = strftime('%m', 'now')" +
-                    " AND strftime('%Y', " + FechaGastos + ") = strftime('%Y', 'now')";
-
-            double gastoTotal = 0.0;
-            Cursor cursor = null;
-            try {
-                cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
-                if (cursor != null && cursor.moveToFirst()) {
-                    gastoTotal = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
-                }
-            }
-            return gastoTotal;
-        }
-
-
-    // Método para obtener el saldo total del usuario
-    public double getSaldoTotalUsuario(int userId) {
+    // Método para obtener los ingresos del mes actual
+    public double getIngresoMes(int userId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT " + Saldo_Total + " FROM " + TABLA_USUARIO +
-                " WHERE " + KEY_ID + " = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+        String query = "SELECT SUM(" + Monto + ") as total FROM " + TABLA_INGRESOS +
+                " WHERE " + ID_Usuario_Ingreso + " = ?" +
+                " AND strftime('%m', " + Fecha + ") = strftime('%m', 'now')" +
+                " AND strftime('%Y', " + Fecha + ") = strftime('%Y', 'now')";
+
+        double ingresoTotal = 0.0;
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+            if (cursor != null && cursor.moveToFirst()) {
+                ingresoTotal = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return ingresoTotal;
+    }
+
+    // Método para obtener los gastos del mes actual
+    public double getGastoMes(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT SUM(" + MontoGastos + ") as total FROM " + TABLA_GASTOS +
+                " WHERE " + ID_Usuario_Gasto + " = ?" +
+                " AND strftime('%m', " + FechaGastos + ") = strftime('%m', 'now')" +
+                " AND strftime('%Y', " + FechaGastos + ") = strftime('%Y', 'now')";
+
+        double gastoTotal = 0.0;
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+            if (cursor != null && cursor.moveToFirst()) {
+                gastoTotal = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return gastoTotal;
+    }
+
+
+    public int getCategoriaNombreyUsuario(String categoria, int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int categoryId = -1;
+
+        String query = "SELECT " + KEY_ID + " FROM " + TABLA_CATEGORIA +
+                " WHERE " + NombreCategoria + " = ? AND " + ID_Usuario + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{categoria, String.valueOf(userId)});
+
         if (cursor != null && cursor.moveToFirst()) {
-            double saldoTotal = cursor.getDouble(cursor.getColumnIndexOrThrow(Saldo_Total));
+            int columnIndex = cursor.getColumnIndex(KEY_ID);
+            if (columnIndex != -1) {
+                categoryId = cursor.getInt(columnIndex);
+            }
+        }
+
+        if (cursor != null) {
             cursor.close();
-            return saldoTotal;
         }
-        return 0.0;
+        db.close();
+
+        return categoryId;
     }
 
-    // Método para obtener gastos por semana
-    public Cursor getGastosPorSemana(int userId, String startDate, String endDate) {
+    public List<String[]> getExpensesForUser(int userId) {
+        List<String[]> expenses = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT c.nombre, g.monto_gastos, g.fecha_gastos, g.descripcion_gastos" +
-                " FROM " + TABLA_GASTOS + " g" +
-                " JOIN " + TABLA_CATEGORIA + " c ON g.id_categoria = c.id" +
-                " WHERE g.id_cliente = ?" +
-                " AND g.fecha_gastos BETWEEN ? AND ?" +
-                " ORDER BY c.nombre, g.fecha_gastos";
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId), startDate, endDate});
-        if (cursor != null && cursor.getCount() > 0) {
-            return cursor;
-        } else {
-            if (cursor != null) {
-                cursor.close();
-            }
-            return null;
+
+        String query = "SELECT c." + NombreCategoria + ", g." + MontoGastos + ", g." + FechaGastos + ", g." + DescripcionGastos +
+                " FROM " + TABLA_GASTOS + " g " +
+                " JOIN " + TABLA_CATEGORIA + " c ON g." + ID_Categoria + " = c." + KEY_ID +
+                " WHERE g." + ID_Usuario_Gasto + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                String[] expenseData = new String[4];
+                expenseData[0] = cursor.getString(0); // NombreCategoria
+                expenseData[1] = cursor.getString(1); // MontoGastos
+                expenseData[2] = cursor.getString(2); // FechaGastos
+                expenseData[3] = cursor.getString(3); // DescripcionGastos
+                expenses.add(expenseData);
+            } while (cursor.moveToNext());
         }
+        cursor.close();
+        return expenses;
     }
 
-    // Método para obtener gastos por mes
-    public Cursor getGastosPorMes(int userId, int mes, int año) {
+    public String[] getCategoryNames(int userId) {
+        List<String> categories = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT c.nombre, g.monto_gastos, g.fecha_gastos, g.descripcion_gastos" +
-                " FROM " + TABLA_GASTOS + " g" +
-                " JOIN " + TABLA_CATEGORIA + " c ON g.id_categoria = c.id" +
-                " WHERE g.id_cliente = ?" +
-                " AND strftime('%m', g.fecha_gastos) = ?" +
-                " AND strftime('%Y', g.fecha_gastos) = ?" +
-                " ORDER BY c.nombre, g.fecha_gastos";
-        Cursor cursor = db.rawQuery(query, new String[]{
-                String.valueOf(userId),
-                String.format("%02d", mes),
-                String.valueOf(año)
-        });
-        if (cursor != null && cursor.getCount() > 0) {
-            return cursor;
-        } else {
-            if (cursor != null) {
-                cursor.close();
-            }
-            return null;
+
+        String query = "SELECT DISTINCT c." + NombreCategoria +
+                " FROM " + TABLA_CATEGORIA + " c " +
+                " JOIN " + TABLA_GASTOS + " g ON c." + KEY_ID + " = g." + ID_Categoria +
+                " WHERE g." + ID_Usuario_Gasto + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                categories.add(cursor.getString(0));
+            } while (cursor.moveToNext());
         }
+        cursor.close();
+        return categories.toArray(new String[0]);
     }
 
-    // Método para obtener gastos por año
-    public Cursor getGastosPorAño(int userId, int año) {
+    public double[] getExpenseAmounts(int userId) {
+        List<Double> amounts = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT c.nombre, g.monto_gastos, g.fecha_gastos, g.descripcion_gastos" +
-                " FROM " + TABLA_GASTOS + " g" +
-                " JOIN " + TABLA_CATEGORIA + " c ON g.id_categoria = c.id" +
-                " WHERE g.id_cliente = ?" +
-                " AND strftime('%Y', g.fecha_gastos) = ?" +
-                " ORDER BY c.nombre, g.fecha_gastos";
-        Cursor cursor = db.rawQuery(query, new String[]{
-                String.valueOf(userId),
-                String.valueOf(año)
-        });
-        if (cursor != null && cursor.getCount() > 0) {
-            return cursor;
-        } else {
-            if (cursor != null) {
-                cursor.close();
-            }
-            return null;
+
+        String query = "SELECT " + MontoGastos + " FROM " + TABLA_GASTOS +
+                " WHERE " + ID_Usuario_Gasto + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                amounts.add(cursor.getDouble(0));
+            } while (cursor.moveToNext());
         }
+        cursor.close();
+        return amounts.stream().mapToDouble(Double::doubleValue).toArray();
+    }
+
+    public String[] getExpenseDates(int userId) {
+        List<String> dates = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT " + FechaGastos + " FROM " + TABLA_GASTOS +
+                " WHERE " + ID_Usuario_Gasto + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                dates.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return dates.toArray(new String[0]);
+    }
+
+    public String[] getExpenseDescriptions(int userId) {
+        List<String> descriptions = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT " + DescripcionGastos + " FROM " + TABLA_GASTOS +
+                " WHERE " + ID_Usuario_Gasto + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                descriptions.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return descriptions.toArray(new String[0]);
     }
 }
-
-

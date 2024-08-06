@@ -1,6 +1,8 @@
 package com.example.proyecto;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.ParseException;
@@ -30,6 +32,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -43,6 +46,14 @@ public class InformeActivity extends AppCompatActivity {
     private Button btnGenerarInforme;
     private BaseDatos db;
     private int userId;
+    // Lista para traer las categorías del usuario
+    private List<String> categorias;
+    // Lista para traer los gastos del usuario
+    private List<Double> gastos;
+    // Lista para traer las descripciones de los gastos del usuario
+    private List<String> descripciones;
+    // Lista para traer las fechas de los gastos del usuario
+    private List<String> fechas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,22 +65,31 @@ public class InformeActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         userId = intent.getIntExtra("USER_ID", -1);
+
+        SharedPreferences sharedPref = getSharedPreferences("id", Context.MODE_PRIVATE);
+        userId = sharedPref.getInt("id_user", 0);
+
         spinnerPeriodo = findViewById(R.id.spinner_periodo);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.periodos_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPeriodo.setAdapter(adapter);
-        
-            db = new BaseDatos(this);
-            btnGenerarInforme = findViewById(R.id.btn_generar_informe);
 
-            btnGenerarInforme.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    generarInforme();
-                }
-            });
+        db = new BaseDatos(this);
+        btnGenerarInforme = findViewById(R.id.btn_generar_informe);
 
+        btnGenerarInforme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                generarInforme();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        super.onRestart();
     }
 
     private void generarInforme() {
@@ -150,10 +170,16 @@ public class InformeActivity extends AppCompatActivity {
         MatrixCursor cursor = new MatrixCursor(new String[]{"categoria", "monto_gastos", "fecha_gastos", "descripcion_gastos"});
 
         // Datos de ejemplo (en una aplicación real, estos vendrían de la base de datos)
-        List<String> dates = Arrays.asList("2024-08-01", "2024-07-15", "2024-08-02", "2024-07-10", "2024-7-31", "2024-6-15");
-        List<String> amounts = Arrays.asList("10.00", "20.00", "30.00", "40.00", "50.00", "60.00");
-        List<String> descriptions = Arrays.asList("Compra A", "Compra B", "Compra C", "Compra D", "Compra E", "Compra F");
-        List<String> categories = Arrays.asList("Categoría A", "Categoría B", "Categoría C", "Categoría D", "Categoría E", "Categoría F");
+        List<String> dates = new ArrayList<>(Arrays.asList(db.getExpenseDates(userId)));
+        List<String> amounts = new ArrayList<>();
+        for (double amount : db.getExpenseAmounts(userId)) {
+            amounts.add(String.valueOf(amount));
+        }
+        List<String> descriptions = new ArrayList<>(Arrays.asList(db.getExpenseDescriptions(userId)));
+        List<String> categories = new ArrayList<>(Arrays.asList(db.getCategoryNames(userId)));
+
+        // Registrar los tamaños de las listas
+        Log.d(TAG, "Tamaños - Fechas: " + dates.size() + ", Montos: " + amounts.size() + ", Descripciones: " + descriptions.size() + ", Categorías: " + categories.size());
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date currentDate = new Date();
@@ -184,10 +210,14 @@ public class InformeActivity extends AppCompatActivity {
                 Date entryDate = sdf.parse(dates.get(i));
 
                 if (entryDate != null && !entryDate.before(startDate) && !entryDate.after(currentDate)) {
-                    cursor.addRow(new Object[]{categories.get(i), amounts.get(i), dates.get(i), descriptions.get(i)});
+                    if (i < categories.size() && i < amounts.size() && i < descriptions.size()) {
+                        cursor.addRow(new Object[]{categories.get(i), amounts.get(i), dates.get(i), descriptions.get(i)});
+                    } else {
+                        Log.e(TAG, "Índice fuera de límites: " + i);
+                    }
                 }
             } catch (ParseException | java.text.ParseException e) {
-                Log.e(TAG, "Error parsing date: " + dates.get(i), e);
+                Log.e(TAG, "Error al analizar la fecha: " + dates.get(i), e);
             }
         }
 

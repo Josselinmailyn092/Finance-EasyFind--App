@@ -1,6 +1,8 @@
 package com.example.proyecto;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -58,7 +60,10 @@ public class InicioActivity extends AppCompatActivity {
         userId = intent.getIntExtra("USER_ID", -1);
 
 
-
+        SharedPreferences sharedPref = getSharedPreferences("id", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("id_user", userId); // Ejemplo: Guardar un valor entero
+        editor.apply(); // Aplica los cambios
         categorias = db.getAllCategorias(userId);
 
         // Verificar el tamaño de la lista de categorías antes de acceder a sus elementos
@@ -95,10 +100,6 @@ public class InicioActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
-
 
         // Click en añadir Ingreso
         anadirDinero.setOnClickListener(new View.OnClickListener() {

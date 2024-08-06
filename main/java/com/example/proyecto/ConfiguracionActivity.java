@@ -1,15 +1,21 @@
 package com.example.proyecto;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ConfiguracionActivity extends AppCompatActivity {
     private int usuarioId;
+    private BaseDatos bd;
+    TextView nombreUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +24,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         usuarioId = intent.getIntExtra("USER_ID", -1);
-
+        bd = new BaseDatos(this);
         // Configuración del botón de cierre
         ImageButton btnClose = findViewById(R.id.btn_cerrar);
         btnClose.setOnClickListener(new View.OnClickListener() {
@@ -28,6 +34,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
             }
         });
 
+        nombreUsuario = findViewById(R.id.tv_user_name);
         // Configuración de los botones del toolbar
         ClipsBar.setupToolbar(findViewById(R.id.toolbar4), ConfiguracionActivity.this, usuarioId);
 
@@ -40,7 +47,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
         Button btnTerminosCondiciones = findViewById(R.id.btn_terminos_condiciones);
         Button btnCerrarSesion = findViewById(R.id.btn_cerrar_sesion);
 
-
+        cargarDatosUsuario(usuarioId);
         btnCategorias.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +95,6 @@ public class ConfiguracionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ConfiguracionActivity.this, TerminosCondicionesActivity.class);
-
                 startActivity(intent);
             }
         });
@@ -96,12 +102,34 @@ public class ConfiguracionActivity extends AppCompatActivity {
         btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lógica para cerrar sesión, como limpiar datos del usuario
+                SharedPreferences sharedPref = getSharedPreferences("id", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.clear().apply();
                 startActivity(new Intent(ConfiguracionActivity.this, MainActivity.class));
                 finish();
+                onDestroy();
+
             }
         });
 
+
+
     }
 
+    private void cargarDatosUsuario(int userId) {
+        Cursor cursor = null;
+        try {
+            cursor = bd.getUsuarioById(userId);
+            if (cursor != null && cursor.moveToFirst()) {
+                String nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre"));
+                String apellido = cursor.getString(cursor.getColumnIndexOrThrow("apellido"));
+
+                nombreUsuario.setText(String.format("%s %s", nombre, apellido));
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
 }
