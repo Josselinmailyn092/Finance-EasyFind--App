@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText usuarioEditText,contrasenaEditText;
     private Button iniciarSesionButton;
-    private TextView registroTextView,sinCuentaTextView;
+    private TextView registroTextView;
     private BaseDatos db;
 
     @Override
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         contrasenaEditText = findViewById(R.id.contrasena);
         iniciarSesionButton = findViewById(R.id.Iniciar);
         registroTextView = findViewById(R.id.Registro);
-        sinCuentaTextView = findViewById(R.id.sin_cuenta);
+
 
         // Configurar acciones cuando se hace clic en "Iniciar Sesión"
         iniciarSesionButton.setOnClickListener(new View.OnClickListener() {
@@ -82,13 +82,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Configurar acción cuando se hace clic en "Acceder sin tener cuenta"
-        sinCuentaTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Acceso temporal no disponible", Toast.LENGTH_SHORT).show();
-            }
-        });
+
+
     }
 
 

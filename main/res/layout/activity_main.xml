@@ -8,8 +8,8 @@
     tools:context=".MainActivity">
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="385dp"
+        android:layout_height="724dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
@@ -41,23 +41,23 @@
             android:layout_width="355dp"
             android:layout_height="186dp"
             android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp"
-            app:srcCompat="@drawable/imagen1"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/imagen1" />
 
         <TextView
             android:id="@+id/EasyFin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="189dp"
-            android:gravity="center"
             android:backgroundTint="#00F3EFEF"
             android:ems="10"
             android:fontFamily="sans-serif"
+            android:gravity="center"
             android:inputType="textPersonName"
             android:text="EasyFin"
             android:textColor="#FFFFFF"
@@ -65,10 +65,10 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintHorizontal_bias="0.5" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -77,15 +77,15 @@
             android:layout_marginTop="-100dp"
             android:gravity="center"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/EasyFin"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/EasyFin">
 
             <EditText
                 android:id="@+id/usuario"
                 android:layout_width="266dp"
                 android:layout_height="43dp"
-                android:layout_marginTop="311dp"
+                android:layout_marginTop="250dp"
                 android:background="@drawable/rounded_white"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
@@ -155,24 +155,6 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/sin_cuenta"
-                android:layout_width="175dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="80dp"
-                android:background="#007A7575"
-                android:ems="10"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="Acceder sin tener cuenta "
-                android:textColor="#044D0B"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.338"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                app:layout_constraintVertical_bias="0.881" />
         </LinearLayout>
 
     </FrameLayout>
